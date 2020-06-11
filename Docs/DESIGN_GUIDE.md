@@ -6,17 +6,19 @@ We'll go over the design decision and selected colors in this doc.
 
 _Please note that: All the sites will have a `Light Mode` and `Dark Mode`. When in development we will develop the dark mode first then we will use [color changing techniques](https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a) to invert our colors into lighter versions of them._
 
-## Background Colors and Logo
+## Brand Color and Logo
 
 For this project, we will use `#0abf53` as the brand color.
 
 The brand logo will have this placeholder logo -
 
-![WebP - Brand Logo](DOC_IMG/brand.png)
+![PNG - Brand Logo](DOC_IMG/brand.png)
 
 ## Background Colors
 
 The light background will have the color `#f1eff3` and the dark background will have the color `#272a2d`.
+
+![PNG - Background Colors](DOC_IMG/brand-and-background-colors.png)
 
 ## State Expressive Colors
 

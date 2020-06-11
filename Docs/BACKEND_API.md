@@ -1,6 +1,6 @@
 ## Backend API Structure
 
-The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of 5 key parts -
+The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of five key parts -
 
 - [Products](#products)
 - [Banners](#banners)
@@ -11,7 +11,7 @@ The backend API will have a GraphQL API endpoint for the project's frontend side
 
 ### Products
 
-Any call to the `Products` API should return an array of products object, where each product object will look like -
+Any call to the `Products` API should return an array of product objects, where each product object will look like -
 
 ```js
 {
@@ -32,7 +32,7 @@ Any call to the `Products` API should return an array of products object, where 
 
 ### Banners
 
-Any call to the `Banners` API should return an array of banners object, where each banner object will look like -
+Any call to the `Banners` API should return an array of banner objects, where each banner object will look like -
 
 ```js
 {
@@ -45,7 +45,7 @@ Any call to the `Banners` API should return an array of banners object, where ea
 
 ### Reviews
 
-Any call to the `Reviews` API should return an array of reviews object, where each review object will look like -
+Any call to the `Reviews` API should return an array of review objects, where each review object will look like -
 
 ```js
 {
@@ -64,7 +64,7 @@ The `Authenticate` API can be used to authenticate an user with or without third
 
 ### Transaction
 
-The `Transaction` API will be used to handle user trancastions. The details of this API haven't been nailed down yet.
+The `Transaction` API will be used to handle user transactions. The details of this API haven't been nailed down yet.
 
 ### Analytics
 

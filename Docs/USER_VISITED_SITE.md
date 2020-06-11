@@ -2,7 +2,7 @@
 
 This will be the user facing site, where customers will go. The website will be created by following the [Design Style Guide](DESIGN_GUIDE.md).
 
-The site will have 5 main pages (this pages will be accessible from the navbar) -
+The site will have five main pages (this pages will be accessible from the navbar) -
 
 1. Homepage
 

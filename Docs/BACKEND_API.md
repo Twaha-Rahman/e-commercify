@@ -21,7 +21,7 @@ Any call to the `Products` API should return an array of product objects, where 
     quantityType: "kg",
     averageRating: 4.5,
     reviewCount: 34,
-    catagory: "Fruits",
+    category: "Fruits",
     price: "$4",
     brandName: "Green Foods",
     brandLogoLink: "https://....",

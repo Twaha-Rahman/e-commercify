@@ -1,6 +1,6 @@
 ## Backend API Structure
 
-The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or recieve data. The API will consist of 5 key parts -
+The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of 5 key parts -
 
 - [Products](#products)
 - [Banners](#banners)
@@ -68,4 +68,4 @@ The `Transaction` API will be used to handle user trancastions. The details of t
 
 ### Analytics
 
-The `Analytics` API will be used to send and recieve analytics data. The details of this API haven't been nailed down yet.
+The `Analytics` API will be used to send and receive analytics data. The details of this API haven't been nailed down yet.

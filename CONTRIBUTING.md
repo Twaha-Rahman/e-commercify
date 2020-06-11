@@ -4,7 +4,7 @@ The whole project's structure can be found on the [Project Structure](#Project-S
 
 ## How to contribute
 
-We are glad to recieve PRs from anybody who is interested. Follow these steps to contribute to this project -
+We are glad to receive PRs from anybody who is interested. Follow these steps to contribute to this project -
 
 1. Install the required softwares listed in the [README](README.md#Install-prerequisites).
 2. Fork the repo

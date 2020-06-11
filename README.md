@@ -68,7 +68,7 @@ npm run dev
 
 ## Contributing
 
-We are glad to recieve PRs from anybody who is interested. If you want to contribute this open source project
+We are glad to receive PRs from anybody who is interested. If you want to contribute this open source project
 head over to the [Contributing Guide](CONTRIBUTING.md).
 
 ## Ask For Help

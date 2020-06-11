@@ -1,0 +1,31 @@
+{
+  "name": "e-commercify",
+  "version": "1.0.0",
+  "description": "E-commercify is a full open source E-commerce site from the frontend to the backend. The project uses all the latest",
+  "main": "main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js",
+    "debug": "nodemon --inspect src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Twaha-Rahman:0document0.get@github.com/Twaha-Rahman/e-commercify.git"
+  },
+  "keywords": [
+    "e-commerce"
+  ],
+  "author": "Twaha-Rahman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Twaha-Rahman/e-commercify/issues"
+  },
+  "homepage": "https://github.com/Twaha-Rahman/e-commercify#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

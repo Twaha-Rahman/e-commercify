@@ -6,7 +6,7 @@ The backend API will have a GraphQL API endpoint for the project's frontend side
 - [Banners](#banners)
 - [Reviews](#Reviews)
 - [Authenticate](#Authenticate)
-- [Transaction](#Transaction)
+- [Transaction](#transaction)
 - [Analytics](#Analytics)
 
 ### Products
@@ -65,6 +65,10 @@ The `Authenticate` API can be used to authenticate an user with or without third
 ### Transaction
 
 The `Transaction` API will be used to handle user trancastions. The details of this API haven't been nailed down yet.
+
+It might be worth checking out [this page](https://stripe.com/docs/payments/checkout). It contains an example of Stripe-hosted secure checkout. Clone the "One time payment" example to see how it was done.
+
+[Examples and flow charts](https://github.com/stripe-samples/checkout-one-time-payments/blob/master/README.md)
 
 ### Analytics
 

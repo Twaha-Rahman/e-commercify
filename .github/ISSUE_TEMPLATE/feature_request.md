@@ -10,10 +10,10 @@ assignees: ''
 **Is your feature request related to a problem? Please describe.**
 Ex: "I hate it when..."
 
-**Describe the solution you'd like**
+**Describe the solution you would like**
 What is the feature you are requesting?
 
-**Describe alternatives you've considered**
+**Describe alternatives you have considered**
 
 
 **Additional context**

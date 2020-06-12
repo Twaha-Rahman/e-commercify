@@ -1,7 +1,7 @@
 {
   "name": "e-commercify",
   "version": "1.0.0",
-  "description": "E-commercify is a full open source E-commerce site from the frontend to the backend. The project uses all the latest",
+  "description": "E-commercify is a full open source E-commerce site from the frontend to the backend.",
   "main": "main.js",
   "scripts": {
     "start": "node src/main.js",

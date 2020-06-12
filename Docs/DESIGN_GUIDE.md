@@ -38,12 +38,12 @@ The **Disabled** state will have the color `#D3D3D3`.
 
 ## Color Flexibility
 
-You can use _lighter_ or _darker_ version of any color if it is necessary. Just remember to declare them as CSS variables in the `main.css` file.
+You can use _lighter_ or _darker_ version of any color if necessary. Just remember to declare them as CSS variables in the `main.css` file.
 
 ![PNG - Different shades of active color](DOC_IMG/active-colors.png)
 
 ## Font and Typography
 
-All of the text in the project should meet the `AA Contrast Standard`. The colors can be changed if it is needed to achieve the `AA Contrast Standard`. (You can check color contrast with Chrome Dev Tools)
+All of the text in the project should meet the `AA Contrast Standard`. The colors can be changed as needed to achieve the `AA Contrast Standard`. (You can check color contrast with Chrome Dev Tools)
 
 For the font, we'll be using [`Nunito`](https://fonts.google.com/specimen/Nunito).

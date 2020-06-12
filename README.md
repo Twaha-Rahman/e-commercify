@@ -5,7 +5,7 @@ and industry approved technologies to create a complete e-commerce site that's r
 
 ## Install prerequisites
 
-Start by installing the prerequisite softwares:
+Start by installing the prerequisite software:
 
 | Name                          | Version | Notes                                                                               |
 | ----------------------------- | ------- | ----------------------------------------------------------------------------------- |
@@ -13,7 +13,7 @@ Start by installing the prerequisite softwares:
 | npm (comes bundled with Node) | `6.x`   | Does not have LTS releases, we use the version bundled with Node LTS                |
 | MongoDB Community Server      | `4.2.7` | [Download MongoDB Community Server](https://www.mongodb.com/try/download/community) |
 
-If your going to contribute to this project, you'll also need a text-editor and `git`. You can use _any_ text editor you want, but we recommend using [VSCode](https://code.visualstudio.com/). We also recommend you use the latest version of [Git](https://git-scm.com/).
+If you're going to contribute to this project, you'll also need a text-editor and `git`. You can use _any_ text editor you want, but we recommend using [VSCode](https://code.visualstudio.com/). We also recommend you use the latest version of [Git](https://git-scm.com/).
 
 ## Running For Production
 
@@ -68,11 +68,11 @@ npm run dev
 
 ## Contributing
 
-We are glad to recieve PRs from anybody who is interested. If you want to contribute this open source project
+We are glad to receive PRs from anybody who is interested. If you want to contribute to this open source project
 head over to the [Contributing Guide](CONTRIBUTING.md).
 
 ## Ask For Help
 
-If you have any question about the project, you can create an issue and ask it. You can also reach us in the [E-Commercify Devs](https://discord.gg/gCgdu5s) Discord server.
+If you have any question about the project, you can open an issue. You can also reach us in the [E-Commercify Devs](https://discord.gg/gCgdu5s) Discord server.
 
 Happy Coding!

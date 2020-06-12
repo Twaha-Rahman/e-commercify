@@ -8,25 +8,25 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+What is working incorrectly?
 
 ***To Reproduce***
-Steps to reproduce the behavior:
+How can we experience this error?
 1. Go to...
 2. Do...
 3. See
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+What should it do?
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+Do you have any screenshots of the error?
 
 **Device Information**
  - OS: [e.g. iOS]
  - Browser: [e.g. chrome, safari]
  - Version: [e.g. 22]
- - Device Name (if mobile):
+ - Device Name (if mobile): [e.g. iPhone 1000]
 
 
 **Additional context**

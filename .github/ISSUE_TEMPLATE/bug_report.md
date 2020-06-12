@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help us fix a bug
 title: "[BUG]"
 labels: bug
 assignees: 'Twaha-Rahman, nhcarrigan'
@@ -11,13 +11,13 @@ assignees: 'Twaha-Rahman, nhcarrigan'
 What is working incorrectly?
 
 ***To Reproduce***
-How can we experience this error?
+How can we reproduce this bug?
 1. Go to...
 2. Do...
 3. See
 
 **Expected behavior**
-What should it do?
+What do you expect it to do?
 
 **Screenshots**
 Do you have any screenshots of the error?

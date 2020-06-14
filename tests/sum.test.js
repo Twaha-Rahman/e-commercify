@@ -1,3 +1,5 @@
+'use strict';
+
 const sum = require('../src/placeholder');
 
 test('adds 1 + 2 to equal 3', () => {

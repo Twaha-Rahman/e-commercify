@@ -8,8 +8,7 @@ const ProductType = new GraphQLObjectType({
     return {
       bannerImageLink: { type: GraphQLString },
       bannerGoToLink: { type: GraphQLString },
-      text: { type: GraphQLString },
-      CTA: { type: GraphQLString }
+      text: { type: GraphQLString }
     };
   }
 });

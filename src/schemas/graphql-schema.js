@@ -28,20 +28,17 @@ const RootQuery = new GraphQLObjectType({
           {
             bannerImageLink: 'https://www.youtube.com/',
             bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder',
-            CTA: 'Click me!'
+            text: 'Placeholder'
           },
           {
             bannerImageLink: 'https://www.youtube.com/',
             bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder',
-            CTA: 'Click me!'
+            text: 'Placeholder'
           },
           {
             bannerImageLink: 'https://www.youtube.com/',
             bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder',
-            CTA: 'Click me!'
+            text: 'Placeholder'
           }
         ];
       }

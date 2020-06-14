@@ -38,8 +38,7 @@ Any call to the `Banners` API should return an array of banner objects, where ea
 {
     bannerImageLink: "...",
     bannerGoToLink: "...",
-    text: "...",
-    CTA: "..."
+    text: "..."
 }
 ```
 

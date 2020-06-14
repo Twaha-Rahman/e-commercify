@@ -23,7 +23,7 @@ const RootQuery = new GraphQLObjectType({
     banners: {
       type: new GraphQLList(BannerType),
       description: 'Retrieves or updates the Banners',
-      resolve: (parent, args) => {
+      resolve: () => {
         return [
           {
             bannerImageLink: 'https://www.youtube.com/',

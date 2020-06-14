@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file Injects sample product data into MongoDB
  */

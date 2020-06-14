@@ -1,8 +1,9 @@
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');
+const ReviewType = require('./graphql/ReviewType');
 
-const { GraphQLObjectType, GraphQLSchema, GraphQLID } = graphql;
+const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -16,6 +17,21 @@ const RootQuery = new GraphQLObjectType({
         return {
           productId: args.productId,
           productName: 'Placeholder'
+        };
+      }
+    },
+    reviews: {
+      type: new GraphQLList(ReviewType),
+      args: { linkedProductId: { type: GraphQLID } },
+      resolve: (parent, args) => {
+        return {
+          linkedProductId: '...',
+          username: '...',
+          userId: '...',
+          profilePicture: '...',
+          date: '...',
+          comment: '...',
+          rating: 5
         };
       }
     }

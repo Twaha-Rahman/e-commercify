@@ -5,10 +5,6 @@ module.exports = {
     node: true
   },
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
-  },
   parserOptions: {
     ecmaVersion: 11
   },

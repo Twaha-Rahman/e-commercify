@@ -83,6 +83,7 @@ Any call to the `Reviews` API should return an array of review objects, where ea
 
 ```js
 {
+    linkedProductId: "...",
     username: "...",
     userId: "...",
     profilePicture: "...",

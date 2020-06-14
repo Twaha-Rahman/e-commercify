@@ -3,8 +3,9 @@
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');
+const ReviewType = require('./graphql/ReviewType');
 
-const { GraphQLObjectType, GraphQLSchema, GraphQLID } = graphql;
+const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -19,6 +20,42 @@ const RootQuery = new GraphQLObjectType({
           productId: args.productId,
           productName: 'Placeholder'
         };
+      }
+    },
+    reviews: {
+      type: new GraphQLList(ReviewType),
+      description: 'Read or write reviews objects',
+      args: { linkedProductId: { type: GraphQLID } },
+      resolve: () => {
+        return [
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          },
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          },
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          }
+        ];
       }
     }
   }

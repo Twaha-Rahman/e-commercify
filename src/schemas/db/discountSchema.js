@@ -1,9 +1,9 @@
 'use strict';
 
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 
-const discountSchema = new mongoose.Schema({
-  discountId: mongoose.Schema.Types.ObjectID,
+const discountSchema = new Schema({
+  discountId: Schema.Types.ObjectID,
   name: {
     type: String,
     required: true

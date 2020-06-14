@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   env: {
     es6: true,
@@ -27,12 +29,21 @@ module.exports = {
     'default-case': 'error',
     'default-case-last': 'error',
     'default-param-last': 'error',
+    'guard-for-in': 'error',
+    'no-constructor-return': 'error',
     'no-eq-null': 'error',
     'no-eval': 'error',
     'no-implicit-coercion': 'error',
+    'no-implicit-globals': 'error',
     'no-implied-eval': 'error',
     'no-invalid-this': 'error',
+    'no-new-wrappers': 'error',
+    'no-param-reassign': 'error',
+    'no-throw-literal': 'error',
+    'prefer-promise-reject-errors': 'error',
     radix: 'error',
+    'require-atomic-updates': 'error',
+    'require-await': 'error',
 
     /*
      * Stylistic Issues
@@ -48,8 +59,10 @@ module.exports = {
     'max-len': ['error', { comments: 80, ignoreUrls: true }],
     'new-cap': 'error',
     'no-lonely-if': 'error',
+    'no-multi-assign': 'error',
     'no-restricted-syntax': ['error', 'SequenceExpression'],
     'nonblock-statement-body-position': 'error',
+    'prefer-exponentiation-operator': 'error',
     semi: ['error', 'always'],
     'sort-vars': 'error',
     'spaced-comment': 'error',
@@ -74,6 +87,8 @@ module.exports = {
     // https://github.com/prettier/eslint-config-prettier#arrow-body-style-and-prefer-arrow-callback
     'prefer-arrow-callback': 'off',
     'prefer-const': 'error',
+    'prefer-destructuring': 'error',
+    'prefer-rest-params': 'error',
     'prefer-spread': 'error',
     'prefer-template': 'error'
   }

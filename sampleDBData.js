@@ -1,7 +1,13 @@
+'use strict';
+
+/**
+ * @file Injects sample product data into MongoDB
+ */
+
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const Product = require('./src/schemas/db/productSchema');
+const Product = require('./src/models/db/product');
 
 mongoose.connect(process.env.MONGO_URL);
 

@@ -30,6 +30,40 @@ Any call to the `Products` API should return an array of product objects, where 
 }
 ```
 
+The mongoose schema looks like following:
+
+```js
+{
+  productId: ObjectID,
+  name: String,
+  description: String,
+  productImageLinks: [String],    (URL validation)
+  quantityType: String,
+  averageRating: Number,          (0-5 stars)
+  reviewCount: Number,
+  category: String,
+  price: Number,
+  brandName: String,
+  brandLogoLink: [String],        (URL validation),
+  discounts: [discountSchema]
+}
+```
+
+`discounts` is an array of objects. They look like this:
+
+(`maxQuantity = 0` should mean unlimited)
+
+```js
+{
+  discountId: ObjectID,
+  name: String,
+  type: String  ['percentage', 'flat'],
+  value: Number,
+  minQuantity: Number,
+  maxQuantity: Number
+}
+```
+
 ### Banners
 
 Any call to the `Banners` API should return an array of banner objects, where each banner object will look like -

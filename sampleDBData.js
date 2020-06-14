@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @file Injects sample product data into MongoDB
  */
@@ -46,7 +48,7 @@ db.once('open', () => {
 
     Product.collection.insertOne(product, (err, docs) => {
       if (err) return console.error(err);
-      console.log(docs);
+      return console.log(docs);
     });
   }
 });

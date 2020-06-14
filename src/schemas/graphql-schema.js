@@ -1,3 +1,5 @@
+'use strict';
+
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');

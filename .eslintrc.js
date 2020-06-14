@@ -46,6 +46,14 @@ module.exports = {
     'require-await': 'error',
 
     /*
+     * Strict Mode
+     * http://eslint.org/docs/rules/#strict-mode
+     * --------------------------------------------
+     */
+
+    strict: 'error',
+
+    /*
      * Stylistic Issues
      * http://eslint.org/docs/rules/#stylistic-issues
      * ----------------------------------------------

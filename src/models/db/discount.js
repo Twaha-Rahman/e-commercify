@@ -1,7 +1,7 @@
 'use strict';
 
-const mongoose = require('mongoose');
+const { model } = require('mongoose');
 
 const discountSchema = require('../../schemas/db/discountSchema');
 
-module.exports = mongoose.model('Discount', discountSchema);
+module.exports = model('Discount', discountSchema);

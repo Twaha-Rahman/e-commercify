@@ -22,17 +22,38 @@ const RootQuery = new GraphQLObjectType({
     },
     reviews: {
       type: new GraphQLList(ReviewType),
+      description: 'Read or write reviews objects',
       args: { linkedProductId: { type: GraphQLID } },
       resolve: (parent, args) => {
-        return {
-          linkedProductId: '...',
-          username: '...',
-          userId: '...',
-          profilePicture: '...',
-          date: '...',
-          comment: '...',
-          rating: 5
-        };
+        return [
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          },
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          },
+          {
+            linkedProductId: '...',
+            username: '...',
+            userId: '...',
+            profilePicture: '...',
+            date: '...',
+            comment: '...',
+            rating: 5
+          }
+        ];
       }
     }
   }

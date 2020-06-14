@@ -1,3 +1,5 @@
+'use strict';
+
 const graphql = require('graphql');
 
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;

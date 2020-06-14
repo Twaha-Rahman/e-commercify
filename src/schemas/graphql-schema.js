@@ -3,6 +3,7 @@
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');
+const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
 
 const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
@@ -20,6 +21,29 @@ const RootQuery = new GraphQLObjectType({
           productId: args.productId,
           productName: 'Placeholder'
         };
+      }
+    },
+    banners: {
+      type: new GraphQLList(BannerType),
+      description: 'Retrieves or updates the Banners',
+      resolve: () => {
+        return [
+          {
+            bannerImageLink: 'https://www.youtube.com/',
+            bannerGoToLink: 'https://www.twitter.com/',
+            text: 'Placeholder'
+          },
+          {
+            bannerImageLink: 'https://www.youtube.com/',
+            bannerGoToLink: 'https://www.twitter.com/',
+            text: 'Placeholder'
+          },
+          {
+            bannerImageLink: 'https://www.youtube.com/',
+            bannerGoToLink: 'https://www.twitter.com/',
+            text: 'Placeholder'
+          }
+        ];
       }
     },
     reviews: {

@@ -6,7 +6,6 @@ const ProductType = require('./graphql/ProductType');
 const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
 
-
 const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
@@ -43,6 +42,10 @@ const RootQuery = new GraphQLObjectType({
             bannerImageLink: 'https://www.youtube.com/',
             bannerGoToLink: 'https://www.twitter.com/',
             text: 'Placeholder'
+          }
+        ];
+      }
+    },
     reviews: {
       type: new GraphQLList(ReviewType),
       description: 'Read or write reviews objects',

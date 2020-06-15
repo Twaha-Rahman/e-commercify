@@ -1,26 +1,32 @@
 'use strict';
 
-const graphql = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLList
+} = require('graphql');
 
+const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
 const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
-
-const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     products: {
-      type: ProductType,
-      args: { productId: { type: GraphQLID } },
-      resolve: (parent, args) => {
-        // We'll receive the data here from the DB and return it.
-        // For now we'll have some dummy data.
-        return {
-          productId: args.productId,
-          productName: 'Placeholder'
-        };
+      description: 'Retrieves product data',
+      type: new GraphQLList(ProductType),
+      args: {
+        productId: { type: GraphQLID }
+      },
+      async resolve(parent, { productId }) {
+        if (productId) {
+          return await Product.findOne({ productId });
+        } else {
+          return await Product.find();
+        }
       }
     },
     banners: {

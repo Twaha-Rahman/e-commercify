@@ -3,34 +3,30 @@
 require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+
+const connectToMongoDb = require('./connect-to-mongodb');
 const graphqlSchema = require('./schemas/graphql-schema');
-const mongoose = require('mongoose');
 
 const app = express();
-const db = mongoose.connection;
 
-app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
+connectToMongoDb()
+  .then((db) => {
+    console.log('MongoDB connection was successful!');
 
-app.get('/', (req, res) => {
-  res.send('Placeholder Text');
-});
+    db.onClose(() => {
+      console.log(`MongoDB connection was closed.`);
+    });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-});
+    app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
 
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then((client) => {
-    console.log('Connection successful!');
+    app.get('/', (req, res) => {
+      res.send('Placeholder Text');
+    });
+
+    app.listen(process.env.PORT, () => {
+      console.log(`Listening on port ${process.env.PORT}`);
+    });
   })
   .catch((error) => {
-    console.log('Could not connect to MongoDB!', error);
+    console.error('Could not connect to MongoDB!', error);
   });
-
-db.onClose(() => {
-  console.log(`Connection ${db.is} was closed.`);
-});

@@ -16,12 +16,10 @@ const chooseRandomInteger = (min, max) => {
   return min + Math.floor(Math.random() * max);
 };
 
+// Will be used later to generate random discount objects.
+/* eslint-disable-next-line no-unused-vars */
 const chooseRandomPercentage = () => {
-  return chooseRandomInteger(1, 99) / 2;
-};
-
-const chooseRandomProductId = () => {
-  return Math.random().toString(16).slice(2, 8).toUpperCase();
+  return `${chooseRandomInteger(1, 99)}%`;
 };
 
 const chooseRandomPrice = () => {
@@ -68,7 +66,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  .then((client) => {
+  .then(() => {
     console.log('Connection successful!');
   })
   .catch((error) => {

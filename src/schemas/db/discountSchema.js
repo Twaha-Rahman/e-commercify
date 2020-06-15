@@ -4,7 +4,7 @@ const { Schema } = require('mongoose');
 
 const discountSchema = new Schema({
   discountId: Schema.Types.ObjectID,
-  name: {
+  discountName: {
     type: String,
     required: true
   },

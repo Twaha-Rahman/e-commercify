@@ -38,7 +38,7 @@ const productSchema = new mongoose.Schema({
   reviewCount: Number,
   category: String,
   price: {
-    type: String,
+    type: Number,
     required: true
   },
   brandName: String,

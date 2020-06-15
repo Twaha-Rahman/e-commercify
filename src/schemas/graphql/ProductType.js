@@ -24,7 +24,7 @@ const ProductType = new GraphQLObjectType({
       discounts: { type: new GraphQLList(DiscountType) },
       imageLinks: { type: new GraphQLList(GraphQLString) },
       name: { type: GraphQLString },
-      price: { type: GraphQLString },
+      price: { type: GraphQLFloat },
       productId: { type: GraphQLID },
       quantityType: { type: GraphQLString },
       reviewCount: { type: GraphQLInt }

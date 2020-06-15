@@ -8,7 +8,7 @@ const discountSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  type: {
+  kind: {
     type: String,
     enum: ['percentage', 'flat'],
     required: true

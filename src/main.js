@@ -3,7 +3,6 @@
 require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-
 const graphqlSchema = require('./schemas/graphql-schema');
 
 const app = express();
@@ -16,4 +15,24 @@ app.get('/', (req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);
+});
+
+const mongoose = require('mongoose');
+
+const db = mongoose.connection;
+
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then((client) => {
+    console.log('Connection successful!');
+  })
+  .catch((error) => {
+    console.log('Could not connect to MongoDB!', error);
+  });
+
+db.onClose(() => {
+  console.log(`Connection ${db.is} was closed.`);
 });

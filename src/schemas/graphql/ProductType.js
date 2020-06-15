@@ -1,25 +1,33 @@
 'use strict';
 
-const graphql = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLInt,
+  GraphQLList
+} = require('graphql');
 
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;
+const DiscountType = require('./DiscountType');
 
 const ProductType = new GraphQLObjectType({
   name: 'Product',
-  fields: () => {
+  fields() {
     return {
-      productId: { type: GraphQLID },
-      productName: { type: GraphQLString },
-      description: { type: GraphQLString },
-      quantityType: { type: GraphQLString },
-      averageRating: { type: GraphQLInt },
-      reviewCount: { type: GraphQLInt },
-      category: { type: GraphQLString },
-      price: { type: GraphQLString },
-      brandName: { type: GraphQLString },
+      averageRating: { type: GraphQLFloat },
       brandLogoLink: { type: GraphQLString },
-      discount: { type: GraphQLString },
-      discountedPrice: { type: GraphQLString }
+      brandName: { type: GraphQLString },
+      category: { type: GraphQLString },
+      description: { type: GraphQLString },
+      discountedPrice: { type: GraphQLString },
+      discounts: { type: new GraphQLList(DiscountType) },
+      imageLinks: { type: new GraphQLList(GraphQLString) },
+      name: { type: GraphQLString },
+      price: { type: GraphQLString },
+      productId: { type: GraphQLID },
+      quantityType: { type: GraphQLString },
+      reviewCount: { type: GraphQLInt }
     };
   }
 });

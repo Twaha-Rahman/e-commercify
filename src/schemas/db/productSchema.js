@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   description: String,
-  productImageLinks: [
+  imageLinks: [
     {
       type: String,
       match: urlValidationRegex,
@@ -38,7 +38,7 @@ const productSchema = new mongoose.Schema({
   reviewCount: Number,
   category: String,
   price: {
-    type: Number,
+    type: String,
     required: true
   },
   brandName: String,

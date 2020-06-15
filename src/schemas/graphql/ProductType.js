@@ -20,7 +20,6 @@ const ProductType = new GraphQLObjectType({
       brandName: { type: GraphQLString },
       category: { type: GraphQLString },
       description: { type: GraphQLString },
-      discountedPrice: { type: GraphQLString },
       discounts: { type: new GraphQLList(DiscountType) },
       imageLinks: { type: new GraphQLList(GraphQLString) },
       name: { type: GraphQLString },

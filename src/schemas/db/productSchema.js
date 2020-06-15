@@ -13,7 +13,7 @@ const urlValidationRegex = partsOfRegex.join('');
 
 const productSchema = new Schema({
   productId: Schema.Types.ObjectID,
-  name: {
+  productName: {
     type: String,
     required: true
   },

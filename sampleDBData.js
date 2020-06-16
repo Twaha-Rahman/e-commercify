@@ -32,7 +32,7 @@ const chooseRandomRating = () => {
 
 const createRandomProduct = () => {
   return new Product({
-    name: 'Product',
+    productName: 'Product',
     description: 'The only product we sell currently',
     productImageLinks: [
       'http://google.no/image.png',
@@ -48,12 +48,12 @@ const createRandomProduct = () => {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Supreme_Logo.svg/576px-Supreme_Logo.svg.png',
     discounts: [
       {
-        name: '90% discount',
+        discountName: '90% discount',
         type: 'percentage',
         value: 90
       },
       {
-        name: '2% discount',
+        discountName: '2% discount',
         type: 'percentage',
         value: 2
       }

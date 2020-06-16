@@ -18,6 +18,7 @@ Any call to the `Products` API should return an array of product objects, where 
     productName: "Apple",
     description: "A fresh Apple for you!",
     productId: "y3u2uy32",
+    productImageLinks: ['...', '...', '...'],
     quantityType: "kg",
     averageRating: 4.5,
     reviewCount: 34,
@@ -35,7 +36,7 @@ The mongoose schema looks like following:
 ```js
 {
   productId: ObjectID,
-  name: String,
+  productName: String,
   description: String,
   productImageLinks: [String],    (URL validation)
   quantityType: String,
@@ -56,7 +57,7 @@ The mongoose schema looks like following:
 ```js
 {
   discountId: ObjectID,
-  name: String,
+  discountName: String,
   type: String  ['percentage', 'flat'],
   value: Number,
   minQuantity: Number,

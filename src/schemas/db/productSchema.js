@@ -1,6 +1,6 @@
 'use strict';
 
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 const discountSchema = require('./discountSchema');
 
 const partsOfRegex = [
@@ -11,9 +11,9 @@ const partsOfRegex = [
 
 const urlValidationRegex = partsOfRegex.join('');
 
-const productSchema = new mongoose.Schema({
-  productId: mongoose.Schema.Types.ObjectID,
-  name: {
+const productSchema = new Schema({
+  productId: Schema.Types.ObjectID,
+  productName: {
     type: String,
     required: true
   },

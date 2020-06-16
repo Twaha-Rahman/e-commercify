@@ -45,10 +45,6 @@ db.once('open', () => {
         }
       ]
     });
-
-    Product.collection.insertOne(product, (err, docs) => {
-      if (err) return console.error(err);
-      return console.log(docs);
-    });
+    product.save().then(console.log).catch(console.log);
   }
 });

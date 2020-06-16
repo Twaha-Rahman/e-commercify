@@ -26,10 +26,10 @@ const DiscountType = new GraphQLObjectType({
   fields() {
     return {
       discountId: { type: GraphQLID },
-      kind: { type: DiscountKindType },
+      discountName: { type: GraphQLString },
       maxQuantity: { type: GraphQLInt },
       minQuantity: { type: GraphQLInt },
-      name: { type: GraphQLString },
+      type: { type: DiscountKindType },
       value: { type: GraphQLFloat }
     };
   }

@@ -15,18 +15,18 @@ const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields() {
     return {
-      averageRating: { type: GraphQLFloat },
-      brandLogoLink: { type: GraphQLString },
-      brandName: { type: GraphQLString },
-      category: { type: GraphQLString },
-      description: { type: GraphQLString },
-      discounts: { type: new GraphQLList(DiscountType) },
-      imageLinks: { type: new GraphQLList(GraphQLString) },
-      name: { type: GraphQLString },
-      price: { type: GraphQLFloat },
       productId: { type: GraphQLID },
+      productName: { type: GraphQLString },
+      description: { type: GraphQLString },
+      productImageLinks: { type: new GraphQLList(GraphQLString) },
       quantityType: { type: GraphQLString },
-      reviewCount: { type: GraphQLInt }
+      averageRating: { type: GraphQLFloat },
+      reviewCount: { type: GraphQLInt },
+      category: { type: GraphQLString },
+      price: { type: GraphQLFloat },
+      brandName: { type: GraphQLString },
+      brandLogoLink: { type: GraphQLString },
+      discounts: { type: new GraphQLList(DiscountType) }
     };
   }
 });

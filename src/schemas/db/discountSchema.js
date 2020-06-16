@@ -8,7 +8,7 @@ const discountSchema = new Schema({
     type: String,
     required: true
   },
-  kind: {
+  type: {
     type: String,
     enum: ['percentage', 'flat'],
     required: true

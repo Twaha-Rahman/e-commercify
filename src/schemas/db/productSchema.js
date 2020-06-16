@@ -18,7 +18,7 @@ const productSchema = new Schema({
     required: true
   },
   description: String,
-  imageLinks: [
+  productImageLinks: [
     {
       type: String,
       match: urlValidationRegex,

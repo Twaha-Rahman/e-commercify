@@ -44,7 +44,7 @@ IS_PRODUCTION=true
 npm i
 ```
 
-5. Start the production server -
+5. Start the production server by running -
 
 ```
 npm run start
@@ -54,13 +54,19 @@ npm run start
 
 Firstly, open the terminal in the project folder.
 
-Then install all the dependencies by typing -
+Then install all the dependencies by running -
 
 ```
 npm i
 ```
 
-Then run the development server by typing -
+Then fill the databse with the sample data by running -
+
+```
+npm run fill-db
+```
+
+Then run the development server by running -
 
 ```
 npm run dev

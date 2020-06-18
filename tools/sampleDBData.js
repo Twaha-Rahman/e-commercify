@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const Product = require('./src/models/db/product');
+const Product = require('../src/models/db/product');
 
 mongoose.connect(process.env.MONGO_URL);
 

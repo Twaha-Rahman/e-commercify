@@ -18,7 +18,7 @@ db.once('open', () => {
 
   for (let i = 0; i < 500; i++) {
     const product = new Product({
-      productName: 'Product',
+      name: 'Product',
       description: 'The only product we sell currently',
       productImageLinks: [
         'http://google.no/image.png',

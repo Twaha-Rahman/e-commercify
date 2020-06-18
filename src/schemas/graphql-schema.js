@@ -19,7 +19,7 @@ const RootQuery = new GraphQLObjectType({
         // For now we'll have some dummy data.
         return {
           productId: args.productId,
-          productName: 'Placeholder'
+          name: 'Placeholder'
         };
       }
     },

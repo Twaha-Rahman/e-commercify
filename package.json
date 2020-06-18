@@ -8,7 +8,8 @@
     "dev": "nodemon src/main.js",
     "debug": "nodemon --inspect src/main.js",
     "test": "jest",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "fill-db": "node tools/sampleDBDataInjector.js"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,10 @@
     }
   },
   "lint-staged": {
-    "*.js": ["eslint", "prettier --write"],
+    "*.js": [
+      "eslint",
+      "prettier --write"
+    ],
     "*.{css,md}": "prettier --write"
   }
 }

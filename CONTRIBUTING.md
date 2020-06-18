@@ -43,3 +43,4 @@ The project has some helpful scripts to get you up and running. The scripts are 
 3. `npm run debug` - Runs the server with `--inspect` flag (this way we can use [Chrome Dev Tools to debug the server](Docs/DEBUGGING_WITH_INSPECT.md)) and restarts the server if any files is changed.
 4. `npm run test` - Runs all the test using Jest
 5. `npm run eslint` - Runs ESLint
+6. `npm run fill-db` - Injects sample data into the database

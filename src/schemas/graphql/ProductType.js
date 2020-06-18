@@ -18,7 +18,7 @@ const ProductType = new GraphQLObjectType({
       productId: { type: GraphQLID },
       name: { type: GraphQLString },
       description: { type: GraphQLString },
-      productImageLinks: { type: new GraphQLList(GraphQLString) },
+      imageLinks: new GraphQLList(GraphQLString),
       quantityType: { type: GraphQLString },
       averageRating: { type: GraphQLFloat },
       reviewCount: { type: GraphQLInt },

@@ -20,10 +20,7 @@ db.once('open', () => {
     const product = new Product({
       name: 'Product',
       description: 'The only product we sell currently',
-      productImageLinks: [
-        'http://google.no/image.png',
-        'https://bing.com/image.png'
-      ],
+      imageLinks: ['http://google.no/image.png', 'https://bing.com/image.png'],
       quantityType: 'things',
       averageRating: 4.9,
       reviewCount: 999,

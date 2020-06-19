@@ -7,6 +7,7 @@ const graphqlHTTP = require('express-graphql');
 const connectToMongoDb = require('./connect-to-mongodb');
 const graphqlSchema = require('./schemas/graphql-schema');
 
+const { PORT } = process.env;
 const app = express();
 
 connectToMongoDb()
@@ -23,7 +24,7 @@ connectToMongoDb()
       res.send('Placeholder Text');
     });
 
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.log(`Listening on port ${process.env.PORT}`);
     });
   })

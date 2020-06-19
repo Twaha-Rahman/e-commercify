@@ -5,17 +5,18 @@
 
 const mongoose = require('mongoose');
 
-const connectToMongoDb = () => {
+const { MONGO_URL } = process.env;
+
+const connectToMongoDb = async () => {
   if (mongoose.connection.readyState === 1) {
     throw new Error('A ready MongoDB connection already exists.');
   }
 
-  return mongoose
-    .connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    .then((client) => client.connection);
+  const client = await mongoose.connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  return client.connection;
 };
 
 module.exports = connectToMongoDb;

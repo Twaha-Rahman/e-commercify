@@ -46,7 +46,8 @@ The mongoose schema looks like following:
   price: Number,
   brandName: String,
   brandLogoLink: [String],        (URL validation),
-  discounts: [discountSchema]
+  discount: String,
+  discountedPrice: String
 }
 ```
 

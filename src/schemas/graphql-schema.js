@@ -23,9 +23,15 @@ const RootQuery = new GraphQLObjectType({
       },
       async resolve(parent, { productId }) {
         if (productId) {
-          // Assumes there is at most one product with the given id.
-          return await [Product.findOne({ productId })];
+          /*
+           * Assumes the db contains at most one product with the given id,
+           *   so that we do not need to look for more than one product.
+           */
+          const product = await Product.findOne({ productId });
+          if (product === null) return [];
+          return [product];
         } else {
+          // Returns an array of all the product objects.
           return await Product.find();
         }
       }

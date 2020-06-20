@@ -45,24 +45,9 @@ The mongoose schema looks like following:
   category: String,
   price: Number,
   brandName: String,
-  brandLogoLink: [String],        (URL validation),
+  brandLogoLink: String,        (URL validation),
   discount: String,
   discountedPrice: String
-}
-```
-
-`discounts` is an array of objects. They look like this:
-
-(`maxQuantity = 0` should mean unlimited)
-
-```js
-{
-  discountId: ObjectID,
-  discountName: String,
-  type: String  ['percentage', 'flat'],
-  value: Number,
-  minQuantity: Number,
-  maxQuantity: Number
 }
 ```
 

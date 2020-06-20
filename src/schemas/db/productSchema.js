@@ -1,7 +1,6 @@
 'use strict';
 
 const { Schema } = require('mongoose');
-const discountSchema = require('./discountSchema');
 
 const partsOfRegex = [
   '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]',
@@ -46,7 +45,8 @@ const productSchema = new Schema({
     type: String,
     match: urlValidationRegex
   },
-  discounts: [discountSchema]
+  discount: String,
+  discountedPrice: String
 });
 
 module.exports = productSchema;

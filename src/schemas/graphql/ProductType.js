@@ -9,8 +9,6 @@ const {
   GraphQLList
 } = require('graphql');
 
-const DiscountType = require('./DiscountType');
-
 const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields() {
@@ -26,7 +24,8 @@ const ProductType = new GraphQLObjectType({
       price: { type: GraphQLFloat },
       brandName: { type: GraphQLString },
       brandLogoLink: { type: GraphQLString },
-      discounts: { type: new GraphQLList(DiscountType) }
+      discount: { type: GraphQLString },
+      discountedPrice: { type: GraphQLString }
     };
   }
 });

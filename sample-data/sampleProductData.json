@@ -13,8 +13,6 @@
   "price": 1.99,
   "brandName": "Supreme",
   "brandLogoLink": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Supreme_Logo.svg/576px-Supreme_Logo.svg.png",
-  "discounts": [
-    { "discountName": "90% discount", "type": "percentage", "value": 90 },
-    { "discountName": "2% discount", "type": "percentage", "value": 2 }
-  ]
+  "discount": "12%",
+  "discountedPrice": "$3.99"
 }

@@ -51,6 +51,10 @@ The mongoose schema looks like following:
 }
 ```
 
+The `discount` and `discountedPrice` values will be used for displaying disconts on various products. These will be calculated and managed by the brands/companies themselves.
+
+![PNG - Discount Card Demo](DOC_IMG/discount-card-example.png)
+
 ### Banners
 
 Any call to the `Banners` API should return an array of banner objects, where each banner object will look like -

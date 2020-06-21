@@ -45,26 +45,15 @@ The mongoose schema looks like following:
   category: String,
   price: Number,
   brandName: String,
-  brandLogoLink: [String],        (URL validation),
+  brandLogoLink: String,        (URL validation),
   discount: String,
   discountedPrice: String
 }
 ```
 
-`discounts` is an array of objects. They look like this:
+The `discount` and `discountedPrice` values will be used for displaying disconts on various products. These will be calculated and managed by the brands/companies themselves.
 
-(`maxQuantity = 0` should mean unlimited)
-
-```js
-{
-  discountId: ObjectID,
-  discountName: String,
-  type: String  ['percentage', 'flat'],
-  value: Number,
-  minQuantity: Number,
-  maxQuantity: Number
-}
-```
+![PNG - Discount Card Demo](DOC_IMG/discount-card-example.png)
 
 ### Banners
 

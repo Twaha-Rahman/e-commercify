@@ -137,8 +137,8 @@ const Mutation = new GraphQLObjectType({
         productData: { type: GraphQLString }, // productData is in JSON
         dateAdded: { type: GraphQLString },
         userIdOfWhoAdded: { type: GraphQLID },
-        clientInfo: { type: GraphQLString },
-        ipAddress: { type: GraphQLString }
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
       },
       resolve(parent, args) {
         console.log(args);

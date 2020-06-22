@@ -125,6 +125,9 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
+// All mutation requests must have a `userToken` key which will be used to see
+// if the user is authorized AND has the required permissions
+
 const RootMutation = new GraphQLObjectType({
   name: 'RootMutation',
   description:
@@ -134,6 +137,7 @@ const RootMutation = new GraphQLObjectType({
       type: MutationResponseType,
       description: 'This endpoint is used to add product data',
       args: {
+        userToken: { type: GraphQLString },
         productData: { type: GraphQLString }, // productData is in JSON
         userIdOfWhoAdded: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },
@@ -154,6 +158,7 @@ const RootMutation = new GraphQLObjectType({
       type: MutationResponseType,
       description: 'This endpoint is used to update product data',
       args: {
+        userToken: { type: GraphQLString },
         productId: { type: GraphQLID },
         infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
         userIdOfWhoUpdated: { type: GraphQLID },
@@ -175,6 +180,7 @@ const RootMutation = new GraphQLObjectType({
       type: MutationResponseType,
       description: 'This endpoint is used to delete product data',
       args: {
+        userToken: { type: GraphQLString },
         productId: { type: GraphQLID },
         userIdOfWhoDeleted: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },

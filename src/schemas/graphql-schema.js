@@ -3,7 +3,7 @@
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');
-const AddProductType = require('./graphql/AddProductType');
+const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
 
@@ -131,23 +131,43 @@ const RootMutation = new GraphQLObjectType({
     'This mutation endpoint is used to create, update or remove data.',
   fields: {
     addProduct: {
-      type: AddProductType,
-      description: 'This endpoint is used to add product data to the database.',
+      type: MutationResponseType,
+      description: 'This endpoint is used to add product data',
       args: {
         productData: { type: GraphQLString }, // productData is in JSON
-        dateAdded: { type: GraphQLString },
         userIdOfWhoAdded: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },
       resolve(parent, args) {
-        if (!process.env.IS_PRODUCTION) {
+        if (!process.env.IS_PRODUCTION === 'false') {
           console.log(args);
         }
 
         return {
           isSuccessfull: true,
-          responseMessage: 'Product was successfully added to the database!'
+          responseMessage: 'Product was successfully added!'
+        };
+      }
+    },
+    updateProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to update product data',
+      args: {
+        productId: { type: GraphQLID },
+        infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
+        userIdOfWhoAdded: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessfull: true,
+          responseMessage: 'Product was successfully updated!'
         };
       }
     }

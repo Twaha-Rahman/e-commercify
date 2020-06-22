@@ -125,8 +125,8 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-const Mutation = new GraphQLObjectType({
-  name: 'Mutation',
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutation',
   description:
     'This mutation endpoint is used to create, update or remove data.',
   fields: {
@@ -141,7 +141,10 @@ const Mutation = new GraphQLObjectType({
         clientIpAddress: { type: GraphQLString }
       },
       resolve(parent, args) {
-        console.log(args);
+        if (!process.env.IS_PRODUCTION) {
+          console.log(args);
+        }
+
         return {
           isSuccessfull: true,
           responseMessage: 'Product was successfully added to the database!'
@@ -153,5 +156,5 @@ const Mutation = new GraphQLObjectType({
 
 module.exports = new GraphQLSchema({
   query: RootQuery,
-  mutation: Mutation
+  mutation: RootMutation
 });

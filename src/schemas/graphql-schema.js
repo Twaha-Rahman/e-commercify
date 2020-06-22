@@ -12,23 +12,49 @@ const {
   GraphQLSchema,
   GraphQLID,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLError
 } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     products: {
-      type: ProductType,
+      type: new GraphQLList(ProductType),
       args: { productId: { type: GraphQLID } },
       resolve: (parent, args) => {
         // We'll receive the data here from the DB and return it.
         // For now we'll have some dummy data.
-        return {
-          productId: args.productId,
-          name: 'Placeholder',
-          imageLinks: ['...', '...', '...']
-        };
+        // If no productId is provided the we'll return 15 products
+        // If the productId is provided, then we'll return that product
+
+        if (!args.productId) {
+          return [
+            {
+              productId: args.productId,
+              name: 'Placeholder',
+              imageLinks: ['...', '...', '...']
+            },
+            {
+              productId: args.productId,
+              name: 'Placeholder',
+              imageLinks: ['...', '...', '...']
+            },
+            {
+              productId: args.productId,
+              name: 'Placeholder',
+              imageLinks: ['...', '...', '...']
+            }
+          ];
+        } else {
+          return [
+            {
+              productId: args.productId,
+              name: 'Placeholder',
+              imageLinks: ['...', '...', '...']
+            }
+          ];
+        }
       }
     },
     banners: {
@@ -56,38 +82,44 @@ const RootQuery = new GraphQLObjectType({
     },
     reviews: {
       type: new GraphQLList(ReviewType),
-      description: 'Read or write reviews objects',
+      description: 'This endpoint is used to retrieve review objects',
       args: { linkedProductId: { type: GraphQLID } },
-      resolve: () => {
-        return [
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          },
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          },
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          }
-        ];
+      resolve: (parent, args) => {
+        if (!args.linkedProductId) {
+          return new GraphQLError({
+            message: 'Error: `linkedProductId` not provided!'
+          });
+        } else {
+          return [
+            {
+              linkedProductId: '...',
+              username: '...',
+              userId: '...',
+              profilePicture: '...',
+              date: '...',
+              comment: '...',
+              rating: 5
+            },
+            {
+              linkedProductId: '...',
+              username: '...',
+              userId: '...',
+              profilePicture: '...',
+              date: '...',
+              comment: '...',
+              rating: 5
+            },
+            {
+              linkedProductId: '...',
+              username: '...',
+              userId: '...',
+              profilePicture: '...',
+              date: '...',
+              comment: '...',
+              rating: 5
+            }
+          ];
+        }
       }
     }
   }
@@ -111,7 +143,7 @@ const Mutation = new GraphQLObjectType({
       resolve(parent, args) {
         console.log(args);
         return {
-          isSuccessfull: false,
+          isSuccessfull: true,
           responseMessage: 'Product was successfully added to the database!'
         };
       }

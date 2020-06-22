@@ -3,10 +3,17 @@
 const graphql = require('graphql');
 
 const ProductType = require('./graphql/ProductType');
+const AddProductType = require('./graphql/AddProductType');
 const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
 
-const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLString,
+  GraphQLList
+} = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -86,6 +93,33 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  description:
+    'This mutation endpoint is used to create, update or remove data.',
+  fields: {
+    addProduct: {
+      type: AddProductType,
+      description: 'This endpoint is used to add product data to the database.',
+      args: {
+        productData: { type: GraphQLString },
+        dateAdded: { type: GraphQLString },
+        userIdOfWhoAdded: { type: GraphQLID },
+        clientInfo: { type: GraphQLString },
+        ipAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        console.log(args);
+        return {
+          isSuccessfull: false,
+          responseMessage: 'Product was successfully added to the database!'
+        };
+      }
+    }
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 });

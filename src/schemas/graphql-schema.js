@@ -156,7 +156,7 @@ const RootMutation = new GraphQLObjectType({
       args: {
         productId: { type: GraphQLID },
         infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
-        userIdOfWhoAdded: { type: GraphQLID },
+        userIdOfWhoUpdated: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },
@@ -168,6 +168,26 @@ const RootMutation = new GraphQLObjectType({
         return {
           isSuccessfull: true,
           responseMessage: 'Product was successfully updated!'
+        };
+      }
+    },
+    deleteProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to delete product data',
+      args: {
+        productId: { type: GraphQLID },
+        userIdOfWhoDeleted: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessfull: true,
+          responseMessage: 'Product was successfully deleted!'
         };
       }
     }

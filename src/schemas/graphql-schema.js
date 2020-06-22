@@ -134,7 +134,7 @@ const Mutation = new GraphQLObjectType({
       type: AddProductType,
       description: 'This endpoint is used to add product data to the database.',
       args: {
-        productData: { type: GraphQLString },
+        productData: { type: GraphQLString }, // productData is in JSON
         dateAdded: { type: GraphQLString },
         userIdOfWhoAdded: { type: GraphQLID },
         clientInfo: { type: GraphQLString },

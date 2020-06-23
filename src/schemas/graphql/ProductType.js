@@ -1,28 +1,27 @@
 'use strict';
 
-const graphql = require('graphql');
-
 const {
   GraphQLObjectType,
   GraphQLID,
   GraphQLString,
+  GraphQLFloat,
   GraphQLInt,
   GraphQLList
-} = graphql;
+} = require('graphql');
 
 const ProductType = new GraphQLObjectType({
   name: 'Product',
-  fields: () => {
+  fields() {
     return {
       productId: { type: GraphQLID },
       name: { type: GraphQLString },
       description: { type: GraphQLString },
       imageLinks: { type: new GraphQLList(GraphQLString) },
       quantityType: { type: GraphQLString },
-      averageRating: { type: GraphQLInt },
+      averageRating: { type: GraphQLFloat },
       reviewCount: { type: GraphQLInt },
       category: { type: GraphQLString },
-      price: { type: GraphQLString },
+      price: { type: GraphQLFloat },
       brandName: { type: GraphQLString },
       brandLogoLink: { type: GraphQLString },
       discount: { type: GraphQLString },

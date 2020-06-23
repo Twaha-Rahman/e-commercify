@@ -1,7 +1,8 @@
 {
   "name": "Product",
+  "productId": "5eeb93d96c4353087872e300",
   "description": "The only product we sell currently",
-  "productImageLinks": [
+  "imageLinks": [
     "http://google.no/image.png",
     "https://bing.com/image.png"
   ],

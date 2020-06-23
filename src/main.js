@@ -4,16 +4,30 @@ require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 
+const connectToMongoDb = require('./connect-to-mongodb');
 const graphqlSchema = require('./schemas/graphql-schema');
 
+const { PORT } = process.env;
 const app = express();
 
-app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
+connectToMongoDb()
+  .then((db) => {
+    console.log('MongoDB connection was successful!');
 
-app.get('/', (req, res) => {
-  res.send('Placeholder Text');
-});
+    db.onClose(() => {
+      console.log('MongoDB connection was closed.');
+    });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-});
+    app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
+
+    app.get('/', (req, res) => {
+      res.send('Placeholder Text');
+    });
+
+    app.listen(PORT, () => {
+      console.log(`Listening on port ${process.env.PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Could not connect to MongoDB!', error);
+  });

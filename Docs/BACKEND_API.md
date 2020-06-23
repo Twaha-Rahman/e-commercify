@@ -23,7 +23,7 @@ Any call to the `Products` API should return an array of product objects, where 
     averageRating: 4.5,
     reviewCount: 34,
     category: "Fruits",
-    price: "$4",
+    price: 3.94,
     brandName: "Green Foods",
     brandLogoLink: "https://....",
     discount: "2%",
@@ -45,25 +45,15 @@ The mongoose schema looks like following:
   category: String,
   price: Number,
   brandName: String,
-  brandLogoLink: [String],        (URL validation),
-  discounts: [discountSchema]
+  brandLogoLink: String,        (URL validation),
+  discount: String,
+  discountedPrice: String
 }
 ```
 
-`discounts` is an array of objects. They look like this:
+The `discount` and `discountedPrice` values will be used for displaying disconts on various products. These will be calculated and managed by the brands/companies themselves.
 
-(`maxQuantity = 0` should mean unlimited)
-
-```js
-{
-  discountId: ObjectID,
-  discountName: String,
-  type: String  ['percentage', 'flat'],
-  value: Number,
-  minQuantity: Number,
-  maxQuantity: Number
-}
-```
+![PNG - Discount Card Demo](DOC_IMG/discount-card-example.png)
 
 ### Banners
 

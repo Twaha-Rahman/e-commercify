@@ -1,3 +1,5 @@
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Twaha-Rahman/e-commercify)](https://dependabot.com)
+
 # E-commercify
 
 `E-commercify` is a full open source E-commerce site from the frontend to the backend. The project uses all the latest

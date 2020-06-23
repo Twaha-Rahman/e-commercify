@@ -11,4 +11,4 @@ You can use Chrome Dev Tools to debug the backend as it comes pre-configured wit
 
 5. You can now use the console to debug the server just like in the frontend!
 
-   ![PNG - Chrome Dev Tools COnsole](DOC_IMG/inspect-console.PNG)
+   ![PNG - Chrome Dev Tools Console](DOC_IMG/inspect-console.PNG)

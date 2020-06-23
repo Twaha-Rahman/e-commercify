@@ -15,7 +15,7 @@ connectToMongoDb()
     console.log('MongoDB connection was successful!');
 
     db.onClose(() => {
-      console.log(`MongoDB connection was closed.`);
+      console.log('MongoDB connection was closed.');
     });
 
     app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));

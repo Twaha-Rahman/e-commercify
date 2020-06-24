@@ -6,9 +6,23 @@
 
 require('dotenv').config();
 
+const { ArgumentParser } = require('argparse');
 const mongoose = require('mongoose');
 const Product = require('../src/models/db/product');
 const sampleProductData = require('../sample-data/sampleProductData.json');
+
+const args = (() => {
+  const parser = new ArgumentParser({
+    addHelp: true,
+    description: 'Inserts random product data into MongoDB.'
+  });
+
+  parser.addArgument(['-d', '--drop'], {
+    action: 'storeTrue',
+    help: 'Drop all existing product documents before inserting new ones.'
+  });
+  return parser.parseArgs();
+})();
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
@@ -19,6 +33,18 @@ const db = mongoose.connection;
 
 db.once('open', async () => {
   console.log('\nConnection successful!\n');
+
+  if (args.drop === true) {
+    try {
+      await Product.deleteMany();
+      console.log(`Dropped all previous sample product data.`);
+    } catch (error) {
+      console.error(
+        'An error occured while trying to inject data into the database!\n\n',
+        error
+      );
+    }
+  }
 
   let errorObject;
 

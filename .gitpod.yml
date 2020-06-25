@@ -1,0 +1,11 @@
+# The Docker image to run the workspace in
+image:
+  file: .gitpod.Dockerfile
+# Command to start on workspace startup
+tasks:
+  - init: npm install
+    command: npm run fill-db && npm run dev
+# Ports to expose on workspace startup
+ports:
+  - port: 9000
+    onOpen: open-preview

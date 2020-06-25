@@ -17,9 +17,9 @@ const args = (() => {
     description: 'Inserts random product data into MongoDB.'
   });
 
-  parser.addArgument(['-d', '--drop'], {
+  parser.addArgument(['-k', '--keep'], {
     action: 'storeTrue',
-    help: 'Drop all existing product documents before inserting new ones.'
+    help: 'Do not delete already existing product documents.'
   });
   return parser.parseArgs();
 })();
@@ -34,13 +34,13 @@ const db = mongoose.connection;
 db.once('open', async () => {
   console.log('\nConnection successful!\n');
 
-  if (args.drop === true) {
+  if (args.keep !== true) {
     try {
       await Product.deleteMany();
-      console.log(`Dropped all previous sample product data.`);
+      console.log(`Deleted all previous sample product data.`);
     } catch (error) {
       console.error(
-        'An error occured while trying to inject data into the database!\n\n',
+        'An error occured while trying to delete previous data!\n\n',
         error
       );
     }

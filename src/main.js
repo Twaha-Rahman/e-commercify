@@ -11,18 +11,7 @@ const { PORT } = process.env;
 const app = express();
 
 (async function main() {
-  try {
-    const db = await connectToMongoDb();
-    console.log('MongoDB connection was successful!');
-
-    db.onClose(() => {
-      console.log('MongoDB connection was closed.');
-    });
-  } catch (error) {
-    console.error('Could not connect to MongoDB!', error);
-    process.exitCode = 1;
-    return;
-  }
+  await connectToMongoDb();
 
   app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
 

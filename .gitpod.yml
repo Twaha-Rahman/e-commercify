@@ -4,7 +4,7 @@ image:
 # Command to start on workspace startup
 tasks:
   - init: npm install
-    command: cp sample.env .env && npm run fill-db && npm run dev
+    command: cp sample.env .env && mkdir -p /workspace/data && mongod --dbpath /workspace/data && npm run fill-db && npm run dev
 # Ports to expose on workspace startup
 ports:
   - port: 9000

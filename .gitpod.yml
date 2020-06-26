@@ -1,4 +1,3 @@
-# The Docker image to run the workspace in
 image:
   file: .gitpod.Dockerfile
 # Command to start on workspace startup
@@ -10,3 +9,8 @@ tasks:
 ports:
   - port: 9000
     onOpen: open-preview
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode@5.1.0:M3Ww4EayZWhGCgk49C1Ldw==
+    - dbaeumer.vscode-eslint@2.1.3:1NRvj3UKNTNwmYjptmUmIw==

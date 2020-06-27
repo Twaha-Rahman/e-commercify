@@ -5,9 +5,9 @@
  */
 
 require('dotenv').config();
-
 const { ArgumentParser } = require('argparse');
-const mongoose = require('mongoose');
+
+const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const sampleProductData = require('../sample-data/sampleProductData.json');
 
@@ -24,15 +24,8 @@ const args = (() => {
   return parser.parseArgs();
 })();
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-
-db.once('open', async () => {
-  console.log('\nConnection successful!\n');
+(async function main() {
+  await connectToMongoDb();
 
   if (args.keep !== true) {
     try {
@@ -70,4 +63,4 @@ db.once('open', async () => {
   }
 
   process.exit();
-});
+})();

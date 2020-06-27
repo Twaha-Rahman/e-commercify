@@ -12,11 +12,22 @@ const connectToMongoDb = async () => {
     throw new Error('A ready MongoDB connection already exists.');
   }
 
-  const client = await mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-  return client.connection;
+  try {
+    console.log('Connecting to MongoDB...');
+    const client = await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    console.log('\nMongoDB connection was successful!\n');
+
+    client.connection.onClose(() => {
+      console.log('MongoDB connection was closed.');
+    });
+  } catch (error) {
+    console.error('\nCould not connect to MongoDB!\n\n', error);
+    process.exit(1);
+  }
 };
 
 module.exports = connectToMongoDb;

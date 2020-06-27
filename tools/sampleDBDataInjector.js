@@ -6,19 +6,12 @@
 
 require('dotenv').config();
 
-const mongoose = require('mongoose');
+const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const sampleProductData = require('../sample-data/sampleProductData.json');
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-
-db.once('open', async () => {
-  console.log('\nConnection successful!\n');
+(async function main() {
+  await connectToMongoDb();
 
   let errorObject;
 
@@ -44,4 +37,4 @@ db.once('open', async () => {
   }
 
   process.exit();
-});
+})();

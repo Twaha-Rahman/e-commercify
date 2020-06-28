@@ -5,13 +5,39 @@
  */
 
 require('dotenv').config();
+const { ArgumentParser } = require('argparse');
 
 const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const sampleProductData = require('../sample-data/sampleProductData.json');
 
+const args = (() => {
+  const parser = new ArgumentParser({
+    addHelp: true,
+    description: 'Inserts random product data into MongoDB.'
+  });
+
+  parser.addArgument(['-k', '--keep'], {
+    action: 'storeTrue',
+    help: 'Do not delete already existing product documents.'
+  });
+  return parser.parseArgs();
+})();
+
 (async function main() {
   await connectToMongoDb();
+
+  if (args.keep !== true) {
+    try {
+      await Product.deleteMany();
+      console.log(`Deleted all previous sample product data.`);
+    } catch (error) {
+      console.error(
+        'An error occured while trying to delete previous data!\n\n',
+        error
+      );
+    }
+  }
 
   let errorObject;
 

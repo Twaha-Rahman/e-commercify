@@ -1,59 +1,41 @@
 'use strict';
 
-const graphql = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLList,
+  GraphQLString,
+  GraphQLError
+} = require('graphql');
 
+const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
 const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
 const ReviewType = require('./graphql/ReviewType');
 
-const {
-  GraphQLObjectType,
-  GraphQLSchema,
-  GraphQLID,
-  GraphQLString,
-  GraphQLList,
-  GraphQLError
-} = graphql;
-
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     products: {
+      description: 'Retrieves product data',
       type: new GraphQLList(ProductType),
-      args: { productId: { type: GraphQLID } },
-      resolve: (parent, args) => {
-        // We'll receive the data here from the DB and return it.
-        // For now we'll have some dummy data.
-        // If no productId is provided the we'll return 15 products
-        // If the productId is provided, then we'll return that product
-
-        if (!args.productId) {
-          return [
-            {
-              productId: args.productId,
-              name: 'Placeholder',
-              imageLinks: ['...', '...', '...']
-            },
-            {
-              productId: args.productId,
-              name: 'Placeholder',
-              imageLinks: ['...', '...', '...']
-            },
-            {
-              productId: args.productId,
-              name: 'Placeholder',
-              imageLinks: ['...', '...', '...']
-            }
-          ];
+      args: {
+        productId: { type: GraphQLID }
+      },
+      async resolve(parent, { productId }) {
+        if (productId) {
+          /*
+           * Assumes the db contains at most one product with the given id,
+           *   so that we do not need to look for more than one product.
+           */
+          const product = await Product.findOne({ productId });
+          if (product === null) return [];
+          return [product];
         } else {
-          return [
-            {
-              productId: args.productId,
-              name: 'Placeholder',
-              imageLinks: ['...', '...', '...']
-            }
-          ];
+          // Returns an array of all the product objects.
+          return await Product.find();
         }
       }
     },

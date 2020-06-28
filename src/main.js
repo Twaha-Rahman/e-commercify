@@ -4,16 +4,22 @@ require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 
+const connectToMongoDb = require('./connect-to-mongodb');
 const graphqlSchema = require('./schemas/graphql-schema');
 
+const { PORT } = process.env;
 const app = express();
 
-app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
+(async function main() {
+  await connectToMongoDb();
 
-app.get('/', (req, res) => {
-  res.send('Placeholder Text');
-});
+  app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-});
+  app.get('/', (req, res) => {
+    res.send('Placeholder Text');
+  });
+
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
+})();

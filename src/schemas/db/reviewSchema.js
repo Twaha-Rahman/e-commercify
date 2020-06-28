@@ -21,10 +21,6 @@ const reviewSchema = new Schema({
     required: true
   },
 
-  profilePicture: {
-    type: String
-  },
-
   rating: {
     type: Number,
     min: 0,
@@ -34,11 +30,6 @@ const reviewSchema = new Schema({
 
   userId: {
     type: ObjectID,
-    required: true
-  },
-
-  username: {
-    type: String,
     required: true
   }
 });

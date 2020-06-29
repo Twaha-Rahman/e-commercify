@@ -16,9 +16,20 @@ We are glad to receive PRs from anybody who is interested. Follow these steps to
 
 ...and that's it! You're now a contributor!
 
-## Running Locally For Development
+## Running The Development Server
 
-Firstly, open the terminal in the project folder.
+### Running In Gitpod
+
+If you're making small to medium changes, then you can use Gitpod to run the server for development purposes.
+
+The easiest way to contribute to the project is by using Gitpod. Gitpod creates a completely running server for the project in an in-browser
+environment complete with VSCode as the editor of choice. No configuration required, it's all pre-configured for you! It's a one click to development experience. Start now by cicking the button below -
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Twaha-Rahman/e-commercify)
+
+### Running Locally On Your Computer
+
+Firstly, open the terminal in the project folder. (The clone of your fork)
 
 Then install all the dependencies by running -
 
@@ -41,6 +52,8 @@ Then fill the databse with the sample data by running -
 ```
 npm run fill-db
 ```
+
+_Note: You need MongoDB installed and running on your computer. In order to run this command successfully._
 
 Then run the development server by running -
 

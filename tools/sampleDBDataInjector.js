@@ -5,11 +5,14 @@
  */
 
 require('dotenv').config();
-const { ArgumentParser } = require('argparse');
 
+const { ArgumentParser } = require('argparse');
 const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
+const Banner = require('../src/models/db/banner');
+
 const sampleProductData = require('../sample-data/sampleProductData.json');
+const sampleBannerData = require('../sample-data/sampleBannerData.json');
 
 const args = (() => {
   const parser = new ArgumentParser({
@@ -45,6 +48,15 @@ const args = (() => {
     const product = new Product(sampleProductData);
     try {
       await product.save();
+    } catch (error) {
+      errorObject = error;
+    }
+  }
+
+  for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_BANNER_DATA; i++) {
+    const banner = new Banner(sampleBannerData);
+    try {
+      await banner.save();
     } catch (error) {
       errorObject = error;
     }

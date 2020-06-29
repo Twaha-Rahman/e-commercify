@@ -9,7 +9,35 @@ We are glad to receive PRs from anybody who is interested. Follow these steps to
 1. Install the required softwares listed in the [README](README.md#Install-prerequisites).
 2. Fork the repo
 3. Clone your forked repo
-4. Set up the environment variable file by running -
+4. Create a new branch on the cloned repo and switch to it
+5. Make changes to add, update or fix a feature
+6. Review/test/debug your changes by [running the server locally](#running-locally-for-development)
+7. Commit changes and submit a Pull Request (aka PR in short)
+
+...and that's it! You're now a contributor!
+
+## Running The Development Server
+
+### Running In Gitpod
+
+If you're making small to medium changes, then you can use Gitpod to run the server for development purposes.
+
+The easiest way to contribute to the project is by using Gitpod. Gitpod creates a completely running server for the project in an in-browser
+environment complete with VSCode as the editor of choice. No configuration required, it's all pre-configured for you! It's a one click to development experience. Start now by cicking the button below -
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Twaha-Rahman/e-commercify)
+
+### Running Locally On Your Computer
+
+Firstly, open the terminal in the project folder. (The clone of your fork)
+
+Then install all the dependencies by running -
+
+```
+npm i
+```
+
+Then set up the environment variables by running -
 
 ```
 # macOS / Linux
@@ -19,12 +47,19 @@ cp sample.env .env
 copy sample.env .env
 ```
 
-5. Create a new branch on the cloned repo and switch to it
-6. Make changes to add, update or fix a feature
-7. Review/test/debug your changes by [running the server locally](#running-locally-for-development)
-8. Commit changes and submit a Pull Request (aka PR in short)
+Then fill the databse with the sample data by running -
 
-...and that's it! You're now a contributor!
+```
+npm run fill-db
+```
+
+_Note: You need MongoDB installed and running on your computer. In order to run this command successfully._
+
+Then run the development server by running -
+
+```
+npm run dev
+```
 
 ## Project Structure
 

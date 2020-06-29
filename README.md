@@ -53,28 +53,6 @@ npm i
 npm run start
 ```
 
-## Running Locally For Development
-
-Firstly, open the terminal in the project folder.
-
-Then install all the dependencies by running -
-
-```
-npm i
-```
-
-Then fill the databse with the sample data by running -
-
-```
-npm run fill-db
-```
-
-Then run the development server by running -
-
-```
-npm run dev
-```
-
 ## Contributing
 
 We are glad to receive PRs from anybody who is interested. If you want to contribute to this open source project

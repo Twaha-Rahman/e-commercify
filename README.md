@@ -44,7 +44,7 @@ IS_PRODUCTION=true
 4. Install all the dependencies by running -
 
 ```
-npm i
+npm ci
 ```
 
 5. Start the production server by running -

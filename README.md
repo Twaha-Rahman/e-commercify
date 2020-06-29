@@ -6,6 +6,10 @@
 `E-commercify` is a full open source E-commerce site from the frontend to the backend. The project uses all the latest
 and industry approved technologies to create a complete e-commerce site that's ready to be deployed.
 
+You can see a live demo of the project by clicking here -
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Twaha-Rahman/e-commercify)
+
 ## Install prerequisites
 
 Start by installing the prerequisite software:

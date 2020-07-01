@@ -3,11 +3,16 @@
 The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of five key parts -
 
 - [Products](#products)
+  - [AddProduct](#AddProduct)
+  - [updateProduct](#updateProduct)
+  - [deleteProduct](#deleteProduct)
 - [Banners](#banners)
 - [Reviews](#Reviews)
 - [Authenticate](#Authenticate)
 - [Transaction](#transaction)
 - [Analytics](#Analytics)
+
+_Please note that:_ All calls to any write API will need to have an `authToken` key. The value of the `authToken` key will be a JSON Web Token (or JWT in short).
 
 ### Products
 
@@ -54,6 +59,75 @@ The mongoose schema looks like following:
 The `discount` and `discountedPrice` values will be used for displaying disconts on various products. These will be calculated and managed by the brands/companies themselves.
 
 ![PNG - Discount Card Demo](DOC_IMG/discount-card-example.png)
+
+#### AddProduct
+
+The `AddProduct` endpoint will be used to add product info. A _sample request_ to
+`AddProduct` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    productData: '{"name":"Apple","description":"A fresh Apple for you!",       "productId":"y3u2uy32","imageLinks":["...","...","..."],"quantityType":"kg","averageRating":4.5,"reviewCount":34,"category":"Fruits","price":3.94,"brandName":"Green Foods","brandLogoLink":"https://....","discount":"2%","discountedPrice":"$3.69"}',
+    userIdOfWhoAdded: "asdas87ahc8a7as",
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+    clientIpAddress: '192.168.0.2'
+}
+```
+
+In the above object, `productData` and `clientBrowserInfo` is in JSON. The `clientBrowserInfo` is collected from `navigator.appName`, `navigator.appCodeName` and `navigator.appVersion`.
+
+A sample response from the API will look like this -
+
+```js
+    isSuccessfull: true,
+    responseMessage: 'Product was successfully added!'
+```
+
+#### UpdateProduct
+
+The `UpdateProduct` endpoint will be used to update product info. A _sample request_ to
+`UpdateProduct` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    productId: 'dfsdfu0sf8',
+    infoToUpdate: '{"name":"Green Apple","brandLogoLink":"https://....","discount":"8%","discountedPrice":"$8.69"}',
+    userIdOfWhoUpdated: "asdas87ahc8a7as",
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+    clientIpAddress: '192.168.0.2'
+}
+```
+
+A sample response from the API will look like this -
+
+```js
+    isSuccessfull: true,
+    responseMessage: 'Product was successfully added!'
+```
+
+#### DeleteProduct
+
+The `DeleteProduct` endpoint will be used to delete product info. A _sample request_ to
+`DeleteProduct` endpoint will look like this -
+
+```js
+{
+        authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+        productId: 'dfsdfu0sf8',
+        userIdOfWhoDeleted: "asdas87ahc8a7as",
+        clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+        clientIpAddress: '192.168.0.2'
+}
+```
+
+A sample response from the API will look like this -
+
+```js
+    isSuccessfull: true,
+    responseMessage: 'Product was successfully added!'
+```
 
 ### Banners
 

@@ -4,11 +4,14 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLID,
-  GraphQLList
+  GraphQLList,
+  GraphQLString,
+  GraphQLError
 } = require('graphql');
 
 const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
+const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
@@ -61,24 +64,99 @@ const RootQuery = new GraphQLObjectType({
       }
     },
     reviews: {
-      description: 'Read or write reviews objects',
+      description: 'This endpoint is used to retrieve review objects',
       type: new GraphQLList(ReviewType),
       args: {
         linkedProductId: { type: GraphQLID }
       },
       async resolve(parent, { linkedProductId }) {
-        if (linkedProductId) {
-          // Returns an array of the matching review objects.
-          return await Review.find({ linkedProductId });
-        } else {
-          // Returns an array of all the review objects.
-          return await Review.find();
+        if (!linkedProductId) {
+          return new GraphQLError({
+            message: 'Error: `linkedProductId` not provided!'
+          });
         }
+        return await Review.find({ linkedProductId });
+      }
+    }
+  }
+});
+
+// All mutation requests must have a `userToken` key which will be used to see
+// if the user is authorized AND has the required permissions
+
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutation',
+  description:
+    'This mutation endpoint is used to create, update or remove data.',
+  fields: {
+    addProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to add product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productData: { type: GraphQLString }, // productData is in JSON
+        userIdOfWhoAdded: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (!process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessfull: true,
+          responseMessage: 'Product was successfully added!'
+        };
+      }
+    },
+    updateProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to update product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productId: { type: GraphQLID },
+        infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
+        userIdOfWhoUpdated: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessfull: true,
+          responseMessage: 'Product was successfully updated!'
+        };
+      }
+    },
+    deleteProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to delete product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productId: { type: GraphQLID },
+        userIdOfWhoDeleted: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessfull: true,
+          responseMessage: 'Product was successfully deleted!'
+        };
       }
     }
   }
 });
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: RootMutation
 });

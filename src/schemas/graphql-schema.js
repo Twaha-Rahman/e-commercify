@@ -13,6 +13,7 @@ const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
 const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
+const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 
 const RootQuery = new GraphQLObjectType({
@@ -63,45 +64,18 @@ const RootQuery = new GraphQLObjectType({
       }
     },
     reviews: {
-      type: new GraphQLList(ReviewType),
       description: 'This endpoint is used to retrieve review objects',
-      args: { linkedProductId: { type: GraphQLID } },
-      resolve: (parent, args) => {
-        if (!args.linkedProductId) {
+      type: new GraphQLList(ReviewType),
+      args: {
+        linkedProductId: { type: GraphQLID }
+      },
+      async resolve(parent, { linkedProductId }) {
+        if (!linkedProductId) {
           return new GraphQLError({
             message: 'Error: `linkedProductId` not provided!'
           });
-        } else {
-          return [
-            {
-              linkedProductId: '...',
-              username: '...',
-              userId: '...',
-              profilePicture: '...',
-              date: '...',
-              comment: '...',
-              rating: 5
-            },
-            {
-              linkedProductId: '...',
-              username: '...',
-              userId: '...',
-              profilePicture: '...',
-              date: '...',
-              comment: '...',
-              rating: 5
-            },
-            {
-              linkedProductId: '...',
-              username: '...',
-              userId: '...',
-              profilePicture: '...',
-              date: '...',
-              comment: '...',
-              rating: 5
-            }
-          ];
         }
+        return await Review.find({ linkedProductId });
       }
     }
   }

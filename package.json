@@ -30,7 +30,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^15.2.0",
-    "mongoose": "^5.9.20"
+    "mongoose": "^5.9.21"
   },
   "devDependencies": {
     "eslint": "^7.3.1",

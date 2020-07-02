@@ -80,7 +80,7 @@ In the above object, `productData` and `clientBrowserInfo` is in JSON. The `clie
 A sample response from the API will look like this -
 
 ```js
-    isSuccessfull: true,
+    isSuccessful: true,
     responseMessage: 'Product was successfully added!'
 ```
 
@@ -103,7 +103,7 @@ The `UpdateProduct` endpoint will be used to update product info. A _sample requ
 A sample response from the API will look like this -
 
 ```js
-    isSuccessfull: true,
+    isSuccessful: true,
     responseMessage: 'Product was successfully added!'
 ```
 
@@ -125,7 +125,7 @@ The `DeleteProduct` endpoint will be used to delete product info. A _sample requ
 A sample response from the API will look like this -
 
 ```js
-    isSuccessfull: true,
+    isSuccessful: true,
     responseMessage: 'Product was successfully added!'
 ```
 

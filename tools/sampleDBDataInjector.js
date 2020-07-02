@@ -10,9 +10,11 @@ const { ArgumentParser } = require('argparse');
 const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const Banner = require('../src/models/db/banner');
+const Review = require('../src/models/db/review');
 
 const sampleProductData = require('../sample-data/sampleProductData.json');
 const sampleBannerData = require('../sample-data/sampleBannerData.json');
+const sampleReviewData = require('../sample-data/sampleReviewData.json');
 
 const args = (() => {
   const parser = new ArgumentParser({
@@ -33,10 +35,12 @@ const args = (() => {
   if (args.keep !== true) {
     try {
       await Product.deleteMany();
-      console.log(`Deleted all previous sample product data.`);
+      await Review.deleteMany();
+      await Banner.deleteMany();
+      console.log(`Deleted all previous sample data.`);
     } catch (error) {
       console.error(
-        'An error occured while trying to delete previous data!\n\n',
+        'An error occured while trying to delete previous sample data!\n\n',
         error
       );
     }
@@ -62,16 +66,22 @@ const args = (() => {
     }
   }
 
+  for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_REVIEW_DATA; i++) {
+    const review = new Review(sampleReviewData);
+    try {
+      await review.save();
+    } catch (error) {
+      errorObject = error;
+    }
+  }
+
   if (errorObject) {
     console.error(
       'An error occured while trying to inject data into the database!\n\n',
       errorObject
     );
   } else {
-    console.log(
-      `Successfully inserted ${process.env.AMOUNT_OF_SAMPLE_PRODUCT_DATA}` +
-        ` sample product data into the database!`
-    );
+    console.log(`Successfully inserted sample data into the database!`);
   }
 
   process.exit();

@@ -131,7 +131,7 @@ const RootMutation = new GraphQLObjectType({
         }
 
         return {
-          isSuccessfull: true,
+          isSuccessful: true,
           responseMessage: 'Product was successfully added!'
         };
       }
@@ -153,7 +153,7 @@ const RootMutation = new GraphQLObjectType({
         }
 
         return {
-          isSuccessfull: true,
+          isSuccessful: true,
           responseMessage: 'Product was successfully updated!'
         };
       }
@@ -174,7 +174,7 @@ const RootMutation = new GraphQLObjectType({
         }
 
         return {
-          isSuccessfull: true,
+          isSuccessful: true,
           responseMessage: 'Product was successfully deleted!'
         };
       }

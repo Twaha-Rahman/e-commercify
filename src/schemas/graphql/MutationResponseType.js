@@ -7,7 +7,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = graphql;
 const AddProductType = new GraphQLObjectType({
   name: 'AddProduct',
   fields: {
-    isSuccessfull: { type: GraphQLBoolean },
+    isSuccessful: { type: GraphQLBoolean },
     responseMessage: { type: GraphQLString }
   }
 });

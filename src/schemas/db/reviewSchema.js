@@ -16,10 +16,7 @@ const reviewSchema = new Schema({
     required: true
   },
 
-  linkedProductId: {
-    type: ObjectID,
-    required: true
-  },
+  linkedProductId: ObjectID,
 
   rating: {
     type: Number,
@@ -28,10 +25,7 @@ const reviewSchema = new Schema({
     required: true
   },
 
-  userId: {
-    type: ObjectID,
-    required: true
-  }
+  userId: ObjectID
 });
 
 module.exports = reviewSchema;

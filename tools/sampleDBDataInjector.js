@@ -73,7 +73,6 @@ const args = (() => {
   for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_PRODUCT_DATA; i++) {
     const newReview = {
       ...sampleReviewData,
-      userId: '5f0087003fb1953310f22b2e',
       linkedProductId: productObjectIds[i]
     };
 

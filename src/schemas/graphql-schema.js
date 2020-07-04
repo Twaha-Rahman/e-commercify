@@ -1,26 +1,43 @@
 'use strict';
 
-const graphql = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLList,
+  GraphQLString,
+  GraphQLError
+} = require('graphql');
 
+const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
+const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
+const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
-
-const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     products: {
-      type: ProductType,
-      args: { productId: { type: GraphQLID } },
-      resolve: (parent, args) => {
-        // We'll receive the data here from the DB and return it.
-        // For now we'll have some dummy data.
-        return {
-          productId: args.productId,
-          productName: 'Placeholder'
-        };
+      description: 'Retrieves product data',
+      type: new GraphQLList(ProductType),
+      args: {
+        productId: { type: GraphQLID }
+      },
+      async resolve(parent, { productId }) {
+        if (productId) {
+          /*
+           * Assumes the db contains at most one product with the given id,
+           *   so that we do not need to look for more than one product.
+           */
+          const product = await Product.findOne({ productId });
+          if (product === null) return [];
+          return [product];
+        } else {
+          // Returns an array of all the product objects.
+          return await Product.find();
+        }
       }
     },
     banners: {
@@ -47,44 +64,99 @@ const RootQuery = new GraphQLObjectType({
       }
     },
     reviews: {
+      description: 'This endpoint is used to retrieve review objects',
       type: new GraphQLList(ReviewType),
-      description: 'Read or write reviews objects',
-      args: { linkedProductId: { type: GraphQLID } },
-      resolve: () => {
-        return [
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          },
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          },
-          {
-            linkedProductId: '...',
-            username: '...',
-            userId: '...',
-            profilePicture: '...',
-            date: '...',
-            comment: '...',
-            rating: 5
-          }
-        ];
+      args: {
+        linkedProductId: { type: GraphQLID }
+      },
+      async resolve(parent, { linkedProductId }) {
+        if (!linkedProductId) {
+          return new GraphQLError({
+            message: 'Error: `linkedProductId` not provided!'
+          });
+        }
+        return await Review.find({ linkedProductId });
+      }
+    }
+  }
+});
+
+// All mutation requests must have a `userToken` key which will be used to see
+// if the user is authorized AND has the required permissions
+
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutation',
+  description:
+    'This mutation endpoint is used to create, update or remove data.',
+  fields: {
+    addProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to add product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productData: { type: GraphQLString }, // productData is in JSON
+        userIdOfWhoAdded: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (!process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessful: true,
+          responseMessage: 'Product was successfully added!'
+        };
+      }
+    },
+    updateProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to update product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productId: { type: GraphQLID },
+        infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
+        userIdOfWhoUpdated: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessful: true,
+          responseMessage: 'Product was successfully updated!'
+        };
+      }
+    },
+    deleteProduct: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to delete product data',
+      args: {
+        authToken: { type: GraphQLString },
+        productId: { type: GraphQLID },
+        userIdOfWhoDeleted: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        return {
+          isSuccessful: true,
+          responseMessage: 'Product was successfully deleted!'
+        };
       }
     }
   }
 });
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: RootMutation
 });

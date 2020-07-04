@@ -1,7 +1,15 @@
 # E-commercify
 
+[![Build Status](https://travis-ci.com/Twaha-Rahman/e-commercify.svg?branch=master)](https://travis-ci.com/github/Twaha-Rahman/e-commercify)
+[![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Twaha-Rahman/e-commercify)](https://dependabot.com)
+
 `E-commercify` is a full open source E-commerce site from the frontend to the backend. The project uses all the latest
 and industry approved technologies to create a complete e-commerce site that's ready to be deployed.
+
+You can see a live demo of the project by clicking here -
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Twaha-Rahman/e-commercify)
 
 ## Install prerequisites
 
@@ -41,29 +49,13 @@ IS_PRODUCTION=true
 4. Install all the dependencies by running -
 
 ```
-npm i
+npm ci
 ```
 
-5. Start the production server -
+5. Start the production server by running -
 
 ```
 npm run start
-```
-
-## Running Locally For Development
-
-Firstly, open the terminal in the project folder.
-
-Then install all the dependencies by typing -
-
-```
-npm i
-```
-
-Then run the development server by typing -
-
-```
-npm run dev
 ```
 
 ## Contributing

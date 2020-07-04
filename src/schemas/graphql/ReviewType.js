@@ -1,8 +1,13 @@
 'use strict';
 
-const graphql = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLInt
+} = require('graphql');
 
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;
+const GraphQLDate = require('./DateType');
 
 const ReviewType = new GraphQLObjectType({
   name: 'Review',
@@ -10,9 +15,7 @@ const ReviewType = new GraphQLObjectType({
     return {
       linkedProductId: { type: GraphQLID },
       userId: { type: GraphQLID },
-      username: { type: GraphQLString },
-      profilePicture: { type: GraphQLString },
-      date: { type: GraphQLString },
+      date: { type: GraphQLDate },
       comment: { type: GraphQLString },
       rating: { type: GraphQLInt }
     };

@@ -8,7 +8,8 @@ const { ObjectID } = Schema.Types;
 
 const reviewSchema = new Schema({
   comment: {
-    type: String
+    type: String,
+    required: true
   },
 
   date: {
@@ -16,7 +17,10 @@ const reviewSchema = new Schema({
     required: true
   },
 
-  linkedProductId: ObjectID,
+  linkedProductId: {
+    type: ObjectID,
+    required: true
+  },
 
   rating: {
     type: Number,
@@ -25,7 +29,10 @@ const reviewSchema = new Schema({
     required: true
   },
 
-  userId: ObjectID
+  userId: {
+    type: ObjectID,
+    required: true
+  }
 });
 
 module.exports = reviewSchema;

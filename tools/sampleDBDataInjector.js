@@ -37,21 +37,25 @@ const args = (() => {
       await Product.deleteMany();
       await Review.deleteMany();
       await Banner.deleteMany();
-      console.log(`Deleted all previous sample data.`);
+      console.log(`Deleted all previous sample data.\n`);
     } catch (error) {
       console.error(
         'An error occured while trying to delete previous sample data!\n\n',
         error
       );
     }
+  } else {
+    console.log(`Keeping all previous sample data.\n`);
   }
 
   let errorObject;
+  const productObjectIds = [];
 
   for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_PRODUCT_DATA; i++) {
     const product = new Product(sampleProductData);
     try {
-      await product.save();
+      const addedProduct = await product.save();
+      productObjectIds.push(addedProduct);
     } catch (error) {
       errorObject = error;
     }
@@ -66,12 +70,25 @@ const args = (() => {
     }
   }
 
-  for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_REVIEW_DATA; i++) {
-    const review = new Review(sampleReviewData);
-    try {
-      await review.save();
-    } catch (error) {
-      errorObject = error;
+  for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_PRODUCT_DATA; i++) {
+    const newReview = {
+      ...sampleReviewData,
+      userId: '5f0087003fb1953310f22b2e',
+      linkedProductId: productObjectIds[i]
+    };
+
+    for (
+      let index = 0;
+      index < process.env.AMOUNT_OF_SAMPLE_REVIEW_DATA;
+      index++
+    ) {
+      const review = new Review(newReview);
+
+      try {
+        await review.save();
+      } catch (error) {
+        errorObject = error;
+      }
     }
   }
 

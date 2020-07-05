@@ -1,8 +1,13 @@
 'use strict';
 
 const { Schema } = require('mongoose');
+const { ObjectId } = Schema.Types;
 
 const bannerSchema = new Schema({
+  dateAdded: {
+    type: Number,
+    required: true
+  },
   bannerImageLink: {
     type: String,
     required: true
@@ -11,7 +16,22 @@ const bannerSchema = new Schema({
     type: String,
     required: true
   },
-  text: String
+  text: {
+    type: String,
+    required: false
+  },
+  userIdOfWhoAdded: {
+    type: ObjectId,
+    required: true
+  },
+  clientBrowserInfo: {
+    type: String,
+    required: true
+  },
+  clientIpAddress: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = bannerSchema;

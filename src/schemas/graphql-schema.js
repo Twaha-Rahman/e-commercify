@@ -15,6 +15,7 @@ const MutationResponseType = require('./graphql/MutationResponseType');
 const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
+const Banner = require('../models/db/banner');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -42,25 +43,11 @@ const RootQuery = new GraphQLObjectType({
     },
     banners: {
       type: new GraphQLList(BannerType),
-      description: 'Retrieves or updates the Banners',
-      resolve: () => {
-        return [
-          {
-            bannerImageLink: 'https://www.youtube.com/',
-            bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder'
-          },
-          {
-            bannerImageLink: 'https://www.youtube.com/',
-            bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder'
-          },
-          {
-            bannerImageLink: 'https://www.youtube.com/',
-            bannerGoToLink: 'https://www.twitter.com/',
-            text: 'Placeholder'
-          }
-        ];
+      description: 'Retrieves the Banners',
+      async resolve() {
+        const banners = await Banner.find();
+
+        return banners;
       }
     },
     reviews: {
@@ -106,7 +93,8 @@ const RootMutation = new GraphQLObjectType({
 
         return {
           isSuccessful: true,
-          responseMessage: 'Product was successfully added!'
+          responseMessage: 'Product was successfully added!',
+          data: '...'
         };
       }
     },
@@ -128,7 +116,8 @@ const RootMutation = new GraphQLObjectType({
 
         return {
           isSuccessful: true,
-          responseMessage: 'Product was successfully updated!'
+          responseMessage: 'Product was successfully updated!',
+          data: '...'
         };
       }
     },
@@ -149,8 +138,67 @@ const RootMutation = new GraphQLObjectType({
 
         return {
           isSuccessful: true,
-          responseMessage: 'Product was successfully deleted!'
+          responseMessage: 'Product was successfully deleted!',
+          data: '...'
         };
+      }
+    },
+    addBanner: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to add banner',
+      args: {
+        authToken: { type: GraphQLString },
+        newBannerData: { type: GraphQLString },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      async resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        const {
+          authToken, // eslint-disable-line
+          newBannerData,
+          clientBrowserInfo,
+          clientIpAddress
+        } = args;
+
+        // We'll be using the `authToken` to authenticate
+        // and determine the `userIdOfWhoAdded`
+
+        let response;
+
+        try {
+          const recievedBannerObject = JSON.parse(newBannerData);
+
+          const newBannerObject = {
+            ...recievedBannerObject,
+            dateAdded: Date.now(),
+            userIdOfWhoAdded: '5eeb93d96c4353087872e300', // placeholder
+            clientBrowserInfo,
+            clientIpAddress
+          };
+
+          const newBannerDocument = new Banner(newBannerObject);
+          const savedBanner = await newBannerDocument.save();
+          response = {
+            isSuccessful: true,
+            responseMessage: 'Successfully added banner!',
+            data: JSON.stringify(savedBanner)
+          };
+        } catch (error) {
+          if (process.env.IS_PRODUCTION === 'false') {
+            console.log(error);
+          }
+          response = new GraphQLError({
+            isSuccessful: false,
+            responseMessage: 'Failed to add banner!',
+            data: 'N/A'
+          });
+        }
+
+        return response;
       }
     }
   }

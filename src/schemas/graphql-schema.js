@@ -170,10 +170,10 @@ const RootMutation = new GraphQLObjectType({
         let response;
 
         try {
-          const recievedBannerObject = JSON.parse(newBannerData);
+          const receivedBannerObject = JSON.parse(newBannerData);
 
           const newBannerObject = {
-            ...recievedBannerObject,
+            ...receivedBannerObject,
             dateAdded: Date.now(),
             userIdOfWhoAdded: '5eeb93d96c4353087872e300', // placeholder
             clientBrowserInfo,

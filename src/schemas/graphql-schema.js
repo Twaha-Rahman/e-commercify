@@ -180,8 +180,8 @@ const RootMutation = new GraphQLObjectType({
             clientIpAddress
           };
 
-          const newBannerDocument = new Banner(newBannerObject);
-          const savedBanner = await newBannerDocument.save();
+          const BannerDocument = new Banner(newBannerObject);
+          const savedBanner = await BannerDocument.save();
           response = {
             isSuccessful: true,
             responseMessage: 'Successfully added banner!',

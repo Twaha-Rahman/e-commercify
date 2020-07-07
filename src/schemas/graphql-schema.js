@@ -4,6 +4,7 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLID,
+  GraphQLInt,
   GraphQLList,
   GraphQLString,
   GraphQLError
@@ -16,6 +17,8 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 
+const defaultItemLimit = Number(process.env.DEFAULT_ITEM_LIMIT);
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -23,9 +26,10 @@ const RootQuery = new GraphQLObjectType({
       description: 'Retrieves product data',
       type: new GraphQLList(ProductType),
       args: {
+        itemLimit: { type: GraphQLInt },
         productId: { type: GraphQLID }
       },
-      async resolve(parent, { productId }) {
+      async resolve(parent, { itemLimit = defaultItemLimit, productId }) {
         if (productId) {
           /*
            * Assumes the db contains at most one product with the given id,
@@ -36,7 +40,7 @@ const RootQuery = new GraphQLObjectType({
           return [product];
         } else {
           // Returns an array of all the product objects.
-          return await Product.find();
+          return await Product.find().limit(itemLimit);
         }
       }
     },

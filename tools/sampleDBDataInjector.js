@@ -55,7 +55,7 @@ const args = (() => {
     const product = new Product(sampleProductData);
     try {
       const addedProduct = await product.save();
-      productObjectIds.push(addedProduct);
+      productObjectIds.push(addedProduct._id);
     } catch (error) {
       errorObject = error;
     }

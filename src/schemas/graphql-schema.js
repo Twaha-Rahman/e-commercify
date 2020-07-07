@@ -148,7 +148,7 @@ const RootMutation = new GraphQLObjectType({
       description: 'This endpoint is used to add banner',
       args: {
         authToken: { type: GraphQLString },
-        newBannerData: { type: GraphQLString },
+        bannerData: { type: GraphQLString },
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },
@@ -159,7 +159,7 @@ const RootMutation = new GraphQLObjectType({
 
         const {
           authToken, // eslint-disable-line
-          newBannerData,
+          bannerData,
           clientBrowserInfo,
           clientIpAddress
         } = args;
@@ -170,7 +170,7 @@ const RootMutation = new GraphQLObjectType({
         let response;
 
         try {
-          const receivedBannerObject = JSON.parse(newBannerData);
+          const receivedBannerObject = JSON.parse(bannerData);
 
           const newBannerObject = {
             ...receivedBannerObject,

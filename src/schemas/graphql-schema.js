@@ -17,7 +17,8 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 
-const defaultItemLimit = Number(process.env.DEFAULT_ITEM_LIMIT);
+const defaultItemsPerPage = Number(process.env.DEFAULT_ITEMS_PER_PAGE);
+const maxItemsPerPage = Number(process.env.MAX_ITEMS_PER_PAGE);
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -26,10 +27,27 @@ const RootQuery = new GraphQLObjectType({
       description: 'Retrieves product data',
       type: new GraphQLList(ProductType),
       args: {
-        itemLimit: { type: GraphQLInt },
+        itemsPerPage: { type: GraphQLInt },
+        page: { type: GraphQLInt },
         productId: { type: GraphQLID }
       },
-      async resolve(parent, { itemLimit = defaultItemLimit, productId }) {
+      async resolve(
+        parent,
+        { productId, itemsPerPage = defaultItemsPerPage, page = 1 }
+      ) {
+        if (itemsPerPage > maxItemsPerPage) {
+          throw new GraphQLError(
+            `Cannot serve more than ${maxItemsPerPage} items per page.`
+          );
+        }
+        if (itemsPerPage < 1) {
+          throw new GraphQLError(
+            'Argument `itemsPerPage` must not be lower than 1.'
+          );
+        }
+        if (page < 1) {
+          throw new GraphQLError('Argument `page` must not be lower than 1.');
+        }
         if (productId) {
           /*
            * Assumes the db contains at most one product with the given id,
@@ -39,8 +57,12 @@ const RootQuery = new GraphQLObjectType({
           if (product === null) return [];
           return [product];
         } else {
-          // Returns an array of all the product objects.
-          return await Product.find().limit(itemLimit);
+          const numberOfItemsToSkip = itemsPerPage * (page - 1);
+          // Returns the selected products as an array of plain objects.
+          return await Product.find()
+            .lean()
+            .skip(numberOfItemsToSkip)
+            .limit(itemsPerPage);
         }
       }
     },

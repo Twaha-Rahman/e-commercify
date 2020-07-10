@@ -4,9 +4,6 @@ const { Schema } = require('mongoose');
 const { ObjectId } = Schema.Types;
 
 const bannerSchema = new Schema({
-  bannerId: {
-    type: ObjectId
-  },
   dateAdded: {
     type: Number,
     required: true

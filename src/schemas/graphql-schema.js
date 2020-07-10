@@ -182,8 +182,8 @@ const RootMutation = new GraphQLObjectType({
             clientIpAddress
           };
 
-          const BannerDocument = new Banner(newBannerObject);
-          const savedBanner = await BannerDocument.save();
+          const bannerDocument = new Banner(newBannerObject);
+          const savedBanner = await bannerDocument.save();
           response = {
             isSuccessful: true,
             responseMessage: 'Successfully added banner!',
@@ -221,7 +221,7 @@ const RootMutation = new GraphQLObjectType({
 
         const { bannerId } = args;
 
-        const status = await Banner.findOneAndDelete({ bannerId });
+        const status = await Banner.findOneAndDelete({ _id: bannerId });
 
         let response;
 

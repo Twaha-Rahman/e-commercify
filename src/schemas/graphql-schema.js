@@ -221,7 +221,7 @@ const RootMutation = new GraphQLObjectType({
 
         const { bannerId } = args;
 
-        const status = await Banner.findOneAndDelete({ _id: bannerId });
+        const status = await Banner.findOneAndDelete({ bannerId });
 
         let response;
 

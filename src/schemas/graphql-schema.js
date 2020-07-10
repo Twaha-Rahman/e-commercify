@@ -209,7 +209,6 @@ const RootMutation = new GraphQLObjectType({
       args: {
         authToken: { type: GraphQLString },
         bannerId: { type: GraphQLID },
-        userIdOfWhoDeleted: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },

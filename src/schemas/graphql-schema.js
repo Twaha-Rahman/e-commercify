@@ -167,6 +167,8 @@ const RootMutation = new GraphQLObjectType({
         // We'll be using the `authToken` to authenticate
         // and determine the `userIdOfWhoAdded`
 
+        // We'll have to save some activity log in the DB
+
         let response;
 
         try {
@@ -196,6 +198,46 @@ const RootMutation = new GraphQLObjectType({
             responseMessage: 'Failed to add banner!',
             data: 'N/A'
           });
+        }
+
+        return response;
+      }
+    },
+    deleteBanner: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to delete banner data',
+      args: {
+        authToken: { type: GraphQLString },
+        bannerId: { type: GraphQLID },
+        userIdOfWhoDeleted: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString },
+        clientIpAddress: { type: GraphQLString }
+      },
+      async resolve(parent, args) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        // We'll have to save some activity log in the DB
+
+        const { bannerId } = args;
+
+        const status = await Banner.findOneAndDelete({ bannerId });
+
+        let response;
+
+        if (status) {
+          response = {
+            isSuccessful: true,
+            responseMessage: 'Banner was successfully deleted!',
+            data: JSON.stringify(status)
+          };
+        } else {
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to delete Banner!',
+            data: 'N/A'
+          };
         }
 
         return response;

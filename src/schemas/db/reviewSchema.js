@@ -8,7 +8,8 @@ const { ObjectID } = Schema.Types;
 
 const reviewSchema = new Schema({
   comment: {
-    type: String
+    type: String,
+    required: true
   },
 
   date: {

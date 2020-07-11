@@ -3,10 +3,12 @@
 The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of five key parts -
 
 - [Products](#products)
-  - [AddProduct](#AddProduct)
+  - [AddProduct](#addProduct)
   - [updateProduct](#updateProduct)
   - [deleteProduct](#deleteProduct)
 - [Banners](#banners)
+  - [AddBanner](#addBanner)
+  - [DeleteBanner](#deleteBanner)
 - [Reviews](#Reviews)
 - [Authenticate](#Authenticate)
 - [Transaction](#transaction)
@@ -138,6 +140,34 @@ Any call to the `Banners` API should return an array of banner objects, where ea
     bannerImageLink: "...",
     bannerGoToLink: "...",
     text: "..."
+}
+```
+
+#### AddBanner
+
+The `AddBanner` endpoint will be used to add a banner info. A _sample request_ to
+`AddBanner` endpoint will look like this -
+
+```js
+{
+    authToken: "sdfsdjfisd.dgshdfh.t43wgtw", // JSON Web Token
+    bannerData: '{"authToken":"dddd","bannerId":"5f0866c8a4e8eee53c23bdf3","userIdOfWhoDeleted":"fffsafsd","clientBrowserInfo":"fff","clientIpAddress":"sfsdfsd"}',
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+    clientIpAddress: '192.168.0.2'
+}
+```
+
+#### DeleteBanner
+
+The `DeleteBanner` endpoint will be used to delete a banner. A _sample request_ to
+`DeleteBanner` endpoint will look like this -
+
+```js
+{
+        authToken: 'sdfsdjfisd.dgshdfh.t43wgtw', // JSON Web Token
+        productId: 'dfsdfu0sf8',
+        clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+        clientIpAddress: '192.168.0.2'
 }
 ```
 

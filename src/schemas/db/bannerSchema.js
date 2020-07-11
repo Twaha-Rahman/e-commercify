@@ -5,7 +5,8 @@ const { ObjectId } = Schema.Types;
 
 const bannerSchema = new Schema({
   bannerId: {
-    type: ObjectId
+    type: ObjectId,
+    required: true
   },
   dateAdded: {
     type: Number,

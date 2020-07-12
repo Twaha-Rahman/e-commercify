@@ -33,7 +33,7 @@ describe('User Model Test', () => {
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);
     expect(savedReviewData.date.toString()).toBe(
-      'Thu Jul 02 2020 16:35:05 GMT+0600 (Bangladesh Standard Time)'
+      validReviewData.date.toString()
     );
     expect(savedReviewData.linkedProductId.toString()).toBe(
       reviewData.linkedProductId
@@ -70,7 +70,7 @@ describe('User Model Test', () => {
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);
     expect(savedReviewData.date.toString()).toBe(
-      'Thu Jul 02 2020 16:35:05 GMT+0600 (Bangladesh Standard Time)'
+      validReviewData.date.toString()
     );
     expect(savedReviewData.linkedProductId.toString()).toBe(
       reviewData.linkedProductId

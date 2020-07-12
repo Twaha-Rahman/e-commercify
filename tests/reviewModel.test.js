@@ -80,3 +80,7 @@ describe('User Model Test', () => {
     expect(savedReviewData.extraInfo).toBeUndefined();
   });
 });
+
+afterAll(() => {
+  mongoose.connection.close();
+});

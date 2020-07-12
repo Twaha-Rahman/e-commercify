@@ -87,15 +87,25 @@ const RootQuery = new GraphQLObjectType({
       description: 'This endpoint is used to retrieve review objects',
       type: new GraphQLList(ReviewType),
       args: {
-        linkedProductId: { type: GraphQLID }
+        itemsPerPage: { type: GraphQLInt },
+        linkedProductId: { type: GraphQLID },
+        page: { type: GraphQLInt }
       },
-      async resolve(parent, { linkedProductId }) {
+      async resolve(
+        parent,
+        { linkedProductId, itemsPerPage = defaultItemsPerPage, page = 1 }
+      ) {
         if (!linkedProductId) {
           return new GraphQLError({
             message: 'Error: `linkedProductId` not provided!'
           });
         }
-        return await Review.find({ linkedProductId });
+        const numberOfItemsToSkip = itemsPerPage * (page - 1);
+        // Returns the selected reviews as an array of plain objects.
+        return await Review.find({ linkedProductId })
+          .lean()
+          .skip(numberOfItemsToSkip)
+          .limit(itemsPerPage);
       }
     }
   }

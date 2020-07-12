@@ -70,10 +70,17 @@ const RootQuery = new GraphQLObjectType({
     banners: {
       type: new GraphQLList(BannerType),
       description: 'Retrieves the Banners',
-      async resolve() {
-        const banners = await Banner.find();
-
-        return banners;
+      args: {
+        itemsPerPage: { type: GraphQLInt },
+        page: { type: GraphQLInt }
+      },
+      async resolve(parent, { itemsPerPage = defaultItemsPerPage, page = 1 }) {
+        const numberOfItemsToSkip = itemsPerPage * (page - 1);
+        // Returns the selected banners as an array of plain objects.
+        return await Banner.find()
+          .lean()
+          .skip(numberOfItemsToSkip)
+          .limit(itemsPerPage);
       }
     },
     reviews: {

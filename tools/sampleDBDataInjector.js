@@ -7,6 +7,8 @@
 require('dotenv').config();
 
 const { ArgumentParser } = require('argparse');
+const chalk = require('chalk');
+
 const connectToMongoDb = require('../src/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const Banner = require('../src/models/db/banner');
@@ -37,10 +39,16 @@ const args = (() => {
       await Product.deleteMany();
       await Review.deleteMany();
       await Banner.deleteMany();
-      console.log(`Deleted all previous sample data.\n`);
+      console.log(
+        chalk.bgBlue.bold('INFO') +
+          chalk.gray(' Deleted all previous sample data.\n')
+      );
     } catch (error) {
       console.error(
-        'An error occured while trying to delete previous sample data!\n\n',
+        chalk.bgRed.bold('ERROR') +
+          chalk.red(
+            'An error occured while trying to delete previous sample data!\n\n'
+          ),
         error
       );
     }
@@ -93,7 +101,10 @@ const args = (() => {
 
   if (errorObject) {
     console.error(
-      'An error occured while trying to inject data into the database!\n\n',
+      chalk.bgRed.bold('ERROR') +
+        chalk.red(
+          ' An error occured while trying to inject data into the database!\n\n'
+        ),
       errorObject
     );
   } else {

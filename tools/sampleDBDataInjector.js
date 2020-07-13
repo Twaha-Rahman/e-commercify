@@ -53,7 +53,10 @@ const args = (() => {
       );
     }
   } else {
-    console.log(`Keeping all previous sample data.\n`);
+    console.log(
+      chalk.bgBlue.bold('INFO') +
+        chalk.gray(` Keeping all previous sample data.\n`)
+    );
   }
 
   let errorObject;
@@ -108,7 +111,11 @@ const args = (() => {
       errorObject
     );
   } else {
-    console.log(`Successfully inserted sample data into the database!`);
+    console.log(
+      `${chalk.bgGreen.bold(
+        'SUCCESS'
+      )} Successfully inserted sample data into the database!`
+    );
   }
 
   process.exit();

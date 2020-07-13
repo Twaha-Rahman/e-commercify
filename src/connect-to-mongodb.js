@@ -4,6 +4,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const chalk = require('chalk');
 
 const { MONGO_URL } = process.env;
 
@@ -13,19 +14,32 @@ const connectToMongoDb = async () => {
   }
 
   try {
-    console.log('Connecting to MongoDB...');
+    console.log(
+      chalk.bgBlue.bold('INFO') + chalk.grey(' Connecting to MongoDB...')
+    );
     const client = await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
 
-    console.log('\nMongoDB connection was successful!\n');
+    console.log(
+      `\n${chalk.bgGreen.bold('SUCCESS')} ${chalk.green(
+        'MongoDB connection was successful!\n'
+      )}`
+    );
 
     client.connection.onClose(() => {
-      console.log('MongoDB connection was closed.');
+      console.log(
+        chalk.bgBlue.bold('INFO') +
+          chalk.grey(' MongoDB connection was closed.')
+      );
     });
   } catch (error) {
-    console.error('\nCould not connect to MongoDB!\n\n', error);
+    console.error(
+      chalk.bgRed.bold('ERROR') +
+        chalk.red('\nCould not connect to MongoDB!\n\n'),
+      error
+    );
     process.exit(1);
   }
 };

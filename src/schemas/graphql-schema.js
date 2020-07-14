@@ -17,9 +17,7 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 const Banner = require('../models/db/banner');
-
-const defaultItemsPerPage = Number(process.env.DEFAULT_ITEMS_PER_PAGE);
-const maxItemsPerPage = Number(process.env.MAX_ITEMS_PER_PAGE);
+const paginate = require('./modules/paginate');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -32,23 +30,7 @@ const RootQuery = new GraphQLObjectType({
         page: { type: GraphQLInt },
         productId: { type: GraphQLID }
       },
-      async resolve(
-        parent,
-        { productId, itemsPerPage = defaultItemsPerPage, page = 1 }
-      ) {
-        if (itemsPerPage > maxItemsPerPage) {
-          throw new GraphQLError(
-            `Cannot serve more than ${maxItemsPerPage} items per page.`
-          );
-        }
-        if (itemsPerPage < 1) {
-          throw new GraphQLError(
-            'Argument `itemsPerPage` must not be lower than 1.'
-          );
-        }
-        if (page < 1) {
-          throw new GraphQLError('Argument `page` must not be lower than 1.');
-        }
+      async resolve(parent, { productId, itemsPerPage, page }) {
         if (productId) {
           /*
            * Assumes the db contains at most one product with the given id,
@@ -58,12 +40,8 @@ const RootQuery = new GraphQLObjectType({
           if (product === null) return [];
           return [product];
         } else {
-          const numberOfItemsToSkip = itemsPerPage * (page - 1);
-          // Returns the selected products as an array of plain objects.
-          return await Product.find()
-            .lean()
-            .skip(numberOfItemsToSkip)
-            .limit(itemsPerPage);
+          // Returns a page of product data as an array of plain objects.
+          return await paginate(Product.find().lean(), { itemsPerPage, page });
         }
       }
     },
@@ -74,13 +52,9 @@ const RootQuery = new GraphQLObjectType({
         itemsPerPage: { type: GraphQLInt },
         page: { type: GraphQLInt }
       },
-      async resolve(parent, { itemsPerPage = defaultItemsPerPage, page = 1 }) {
-        const numberOfItemsToSkip = itemsPerPage * (page - 1);
-        // Returns the selected banners as an array of plain objects.
-        return await Banner.find()
-          .lean()
-          .skip(numberOfItemsToSkip)
-          .limit(itemsPerPage);
+      async resolve(parent, { itemsPerPage, page }) {
+        // Returns a page of banner data as an array of plain objects.
+        return await paginate(Banner.find().lean(), { itemsPerPage, page });
       }
     },
     reviews: {
@@ -91,21 +65,17 @@ const RootQuery = new GraphQLObjectType({
         linkedProductId: { type: GraphQLID },
         page: { type: GraphQLInt }
       },
-      async resolve(
-        parent,
-        { linkedProductId, itemsPerPage = defaultItemsPerPage, page = 1 }
-      ) {
+      async resolve(parent, { linkedProductId, itemsPerPage, page }) {
         if (!linkedProductId) {
           return new GraphQLError({
             message: 'Error: `linkedProductId` not provided!'
           });
         }
-        const numberOfItemsToSkip = itemsPerPage * (page - 1);
-        // Returns the selected reviews as an array of plain objects.
-        return await Review.find({ linkedProductId })
-          .lean()
-          .skip(numberOfItemsToSkip)
-          .limit(itemsPerPage);
+        // Returns a page of matching reviews as an array of plain objects.
+        return await paginate(Review.find({ linkedProductId }).lean(), {
+          itemsPerPage,
+          page
+        });
       }
     }
   }

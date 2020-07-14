@@ -17,7 +17,7 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 const Banner = require('../models/db/banner');
-const paginate = require('./modules/paginate');
+const paginate = require('../modules/paginate');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',

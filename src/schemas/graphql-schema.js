@@ -4,6 +4,7 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLID,
+  GraphQLInt,
   GraphQLList,
   GraphQLString,
   GraphQLError
@@ -16,6 +17,7 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 const Banner = require('../models/db/banner');
+const paginate = require('../modules/paginate');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -24,9 +26,11 @@ const RootQuery = new GraphQLObjectType({
       description: 'Retrieves product data',
       type: new GraphQLList(ProductType),
       args: {
+        itemsPerPage: { type: GraphQLInt },
+        page: { type: GraphQLInt },
         productId: { type: GraphQLID }
       },
-      async resolve(parent, { productId }) {
+      async resolve(parent, { productId, itemsPerPage, page }) {
         if (productId) {
           /*
            * Assumes the db contains at most one product with the given id,
@@ -36,33 +40,42 @@ const RootQuery = new GraphQLObjectType({
           if (product === null) return [];
           return [product];
         } else {
-          // Returns an array of all the product objects.
-          return await Product.find();
+          // Returns a page of product data as an array of plain objects.
+          return await paginate(Product.find().lean(), { itemsPerPage, page });
         }
       }
     },
     banners: {
       type: new GraphQLList(BannerType),
       description: 'Retrieves the Banners',
-      async resolve() {
-        const banners = await Banner.find();
-
-        return banners;
+      args: {
+        itemsPerPage: { type: GraphQLInt },
+        page: { type: GraphQLInt }
+      },
+      async resolve(parent, { itemsPerPage, page }) {
+        // Returns a page of banner data as an array of plain objects.
+        return await paginate(Banner.find().lean(), { itemsPerPage, page });
       }
     },
     reviews: {
       description: 'This endpoint is used to retrieve review objects',
       type: new GraphQLList(ReviewType),
       args: {
-        linkedProductId: { type: GraphQLID }
+        itemsPerPage: { type: GraphQLInt },
+        linkedProductId: { type: GraphQLID },
+        page: { type: GraphQLInt }
       },
-      async resolve(parent, { linkedProductId }) {
+      async resolve(parent, { linkedProductId, itemsPerPage, page }) {
         if (!linkedProductId) {
           return new GraphQLError({
             message: 'Error: `linkedProductId` not provided!'
           });
         }
-        return await Review.find({ linkedProductId });
+        // Returns a page of matching reviews as an array of plain objects.
+        return await paginate(Review.find({ linkedProductId }).lean(), {
+          itemsPerPage,
+          page
+        });
       }
     }
   }

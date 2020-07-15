@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 const { ArgumentParser } = require('argparse');
-const connectToMongoDb = require('../src/connect-to-mongodb');
+const connectToMongoDb = require('../src/modules/connect-to-mongodb');
 const Product = require('../src/models/db/product');
 const Banner = require('../src/models/db/banner');
 const Review = require('../src/models/db/review');

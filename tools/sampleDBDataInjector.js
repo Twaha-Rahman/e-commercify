@@ -6,8 +6,10 @@
 
 require('dotenv').config();
 
-const { ArgumentParser } = require('argparse');
-const connectToMongoDb = require('../src/modules/connect-to-mongodb');
+const connectToMongoDb = require('../src/connect-to-mongodb');
+const logger = require('../src/modules/log-formatter');
+const cliArgumentParse = require('../src/modules/cli-argument-parse');
+
 const Product = require('../src/models/db/product');
 const Banner = require('../src/models/db/banner');
 const Review = require('../src/models/db/review');
@@ -17,18 +19,7 @@ const sampleBannerData = require('../sample-data/sampleBannerData.json');
 const sampleReviewData = require('../sample-data/sampleReviewData.json');
 const { Types } = require('mongoose');
 
-const args = (() => {
-  const parser = new ArgumentParser({
-    addHelp: true,
-    description: 'Inserts random product data into MongoDB.'
-  });
-
-  parser.addArgument(['-k', '--keep'], {
-    action: 'storeTrue',
-    help: 'Do not delete already existing product documents.'
-  });
-  return parser.parseArgs();
-})();
+const args = cliArgumentParse();
 
 (async function main() {
   await connectToMongoDb();
@@ -38,15 +29,26 @@ const args = (() => {
       await Product.deleteMany();
       await Review.deleteMany();
       await Banner.deleteMany();
-      console.log(`Deleted all previous sample data.\n`);
-    } catch (error) {
-      console.error(
-        'An error occured while trying to delete previous sample data!\n\n',
-        error
+
+      const formattedLogMsg = logger(
+        'Deleted all previous sample data.\n',
+        'info'
       );
+      console.log(formattedLogMsg);
+    } catch (error) {
+      const formattedLogMsg = logger(
+        `An error occured while trying to delete previous sample data!\n\n`,
+        'error'
+      );
+
+      console.error(formattedLogMsg, error);
     }
   } else {
-    console.log(`Keeping all previous sample data.\n`);
+    const formattedLogMsg = logger(
+      'Keeping all previous sample data.\n',
+      'info'
+    );
+    console.log(formattedLogMsg);
   }
 
   let errorObject;
@@ -94,12 +96,17 @@ const args = (() => {
   }
 
   if (errorObject) {
-    console.error(
+    const formattedLogMsg = logger(
       'An error occured while trying to inject data into the database!\n\n',
-      errorObject
+      'error'
     );
+    console.error(formattedLogMsg, errorObject);
   } else {
-    console.log(`Successfully inserted sample data into the database!`);
+    const formattedLogMsg = logger(
+      'Successfully inserted sample data into the database!',
+      'success'
+    );
+    console.log(formattedLogMsg);
   }
 
   process.exit();

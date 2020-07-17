@@ -17,6 +17,7 @@ const Review = require('../src/models/db/review');
 const sampleProductData = require('../sample-data/sampleProductData.json');
 const sampleBannerData = require('../sample-data/sampleBannerData.json');
 const sampleReviewData = require('../sample-data/sampleReviewData.json');
+const { Types } = require('mongoose');
 
 const args = cliArgumentParse();
 
@@ -64,7 +65,8 @@ const args = cliArgumentParse();
   }
 
   for (let i = 0; i < process.env.AMOUNT_OF_SAMPLE_BANNER_DATA; i++) {
-    const banner = new Banner(sampleBannerData);
+    const bannerData = { ...sampleBannerData, bannerId: new Types.ObjectId() };
+    const banner = new Banner(bannerData);
     try {
       await banner.save();
     } catch (error) {

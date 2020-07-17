@@ -4,3 +4,7 @@
 # IDE settings
 .idea/
 .vscode/
+
+# Others
+
+globalConfig.json

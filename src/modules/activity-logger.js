@@ -3,13 +3,16 @@
 const ActivityLog = require('../models/db/activity-log');
 
 async function activityLogger(activityLogObj) {
+  let isSaved;
   try {
     const activityLogDocument = new ActivityLog(activityLogObj);
     await activityLogDocument.save();
-    return true;
+    isSaved = true;
   } catch (error) {
-    return false;
+    isSaved = false;
   }
+
+  return isSaved;
 }
 
 module.exports = activityLogger;

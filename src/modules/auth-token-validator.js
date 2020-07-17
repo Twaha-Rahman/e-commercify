@@ -3,7 +3,7 @@
 // eslint-disable-next-line
 function authTokenValidator(authToken) {
   // We'll use this fn to validate the `authToken` and return extracted data
-  // If the `authToken` false, then we'll return an error
+  // If the `authToken` false, then we'll return false
 
   // For now we'll have this placeholder info returned
 

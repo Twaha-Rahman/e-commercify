@@ -84,7 +84,7 @@ const RootMutation = new GraphQLObjectType({
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },
-      resolve(
+      async resolve(
         parent,
         { authToken, productData, clientBrowserInfo, clientIpAddress }
       ) {
@@ -94,6 +94,14 @@ const RootMutation = new GraphQLObjectType({
             productData,
             clientBrowserInfo,
             clientIpAddress
+          });
+        }
+
+        // Check if all the required fields are provided
+
+        if (!authToken) {
+          throw new GraphQLError({
+            message: 'The `authToken` field was not provided!'
           });
         }
 
@@ -132,12 +140,27 @@ const RootMutation = new GraphQLObjectType({
               throw new Error('Failed to save activity log!');
             }
 
+            const productInfoObj = JSON.parse(productData);
+
+            // We'll have to generate unique names for each image
+            // we can use the ObjectId from Mongoose here
+            productInfoObj.imageLinks = [
+              'placeholder',
+              'placeholder',
+              'placeholder'
+            ];
+
+            const productDocument = new Product(productInfoObj);
+
+            await productDocument.save();
+
             response = {
               isSuccessful: true,
               responseMessage: 'Product was successfully added!',
               data: '...'
             };
           } catch (error) {
+            console.log(error);
             response = {
               isSuccessful: false,
               responseMessage:

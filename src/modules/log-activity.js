@@ -1,8 +1,8 @@
 'use strict';
 
-const ActivityLog = require('../models/db/activity-log');
+const ActivityLog = require('../models/db/activity');
 
-async function activityLogger(activityLogObj) {
+async function logActivity(activityLogObj) {
   let isSaved;
   try {
     const activityLogDocument = new ActivityLog(activityLogObj);
@@ -15,4 +15,4 @@ async function activityLogger(activityLogObj) {
   return isSaved;
 }
 
-module.exports = activityLogger;
+module.exports = logActivity;

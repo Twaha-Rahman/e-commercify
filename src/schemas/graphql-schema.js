@@ -17,7 +17,7 @@ const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 const Banner = require('../models/db/banner');
 
-const activityLogger = require('../modules/activity-logger');
+const activityLogger = require('../modules/log-activity');
 const authTokenValidator = require('../modules/auth-token-validator');
 
 const RootQuery = new GraphQLObjectType({
@@ -81,21 +81,27 @@ const RootMutation = new GraphQLObjectType({
       args: {
         authToken: { type: GraphQLString },
         productData: { type: GraphQLString },
-        clientBrowserInfo: { type: GraphQLString },
-        clientIpAddress: { type: GraphQLString }
+        clientBrowserInfo: { type: GraphQLString }
       },
       async resolve(
         parent,
-        { authToken, productData, clientBrowserInfo, clientIpAddress }
+        { authToken, productData, clientBrowserInfo },
+        requestObj
       ) {
-        if (!process.env.IS_PRODUCTION === 'false') {
+        if (process.env.IS_PRODUCTION === 'false') {
           console.log({
             authToken,
             productData,
-            clientBrowserInfo,
-            clientIpAddress
+            clientBrowserInfo
           });
         }
+
+        // Extract the IP Address of the client from the request object
+        // We may recieve IPv4 or IPv6, so we'll need to handle that
+
+        const clientIpAddress =
+          requestObj.headers['x-forwarded-for'] ||
+          requestObj.connection.remoteAddress;
 
         // Check if all the required fields are provided
 
@@ -117,24 +123,20 @@ const RootMutation = new GraphQLObjectType({
           });
         }
 
-        if (!clientIpAddress) {
-          throw new GraphQLError({
-            message: 'The `clientIpAddress` field was not provided!'
-          });
-        }
-
         const validatedAuthTokenInfos = authTokenValidator(authToken);
 
         let response;
 
         if (validatedAuthTokenInfos) {
           try {
-            const isActivityLogSaved = activityLogger({
+            const isActivityLogSaved = await activityLogger({
               ...validatedAuthTokenInfos,
               timestamp: Date.now(),
               clientBrowserInfo,
               clientIpAddress
             });
+
+            console.log(isActivityLogSaved);
 
             if (!isActivityLogSaved) {
               throw new Error('Failed to save activity log!');
@@ -160,7 +162,7 @@ const RootMutation = new GraphQLObjectType({
               data: '...'
             };
           } catch (error) {
-            console.log(error);
+            console.error(error);
             response = {
               isSuccessful: false,
               responseMessage:

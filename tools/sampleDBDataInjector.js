@@ -6,7 +6,7 @@
 
 require('dotenv').config();
 
-const connectToMongoDb = require('../src/connect-to-mongodb');
+const connectToMongoDb = require('..//src/modules/connect-to-mongodb');
 const logger = require('../src/modules/log-formatter');
 const cliArgumentParse = require('../src/modules/cli-argument-parse');
 

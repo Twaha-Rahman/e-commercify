@@ -173,13 +173,14 @@ The `DeleteBanner` endpoint will be used to delete a banner. A _sample request_ 
 
 ### Reviews
 
-Any call to the `Reviews` API should return an array of review objects, where each review object will look like -
+#### AddReview
+
+The `AddReview` endpoint will be used to add a review info. A _sample request_ to
+`AddReview` endpoint will look like this -
 
 ```js
 {
     linkedProductId: "...",
-    userId: "...",
-    date: "...",
     comment: "...",
     rating: 5
 }

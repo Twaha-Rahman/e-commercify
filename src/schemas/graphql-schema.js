@@ -394,15 +394,10 @@ const RootMutation = new GraphQLObjectType({
         try {
           const infoToUpdate = JSON.parse(infoToUpdateJSON);
 
-          const reviewToUpdate = await Review.findById(reviewId);
-          const updatedReviewObj = {
-            ...reviewToUpdate,
-            ...infoToUpdate
-          };
-
-          const updatedReview = await Review.findByIdAndUpdate(
-            reviewId,
-            updatedReviewObj
+          const updatedReview = await Review.findOneAndUpdate(
+            { _id: reviewId },
+            infoToUpdate,
+            { new: true, useFindAndModify: true }
           );
 
           response = {

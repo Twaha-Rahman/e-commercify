@@ -74,10 +74,14 @@ const RootQuery = new GraphQLObjectType({
           });
         }
         // Returns a page of matching reviews as an array of plain objects.
-        return await paginate(Review.find({ linkedProductId }).lean(), {
-          itemsPerPage,
-          page
-        });
+        const pagedData = await paginate(
+          Review.find({ linkedProductId }).lean(),
+          {
+            itemsPerPage,
+            page
+          }
+        );
+        return pagedData;
       }
     }
   }

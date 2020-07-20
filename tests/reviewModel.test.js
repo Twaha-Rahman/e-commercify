@@ -10,9 +10,8 @@ const reviewData = {
   linkedProductId: '5f0087003fb1953310f22b2e'
 };
 
-describe('User Model Test', () => {
-  // It's just so easy to connect to the MongoDB Memory Server
-  // By using mongoose.connect
+describe('Review Model Test', () => {
+  // Connecting to MongoDB memory server
   beforeAll(async () => {
     await mongoose.connect(
       global.__MONGO_URI__,
@@ -29,12 +28,10 @@ describe('User Model Test', () => {
   it('Create & save valid Review data', async () => {
     const validReviewData = new ReviewModel(reviewData);
     const savedReviewData = await validReviewData.save();
+
     // Object Id should be defined when successfully saved to MongoDB.
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);
-    expect(savedReviewData.date.toString()).toBe(
-      validReviewData.date.toString()
-    );
     expect(savedReviewData.linkedProductId.toString()).toBe(
       reviewData.linkedProductId
     );
@@ -69,9 +66,6 @@ describe('User Model Test', () => {
 
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);
-    expect(savedReviewData.date.toString()).toBe(
-      validReviewData.date.toString()
-    );
     expect(savedReviewData.linkedProductId.toString()).toBe(
       reviewData.linkedProductId
     );

@@ -316,6 +316,110 @@ const RootMutation = new GraphQLObjectType({
 
         return response;
       }
+    },
+    deleteReview: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to delete a review',
+      args: {
+        authToken: { type: GraphQLString },
+        reviewId: { type: GraphQLID },
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      async resolve(parent, args, requestObj) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        // We'll have to save some activity log in the DB
+        // We'll use the following variables for the activity log -
+        // `authToken`, `clientBrowserInfo` and `clientIpAddress`
+
+        const clientIpAddress = getIpAddress(requestObj); // eslint-disable-line
+
+        const { authToken, reviewId, clientBrowserInfo } = args; // eslint-disable-line
+        let response;
+
+        try {
+          const status = await Review.findOneAndDelete({ _id: reviewId });
+
+          if (status) {
+            response = {
+              isSuccessful: true,
+              responseMessage: 'Review was successfully deleted!',
+              data: JSON.stringify(status)
+            };
+          } else {
+            throw new Error('Failed to delete the review!');
+          }
+        } catch (error) {
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to delete the review!',
+            data: 'N/A'
+          };
+        }
+
+        return response;
+      }
+    },
+    updateReview: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to update review data',
+      args: {
+        authToken: { type: GraphQLString },
+        reviewId: { type: GraphQLID },
+        infoToUpdateJSON: { type: GraphQLString },
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      async resolve(parent, args, requestObj) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log(args);
+        }
+
+        // We'll have to save some activity log in the DB
+        // We'll use the following variables for the activity log -
+        // `authToken`, `clientBrowserInfo` and `clientIpAddress`
+
+        const clientIpAddress = getIpAddress(requestObj); // eslint-disable-line
+
+        const {
+          authToken, // eslint-disable-line
+          reviewId,
+          infoToUpdateJSON,
+          clientBrowserInfo // eslint-disable-line
+        } = args;
+
+        let response;
+
+        try {
+          const infoToUpdate = JSON.parse(infoToUpdateJSON);
+
+          const reviewToUpdate = await Review.findById(reviewId);
+          const updatedReviewObj = {
+            ...reviewToUpdate,
+            ...infoToUpdate
+          };
+
+          const updatedReview = await Review.findByIdAndUpdate(
+            reviewId,
+            updatedReviewObj
+          );
+
+          response = {
+            isSuccessful: true,
+            responseMessage: 'Updated the review!',
+            data: JSON.stringify(updatedReview)
+          };
+        } catch (error) {
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to update the review!',
+            data: 'N/A'
+          };
+        }
+
+        return response;
+      }
     }
   }
 });

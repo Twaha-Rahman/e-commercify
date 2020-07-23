@@ -92,9 +92,9 @@ const args = cliArgumentParse();
       'setup',
       errorObject
     );
+    process.exit(1);
   } else {
     logger('Successfully inserted sample data into the database!', 'success');
+    process.exit(0);
   }
-
-  process.exit();
 })();

@@ -6,7 +6,7 @@
 const mongoose = require('mongoose');
 
 const { MONGO_URL } = process.env;
-const logger = require('./modules/log-formatter');
+const logger = require('./log-formatter');
 
 const connectToMongoDb = async () => {
   if (mongoose.connection.readyState === 1) {

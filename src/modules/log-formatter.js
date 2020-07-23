@@ -1,3 +1,6 @@
+/**
+ * @file log-formmatter.js - Stylizes log messages according to their type.
+ */
 'use strict';
 
 const chalk = require('chalk');

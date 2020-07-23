@@ -1,3 +1,6 @@
+/**
+ * @file bannerSchema.js - Mongoose schema for banner objects.
+ */
 'use strict';
 
 const { Schema } = require('mongoose');

@@ -1,3 +1,7 @@
+/**
+ * @file cli-argument-parse.js - Reusable command-line argument parser for
+ * our MongoDB scripts.
+ */
 'use strict';
 
 const { ArgumentParser } = require('argparse');

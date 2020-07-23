@@ -1,3 +1,6 @@
+/**
+ * @file main.js - Entry point of the e-commercify application.
+ */
 'use strict';
 
 require('dotenv').config();

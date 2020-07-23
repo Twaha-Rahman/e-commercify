@@ -1,3 +1,6 @@
+/**
+ * @file paginate.js - Pagination feature for Mongoose queries.
+ */
 'use strict';
 
 const { GraphQLError } = require('graphql');

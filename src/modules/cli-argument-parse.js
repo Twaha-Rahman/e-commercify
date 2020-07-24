@@ -6,6 +6,9 @@
 
 const { ArgumentParser } = require('argparse');
 
+/**
+ * @returns {argparse.ArgumentParser}
+ */
 function cliArgumentParser() {
   const parser = new ArgumentParser({
     addHelp: true,

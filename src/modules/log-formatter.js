@@ -1,10 +1,18 @@
 /**
- * @file log-formmatter.js - Stylizes log messages according to their type.
+ * @file log-formatter.js - Formats log messages.
  */
 'use strict';
 
 const chalk = require('chalk');
 
+/**
+ * Colorizes and formats a given log message for console output.
+ *
+ * @param {string} msg - The message to format.
+ * @param {string} [logType='LOG'] - The log message type; defaults to 'LOG'.
+ * @returns {string} A colorized and formatted string suitable for use with
+ * `console.log()`.
+ */
 function logFormatter(msg, logType) {
   let logTag;
   let logText;

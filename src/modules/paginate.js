@@ -9,12 +9,13 @@ const defaultItemsPerPage = Number(process.env.DEFAULT_ITEMS_PER_PAGE);
 const maxItemsPerPage = Number(process.env.MAX_ITEMS_PER_PAGE);
 
 /**
- * Wraps the given Mongoose query expression according to the given options.
+ * Paginates a Mongoose query object according to given pagination options.
  *
  * @param {mongoose.Query} query
  * @param {object} options
  * @param {number} options.itemsPerPage
  * @param {number} options.page
+ * @returns {mongoose.Query}
  */
 function paginate(
   query,

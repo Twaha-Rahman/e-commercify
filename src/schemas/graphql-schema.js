@@ -1,5 +1,7 @@
 'use strict';
 
+const { JWT_SECRET_KEY } = process.env;
+
 const {
   GraphQLObjectType,
   GraphQLSchema,
@@ -9,6 +11,7 @@ const {
   GraphQLString,
   GraphQLError
 } = require('graphql');
+const { sign } = require('jsonwebtoken');
 
 const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
@@ -20,6 +23,7 @@ const Banner = require('../models/db/banner');
 const paginate = require('../modules/paginate');
 
 const getIpAddress = require('../modules/get-ip-address');
+const logger = require('../modules/logger');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -418,6 +422,58 @@ const RootMutation = new GraphQLObjectType({
         }
 
         return response;
+      }
+    },
+    login: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to log in a user',
+      args: {
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      resolve(parent, args, context) {
+        logger('Login payload', 'info', args);
+
+        const { req, res } = context;
+        // eslint-disable-next-line
+        const clientIp = getIpAddress(req); //eslint-disable-line
+
+        // Let's say we verify the user here...
+        // ....
+        // After that we'll send back the access token (JWT) and the
+        // refresh token (HTTPOnly Cookie)
+
+        const jwtPayload = {
+          userId: '5f0866c8a4e8eee53c23bde5',
+          permissions: {
+            placeholderKey: 'placeholderValue'
+          }
+        };
+
+        const accessToken = sign(jwtPayload, JWT_SECRET_KEY, {
+          expiresIn: '15min'
+        });
+
+        const refreshTokenPayload = {
+          userId: '5f0866c8a4e8eee53c23bde5',
+          count: 5
+        };
+
+        const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
+          expiresIn: '30d'
+        });
+
+        res.cookie('access-token', accessToken, {
+          maxAge: 60 * 15 * 1000 // 15 min in ms
+        });
+        res.cookie('refresh-token', refreshToken, {
+          maxAge: 60 * 60 * 24 * 30 * 1000 // 30 days in ms
+        });
+
+        return {
+          isSuccessful: true,
+          responseMessage: 'Product was successfully added!',
+          data: '...'
+        };
       }
     }
   }

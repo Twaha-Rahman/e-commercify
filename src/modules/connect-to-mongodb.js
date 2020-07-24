@@ -6,16 +6,14 @@
 const mongoose = require('mongoose');
 
 const { MONGO_URL } = process.env;
-const logger = require('./log-formatter');
+const logger = require('./logger');
 
 const connectToMongoDb = async () => {
   if (mongoose.connection.readyState === 1) {
     throw new Error('A ready MongoDB connection already exists.');
   }
 
-  const formattedInfoLog = logger('Connecting to MongoDB...', 'info');
-
-  console.log(formattedInfoLog);
+  logger('Connecting to MongoDB...\n', 'info');
 
   try {
     const client = await mongoose.connect(MONGO_URL, {
@@ -23,26 +21,13 @@ const connectToMongoDb = async () => {
       useUnifiedTopology: true
     });
 
-    const formattedSuccessLog = logger(
-      'MongoDB connection was successful!\n',
-      'success'
-    );
-
-    console.log(`\n${formattedSuccessLog}`);
+    logger('MongoDB connection was successful!\n', 'success');
 
     client.connection.onClose(() => {
-      const formattedInfoLogMessage = logger(
-        'MongoDB connection was closed.',
-        'info'
-      );
-      console.log(formattedInfoLogMessage);
+      logger('MongoDB connection was closed.', 'info');
     });
   } catch (error) {
-    const formattedErrorLogMessage = logger(
-      'Could not connect to MongoDB!\n\n',
-      'error'
-    );
-    console.error(`\n${formattedErrorLogMessage}`, error);
+    logger('Could not connect to MongoDB!\n\n', 'setup', error);
     process.exit(1);
   }
 };

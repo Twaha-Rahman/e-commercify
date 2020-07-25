@@ -437,8 +437,8 @@ const RootMutation = new GraphQLObjectType({
         // eslint-disable-next-line
         const clientIp = getIpAddress(req); //eslint-disable-line
 
-        // Let's say we verify the user here...
-        // ....
+        // We verify the user here...
+        // .... (let's assume it's a success)
         // After that we'll send back the access token (JWT) and the
         // refresh token (HTTPOnly Cookie)
 
@@ -462,17 +462,15 @@ const RootMutation = new GraphQLObjectType({
           expiresIn: '30d'
         });
 
-        res.cookie('access-token', accessToken, {
-          maxAge: 60 * 15 * 1000 // 15 min in ms
-        });
         res.cookie('refresh-token', refreshToken, {
-          maxAge: 60 * 60 * 24 * 30 * 1000 // 30 days in ms
+          maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
+          httpOnly: true
         });
 
         return {
           isSuccessful: true,
-          responseMessage: 'Product was successfully added!',
-          data: '...'
+          responseMessage: 'JWT provided',
+          data: accessToken
         };
       }
     }

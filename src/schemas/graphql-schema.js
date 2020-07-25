@@ -462,14 +462,54 @@ const RootMutation = new GraphQLObjectType({
           expiresIn: '30d'
         });
 
-        res.cookie('refresh-token', refreshToken, {
+        res.cookie('refreshToken', refreshToken, {
           maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
           httpOnly: true
         });
 
         return {
           isSuccessful: true,
-          responseMessage: 'JWT provided',
+          responseMessage: 'Successfully Logged In!',
+          data: accessToken
+        };
+      }
+    },
+    refreshToken: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to refresh JWT token',
+      args: {
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      resolve(parent, args, context) {
+        logger('refreshToken payload', 'info', args);
+
+        const { req, res } = context;
+
+        const clientIp = getIpAddress(req); //eslint-disable-line
+
+        const { authData } = req;
+
+        const accessToken = sign(authData, JWT_SECRET_KEY, {
+          expiresIn: '15min'
+        });
+
+        const refreshTokenPayload = {
+          userId: '5f0866c8a4e8eee53c23bde5',
+          count: 5
+        };
+
+        const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
+          expiresIn: '30d'
+        });
+
+        res.cookie('refreshToken', refreshToken, {
+          maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
+          httpOnly: true
+        });
+
+        return {
+          isSuccessful: true,
+          responseMessage: 'Successfully refreshed JWT!',
           data: accessToken
         };
       }

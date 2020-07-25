@@ -13,20 +13,17 @@ function cookieChecker(req, res, next) {
   console.log(req.cookies);
   if (Object.keys(cookies).length > 0) {
     try {
-      const cookieObjects = Object.entries(cookies);
+      const { refreshToken } = cookies;
       // eslint-disable-next-line
-      for (const [key, value] of cookieObjects) {
-        const data = jwt.verify(value, JWT_SECRET_KEY);
-        console.log(data);
-      }
+
+      const jwtPayload = jwt.verify(refreshToken, JWT_SECRET_KEY);
 
       auth = {
-        payload: '{ userId }',
+        jwtPayload,
         isCookieSet: false,
         isValid: true
       };
     } catch (error) {
-      console.log(error);
       logger('Failed to verify JWT!', 'error', error);
       auth = {
         isCookieSet: false,

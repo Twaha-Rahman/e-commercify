@@ -6,8 +6,8 @@
 
 require('dotenv').config();
 
-const connectToMongoDb = require('../src/connect-to-mongodb');
-const logger = require('../src/modules/log-formatter');
+const connectToMongoDb = require('../src/modules/connect-to-mongodb');
+const logger = require('../src/modules/logger');
 const cliArgumentParse = require('../src/modules/cli-argument-parse');
 
 const Product = require('../src/models/db/product');
@@ -30,25 +30,16 @@ const args = cliArgumentParse();
       await Review.deleteMany();
       await Banner.deleteMany();
 
-      const formattedLogMsg = logger(
-        'Deleted all previous sample data.\n',
-        'info'
-      );
-      console.log(formattedLogMsg);
+      logger('Deleted all previous sample data.\n', 'info');
     } catch (error) {
-      const formattedLogMsg = logger(
+      logger(
         `An error occured while trying to delete previous sample data!\n\n`,
-        'error'
+        'error',
+        error
       );
-
-      console.error(formattedLogMsg, error);
     }
   } else {
-    const formattedLogMsg = logger(
-      'Keeping all previous sample data.\n',
-      'info'
-    );
-    console.log(formattedLogMsg);
+    logger('Keeping all previous sample data.\n', 'info');
   }
 
   let errorObject;
@@ -96,18 +87,14 @@ const args = cliArgumentParse();
   }
 
   if (errorObject) {
-    const formattedLogMsg = logger(
+    logger(
       'An error occured while trying to inject data into the database!\n\n',
-      'error'
+      'setup',
+      errorObject
     );
-    console.error(formattedLogMsg, errorObject);
+    process.exit(1);
   } else {
-    const formattedLogMsg = logger(
-      'Successfully inserted sample data into the database!',
-      'success'
-    );
-    console.log(formattedLogMsg);
+    logger('Successfully inserted sample data into the database!', 'success');
+    process.exit(0);
   }
-
-  process.exit();
 })();

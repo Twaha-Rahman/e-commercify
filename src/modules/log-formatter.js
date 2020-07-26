@@ -28,6 +28,11 @@ function logFormatter(msg, logType) {
       logText = chalk.red(msg);
       break;
 
+    case 'setup':
+      logTag = chalk.bgRed.bold('ERROR');
+      logText = chalk.red(msg);
+      break;
+
     case 'info':
       logTag = chalk.bgBlue.bold('INFO');
       logText = chalk.grey(msg);

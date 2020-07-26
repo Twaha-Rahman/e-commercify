@@ -13,7 +13,7 @@ function cookieChecker(req, res, next) {
   if (refreshToken) {
     try {
       const jwtPayload = jwt.verify(refreshToken, JWT_SECRET_KEY);
-      req.jwtPayload = jwtPayload;
+      req.refreshTokenPayload = jwtPayload;
     } catch (error) {
       logger('Failed to verify JWT!', 'error', error);
     }

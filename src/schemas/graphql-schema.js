@@ -11,7 +11,7 @@ const {
   GraphQLString,
   GraphQLError
 } = require('graphql');
-const { sign } = require('jsonwebtoken');
+const { sign, verify } = require('jsonwebtoken');
 
 const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
@@ -428,6 +428,8 @@ const RootMutation = new GraphQLObjectType({
       type: MutationResponseType,
       description: 'This endpoint is used to log in a user',
       args: {
+        userName: { type: GraphQLString },
+        password: { type: GraphQLString },
         clientBrowserInfo: { type: GraphQLString }
       },
       resolve(parent, args, context) {
@@ -437,47 +439,67 @@ const RootMutation = new GraphQLObjectType({
         // eslint-disable-next-line
         const clientIp = getIpAddress(req); //eslint-disable-line
 
-        // We verify the user here...
+        // We verify the user here and try to log them in...
+        const { userName, password } = args; // eslint-disable-line
         // .... (let's assume it's a success)
-        // After that we'll send back the access token (JWT) and the
-        // refresh token (HTTPOnly Cookie)
+        const isValidCredentials = true;
 
-        const jwtPayload = {
-          userId: '5f0866c8a4e8eee53c23bde5',
-          permissions: {
-            placeholderKey: 'placeholderValue'
-          }
-        };
+        let response;
 
-        const accessToken = sign(jwtPayload, JWT_SECRET_KEY, {
-          expiresIn: '15min'
-        });
+        if (isValidCredentials) {
+          // Successfully logged user in, so now we'll give them the
+          // access token (JWT) and the refresh token (HTTPOnly Cookie)
 
-        const refreshTokenPayload = {
-          userId: '5f0866c8a4e8eee53c23bde5',
-          count: 5
-        };
+          // We'll retrieve these info about the user from the DB
+          const jwtPayload = {
+            userId: '5f0866c8a4e8eee53c23bde5',
+            permissions: {
+              placeholderKey: 'placeholderValue'
+            }
+          };
 
-        const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
-          expiresIn: '30d'
-        });
+          const accessToken = sign(jwtPayload, JWT_SECRET_KEY, {
+            expiresIn: '15min'
+          });
 
-        res.cookie('refreshToken', refreshToken, {
-          maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
-          httpOnly: true
-        });
+          const refreshTokenPayload = {
+            userId: '5f0866c8a4e8eee53c23bde5',
+            count: 1,
+            refreshTokenId: '7k0957c8n4e8eee53c23fgt5'
+          };
+          // We'll be storing this `refreshTokenId` in the DB
+          // in the user's document so that we can verify it later on
 
-        return {
-          isSuccessful: true,
-          responseMessage: 'Successfully Logged In!',
-          data: accessToken
-        };
+          const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
+            expiresIn: '30d'
+          });
+
+          res.cookie('refreshToken', refreshToken, {
+            maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
+            httpOnly: true
+          });
+
+          response = {
+            isSuccessful: true,
+            responseMessage: 'Successfully Logged In!',
+            data: accessToken
+          };
+        } else {
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to log in user!',
+            data: 'N/A'
+          };
+        }
+
+        return response;
       }
     },
     refreshToken: {
       type: MutationResponseType,
       description: 'This endpoint is used to refresh JWT token',
       args: {
+        jwt: { type: GraphQLString },
         clientBrowserInfo: { type: GraphQLString }
       },
       resolve(parent, args, context) {
@@ -487,31 +509,78 @@ const RootMutation = new GraphQLObjectType({
 
         const clientIp = getIpAddress(req); //eslint-disable-line
 
-        const { authData } = req;
+        // We get the verified `refreshToken` payload (if it exists)
+        const { refreshTokenPayload } = req;
 
-        const accessToken = sign(authData, JWT_SECRET_KEY, {
-          expiresIn: '15min'
-        });
+        let response;
 
-        const refreshTokenPayload = {
-          userId: '5f0866c8a4e8eee53c23bde5',
-          count: 5
-        };
+        if (refreshTokenPayload) {
+          console.log(refreshTokenPayload);
 
-        const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
-          expiresIn: '30d'
-        });
+          let validatedJwtPayload;
 
-        res.cookie('refreshToken', refreshToken, {
-          maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
-          httpOnly: true
-        });
+          try {
+            validatedJwtPayload = verify(args.jwt, JWT_SECRET_KEY);
+          } catch (error) {
+            console.log(error);
+            return {
+              isSuccessful: true,
+              responseMessage: 'Failed to verify access token!',
+              data: 'N/A'
+            };
+          }
 
-        return {
-          isSuccessful: true,
-          responseMessage: 'Successfully refreshed JWT!',
-          data: accessToken
-        };
+          const { userId, count, refreshTokenId } = refreshTokenPayload;
+
+          // We'll check if the user with the provided `userId` had a
+          // refresh token associated with their account with the
+          // provided `refreshTokenId`
+          const verifyRefrshTokenForUserId = true;
+          // For this example let's say they did
+
+          if (verifyRefrshTokenForUserId) {
+            const { permissions } = validatedJwtPayload;
+            const accessToken = sign({ userId, permissions }, JWT_SECRET_KEY, {
+              expiresIn: '15min'
+            });
+
+            const refreshTokenPayload = {
+              userId,
+              count,
+              refreshTokenId
+            };
+
+            const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
+              expiresIn: '30d'
+            });
+
+            res.cookie('refreshToken', refreshToken, {
+              maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
+              httpOnly: true
+            });
+
+            response = {
+              isSuccessful: true,
+              responseMessage:
+                'Successfully refreshed access token and refresh token!',
+              data: accessToken
+            };
+          } else {
+            response = {
+              isSuccessful: false,
+              responseMessage: 'Failed to verify access token!',
+              data: 'N/A'
+            };
+          }
+        } else {
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to verify access token!',
+            data: 'N/A'
+          };
+        }
+
+        return response;
       }
     }
   }

@@ -517,16 +517,29 @@ const RootMutation = new GraphQLObjectType({
         if (refreshTokenPayload) {
           console.log(refreshTokenPayload);
 
-          let validatedJwtPayload;
+          let accessTokenInfo;
 
-          try {
-            validatedJwtPayload = verify(args.jwt, JWT_SECRET_KEY);
-          } catch (error) {
-            console.log(error);
-            return {
-              isSuccessful: true,
-              responseMessage: 'Failed to verify access token!',
-              data: 'N/A'
+          // If the request has a verified `accessToken` then we'll use
+          // it's data. If it doesn't have it, then we'll load the required data
+          // from the DB
+          if (args.jwt) {
+            try {
+              accessTokenInfo = verify(args.jwt, JWT_SECRET_KEY);
+            } catch (error) {
+              console.log(error);
+              return {
+                isSuccessful: true,
+                responseMessage: 'Failed to verify access token!',
+                data: 'N/A'
+              };
+            }
+          } else {
+            // Load the data from the DB
+            accessTokenInfo = {
+              userId: '5f0866c8a4e8eee53c23bde5',
+              permissions: {
+                placeholderKey: 'placeholderValue'
+              }
             };
           }
 
@@ -539,7 +552,7 @@ const RootMutation = new GraphQLObjectType({
           // For this example let's say they did
 
           if (verifyRefrshTokenForUserId) {
-            const { permissions } = validatedJwtPayload;
+            const { permissions } = accessTokenInfo;
             const accessToken = sign({ userId, permissions }, JWT_SECRET_KEY, {
               expiresIn: '15min'
             });
@@ -579,6 +592,35 @@ const RootMutation = new GraphQLObjectType({
             data: 'N/A'
           };
         }
+
+        return response;
+      }
+    },
+    logout: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to log out a user',
+      args: {
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      resolve(parent, args, context) {
+        logger('Logout payload', 'info', args);
+
+        const { req, res } = context;
+        // eslint-disable-next-line
+        const clientIp = getIpAddress(req); //eslint-disable-line
+
+        // Remove the `refreshToken` cookie
+        res.cookie(`refreshToken`, '', {
+          maxAge: 0
+        });
+
+        // Remove the `refreshToken` from user's document in the DB
+
+        const response = {
+          isSuccessful: true,
+          responseMessage: 'Successfully logged out user!',
+          data: 'N/A'
+        };
 
         return response;
       }

@@ -95,7 +95,7 @@ The `UpdateProduct` endpoint will be used to update product info. A _sample requ
 {
     authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
     productId: 'dfsdfu0sf8',
-    infoToUpdate: '{"name":"Green Apple","brandLogoLink":"https://....","discount":"8%","discountedPrice":"$8.69"}',
+    infoToUpdateJSON: '{"name":"Green Apple","brandLogoLink":"https://....","discount":"8%","discountedPrice":"$8.69"}',
     userIdOfWhoUpdated: "asdas87ahc8a7as",
     clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
     clientIpAddress: '192.168.0.2'
@@ -173,15 +173,56 @@ The `DeleteBanner` endpoint will be used to delete a banner. A _sample request_ 
 
 ### Reviews
 
-Any call to the `Reviews` API should return an array of review objects, where each review object will look like -
+Any call to the `Reviews` endpoint should return an array of review objects, where each review object will look like -
 
 ```js
 {
-    linkedProductId: "...",
-    userId: "...",
-    date: "...",
-    comment: "...",
+    linkedProductId: "5f143bcc2edc7a062862d4c5",
+    userId: "5f143bcc2edc7a062862d4b4",
+    comment: "Placeholder Comment",
     rating: 5
+}
+```
+
+#### AddReview
+
+The `AddReview` endpoint will be used to add a review. A _sample request_ to
+`AddReview` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    linkedProductId: "...",
+    comment: "...",
+    rating: 5,
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}'
+}
+```
+
+#### UpdateReview
+
+The `UpdateProduct` endpoint will be used to update product info. A _sample request_ to
+`UpdateProduct` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    reviewId: 'dfsdfu0sf8',
+    infoToUpdateJSON: '{"rating":5}',
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+}
+```
+
+#### DeleteReview
+
+The `DeleteReview` endpoint will be used to delete a review. A _sample request_ to
+`DeleteReview` endpoint will look like this -
+
+```js
+{
+        authToken: 'sdfsdjfisd.dgshdfh.t43wgtw', // JSON Web Token
+        productId: 'dfsdfu0sf8',
+        clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}'
 }
 ```
 

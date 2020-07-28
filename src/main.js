@@ -1,10 +1,13 @@
+/**
+ * @file main.js - Entry point of the e-commercify application.
+ */
 'use strict';
 
 require('dotenv').config();
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 
-const connectToMongoDb = require('./connect-to-mongodb');
+const connectToMongoDb = require('./modules/connect-to-mongodb');
 const graphqlSchema = require('./schemas/graphql-schema');
 
 const { PORT } = process.env;

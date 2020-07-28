@@ -6,8 +6,10 @@
 
 require('dotenv').config();
 
-const { ArgumentParser } = require('argparse');
-const connectToMongoDb = require('../src/connect-to-mongodb');
+const connectToMongoDb = require('../src/modules/connect-to-mongodb');
+const logger = require('../src/modules/logger');
+const cliArgumentParse = require('../src/modules/cli-argument-parse');
+
 const Product = require('../src/models/db/product');
 const Banner = require('../src/models/db/banner');
 const Review = require('../src/models/db/review');
@@ -17,18 +19,7 @@ const sampleBannerData = require('../sample-data/sampleBannerData.json');
 const sampleReviewData = require('../sample-data/sampleReviewData.json');
 const { Types } = require('mongoose');
 
-const args = (() => {
-  const parser = new ArgumentParser({
-    addHelp: true,
-    description: 'Inserts random product data into MongoDB.'
-  });
-
-  parser.addArgument(['-k', '--keep'], {
-    action: 'storeTrue',
-    help: 'Do not delete already existing product documents.'
-  });
-  return parser.parseArgs();
-})();
+const args = cliArgumentParse();
 
 (async function main() {
   await connectToMongoDb();
@@ -38,15 +29,17 @@ const args = (() => {
       await Product.deleteMany();
       await Review.deleteMany();
       await Banner.deleteMany();
-      console.log(`Deleted all previous sample data.\n`);
+
+      logger('Deleted all previous sample data.\n', 'info');
     } catch (error) {
-      console.error(
-        'An error occured while trying to delete previous sample data!\n\n',
+      logger(
+        `An error occured while trying to delete previous sample data!\n\n`,
+        'error',
         error
       );
     }
   } else {
-    console.log(`Keeping all previous sample data.\n`);
+    logger('Keeping all previous sample data.\n', 'info');
   }
 
   let errorObject;
@@ -94,13 +87,14 @@ const args = (() => {
   }
 
   if (errorObject) {
-    console.error(
+    logger(
       'An error occured while trying to inject data into the database!\n\n',
+      'setup',
       errorObject
     );
+    process.exit(1);
   } else {
-    console.log(`Successfully inserted sample data into the database!`);
+    logger('Successfully inserted sample data into the database!', 'success');
+    process.exit(0);
   }
-
-  process.exit();
 })();

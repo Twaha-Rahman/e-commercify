@@ -2,14 +2,6 @@
 
 const { Schema } = require('mongoose');
 
-const partsOfRegex = [
-  '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]',
-  '+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}',
-  '|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})'
-];
-
-const urlValidationRegex = new RegExp(partsOfRegex.join(''));
-
 const productSchema = new Schema({
   productId: Schema.Types.ObjectID,
   name: {
@@ -17,10 +9,11 @@ const productSchema = new Schema({
     required: true
   },
   description: String,
+
+  // Write regex that'll check for the right file extensions for `imageLinks`
   imageLinks: [
     {
       type: String,
-      match: urlValidationRegex,
       required: true
     }
   ],
@@ -42,8 +35,7 @@ const productSchema = new Schema({
   },
   brandName: String,
   brandLogoLink: {
-    type: String,
-    match: urlValidationRegex
+    type: String
   },
   discount: String,
   discountedPrice: String

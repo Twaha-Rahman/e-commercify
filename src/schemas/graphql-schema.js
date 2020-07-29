@@ -24,6 +24,9 @@ const paginate = require('../modules/paginate');
 
 const getIpAddress = require('../modules/get-ip-address');
 
+const activityLogger = require('../modules/log-activity');
+const authTokenValidator = require('../modules/auth-token-validator');
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -90,34 +93,111 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
-// All mutation requests must have a `userToken` key which will be used to see
-// if the user is authorized AND has the required permissions
-
 const RootMutation = new GraphQLObjectType({
   name: 'RootMutation',
-  description:
-    'This mutation endpoint is used to create, update or remove data.',
+  description: 'This endpoint is used to create, update or remove data.',
   fields: {
     addProduct: {
       type: MutationResponseType,
       description: 'This endpoint is used to add product data',
       args: {
         authToken: { type: GraphQLString },
-        productJSON: { type: GraphQLString },
-        userIdOfWhoAdded: { type: GraphQLID },
-        clientBrowserInfo: { type: GraphQLString },
-        clientIpAddress: { type: GraphQLString }
+        productData: { type: GraphQLString },
+        clientBrowserInfo: { type: GraphQLString }
       },
-      resolve(parent, args) {
-        if (!process.env.IS_PRODUCTION === 'false') {
-          console.log(args);
+      async resolve(
+        parent,
+        { authToken, productData, clientBrowserInfo },
+        requestObj
+      ) {
+        if (process.env.IS_PRODUCTION === 'false') {
+          console.log({
+            authToken,
+            productData,
+            clientBrowserInfo
+          });
         }
 
-        return {
-          isSuccessful: true,
-          responseMessage: 'Product was successfully added!',
-          data: '...'
-        };
+        // Extract the IP Address of the client from the request object
+        // We may recieve IPv4 or IPv6, so we'll need to handle that
+
+        const clientIpAddress =
+          requestObj.headers['x-forwarded-for'] ||
+          requestObj.connection.remoteAddress;
+
+        // Check if all the required fields are provided
+
+        if (!authToken) {
+          throw new GraphQLError({
+            message: 'The `authToken` field was not provided!'
+          });
+        }
+
+        if (!productData) {
+          throw new GraphQLError({
+            message: 'The `productData` field was not provided!'
+          });
+        }
+
+        if (!clientBrowserInfo) {
+          throw new GraphQLError({
+            message: 'The `clientBrowserInfo` field was not provided!'
+          });
+        }
+
+        const validatedAuthTokenInfos = authTokenValidator(authToken);
+
+        let response;
+
+        if (validatedAuthTokenInfos) {
+          try {
+            const isActivityLogSaved = await activityLogger({
+              ...validatedAuthTokenInfos,
+              timestamp: Date.now(),
+              clientBrowserInfo,
+              clientIpAddress
+            });
+
+            console.log(isActivityLogSaved);
+
+            if (!isActivityLogSaved) {
+              throw new Error('Failed to save activity log!');
+            }
+
+            const productInfoObj = JSON.parse(productData);
+
+            // We'll have to generate unique names for each image
+            // we can use the ObjectId from Mongoose here
+            productInfoObj.imageLinks = [
+              'placeholder',
+              'placeholder',
+              'placeholder'
+            ];
+
+            const productDocument = new Product(productInfoObj);
+
+            await productDocument.save();
+
+            response = {
+              isSuccessful: true,
+              responseMessage: 'Product was successfully added!',
+              data: '...'
+            };
+          } catch (error) {
+            console.error(error);
+            response = {
+              isSuccessful: false,
+              responseMessage:
+                'An error occured while trying to save the product!'
+            };
+          }
+        } else {
+          response = new GraphQLError({
+            message: 'Invalid `authToken` provided!'
+          });
+        }
+
+        return response;
       }
     },
     updateProduct: {
@@ -126,8 +206,7 @@ const RootMutation = new GraphQLObjectType({
       args: {
         authToken: { type: GraphQLString },
         productId: { type: GraphQLID },
-        infoToUpdateJSON: { type: GraphQLString },
-        userIdOfWhoUpdated: { type: GraphQLID },
+        infoToUpdate: { type: GraphQLString }, // infoToUpdate is in JSON
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },
@@ -149,7 +228,6 @@ const RootMutation = new GraphQLObjectType({
       args: {
         authToken: { type: GraphQLString },
         productId: { type: GraphQLID },
-        userIdOfWhoDeleted: { type: GraphQLID },
         clientBrowserInfo: { type: GraphQLString },
         clientIpAddress: { type: GraphQLString }
       },

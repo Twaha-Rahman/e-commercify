@@ -31,7 +31,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
-    "mongoose": "^5.9.26"
+    "mongoose": "^5.9.27"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.1",

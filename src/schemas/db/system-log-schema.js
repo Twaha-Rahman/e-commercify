@@ -1,5 +1,3 @@
-'use strict';
-
 const { Schema } = require('mongoose');
 
 const systemLogSchema = new Schema(

@@ -1,5 +1,3 @@
-'use strict';
-
 const { model } = require('mongoose');
 
 const productSchema = require('../../schemas/db/productSchema');

@@ -1,7 +1,6 @@
 /**
  * @file reviewSchema.js - Mongoose schema for reviews.
  */
-'use strict';
 
 const { Schema } = require('mongoose');
 const { ObjectID } = Schema.Types;

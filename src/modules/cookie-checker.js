@@ -5,6 +5,16 @@ const jwt = require('jsonwebtoken');
 
 const logger = require('./logger');
 
+/**
+ * Checks cookies and passes valid cookies to the Express request object
+ * under the `refreshTokenPayload` key.
+ *
+ * @param {Express.Request} req - The request object of a request
+ * @param {Express.Response} res - The response object of a request
+ * @param {Function} next - A function to call the next middleware.
+ *
+ */
+
 function cookieChecker(req, res, next) {
   const {
     cookies: { refreshToken }

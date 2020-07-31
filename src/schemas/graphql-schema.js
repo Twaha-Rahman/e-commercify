@@ -436,7 +436,7 @@ const RootMutation = new GraphQLObjectType({
         logger('Login payload', 'info', args);
 
         const { req, res } = context;
-        // eslint-disable-next-line
+
         const clientIp = getIpAddress(req); //eslint-disable-line
 
         // We verify the user here and try to log them in...
@@ -528,7 +528,7 @@ const RootMutation = new GraphQLObjectType({
             } catch (error) {
               console.log(error);
               return {
-                isSuccessful: true,
+                isSuccessful: false,
                 responseMessage: 'Failed to verify access token!',
                 data: 'N/A'
               };
@@ -548,10 +548,10 @@ const RootMutation = new GraphQLObjectType({
           // We'll check if the user with the provided `userId` had a
           // refresh token associated with their account with the
           // provided `refreshTokenId`
-          const verifyRefrshTokenForUserId = true;
+          const verifyRefreshTokenForUserId = true;
           // For this example let's say they did
 
-          if (verifyRefrshTokenForUserId) {
+          if (verifyRefreshTokenForUserId) {
             const { permissions } = accessTokenInfo;
             const accessToken = sign({ userId, permissions }, JWT_SECRET_KEY, {
               expiresIn: '15min'

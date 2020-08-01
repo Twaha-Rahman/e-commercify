@@ -1,5 +1,5 @@
 language: node_js
-install: npm ci && cd frontend && npm ci
+install: npm ci && cd frontend && npm ci && cd ../
 jobs:
   include:
     - stage: Lint JS

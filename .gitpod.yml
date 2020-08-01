@@ -3,7 +3,7 @@ image:
 # Command to start on workspace startup
 tasks:
   - command: mkdir -p /workspace/data && mongod --dbpath /workspace/data
-  - init: npm ci && cd frontend && npm ci && cp sample.env .env && npm run fill-db
+  - init: npm ci && cd frontend && npm ci && cd ../ && cp sample.env .env && npm run fill-db
     command: npm run dev
   - command: gp await-port 9000 && gp preview $(gp url 9000)/api
   - command: gp await-port 8080 && gp preview $(gp url 8080)

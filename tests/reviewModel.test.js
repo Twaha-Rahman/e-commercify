@@ -44,8 +44,7 @@ describe('Review Model Tests', () => {
 
     try {
       const validReviewData = new ReviewModel(sampleReviewData);
-      const savedReviewDataWithoutRequiredField = await validReviewData.save();
-      err = savedReviewDataWithoutRequiredField;
+      err = await validReviewData.save();
     } catch (error) {
       err = error;
     }
@@ -79,12 +78,7 @@ describe('Review Model Tests', () => {
 
   // eslint-disable-next-line
   it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
-    const reviewDataWithExtraInfo = {
-      ...reviewData,
-      extraInfo: 'Extra info placeholder'
-    };
-
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
+    const validReviewData = new ReviewModel(reviewData);
     const savedReviewData = await validReviewData.save();
 
     // Here we'll check if mongoose has set `createdAt` and `updatedAt` fields

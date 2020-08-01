@@ -18,11 +18,13 @@ const activityLogSchema = new Schema(
     },
 
     clientBrowserInfo: {
-      type: String
+      type: String,
+      required: false
     },
 
     clientIpAddress: {
-      type: String
+      type: String,
+      required: false
     }
   },
   { timestamps: true }

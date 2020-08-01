@@ -53,8 +53,10 @@ describe('Banner Model Tests', () => {
     delete bannerDataWithoutARequiredField.bannerImageLink;
 
     try {
-      const validBannerData = new BannerModel(bannerDataWithoutARequiredField);
-      err = await validBannerData.save();
+      const invalidBannerData = new BannerModel(
+        bannerDataWithoutARequiredField
+      );
+      err = await invalidBannerData.save();
     } catch (error) {
       err = error;
     }
@@ -68,8 +70,8 @@ describe('Banner Model Tests', () => {
       extraInfo: 'Extra info placeholder'
     };
 
-    const validBannerData = new BannerModel(bannerDataWithExtraInfo);
-    const savedBannerData = await validBannerData.save();
+    const invalidBannerData = new BannerModel(bannerDataWithExtraInfo);
+    const savedBannerData = await invalidBannerData.save();
 
     expect(savedBannerData._id).toBeDefined();
     expect(savedBannerData.bannerImageLink).toBe(bannerData.bannerImageLink);

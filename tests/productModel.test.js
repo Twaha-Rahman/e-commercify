@@ -82,8 +82,8 @@ describe('Product Model Tests', () => {
       extraInfo: 'Extra info placeholder'
     };
 
-    const validProductData = new ProductModel(productDataWithExtraInfo);
-    const savedProductData = await validProductData.save();
+    const invalidProductData = new ProductModel(productDataWithExtraInfo);
+    const savedProductData = await invalidProductData.save();
 
     expect(savedProductData._id).toBeDefined();
     expect(savedProductData.name).toBe(productDataWithExtraInfo.name);

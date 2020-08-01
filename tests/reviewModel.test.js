@@ -43,8 +43,8 @@ describe('Review Model Tests', () => {
     let err;
 
     try {
-      const validReviewData = new ReviewModel(sampleReviewData);
-      err = await validReviewData.save();
+      const invalidReviewData = new ReviewModel(sampleReviewData);
+      err = await invalidReviewData.save();
     } catch (error) {
       err = error;
     }
@@ -59,8 +59,8 @@ describe('Review Model Tests', () => {
       extraInfo: 'Extra info placeholder'
     };
 
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
-    const savedReviewData = await validReviewData.save();
+    const invalidReviewData = new ReviewModel(reviewDataWithExtraInfo);
+    const savedReviewData = await invalidReviewData.save();
 
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);

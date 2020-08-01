@@ -11,7 +11,10 @@ const {
   GraphQLString,
   GraphQLError
 } = require('graphql');
-const { sign, verify } = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
+const {
+  Types: { ObjectId }
+} = require('mongoose');
 
 const Product = require('../models/db/product');
 const ProductType = require('./graphql/ProductType');
@@ -20,8 +23,9 @@ const BannerType = require('./graphql/BannerType');
 const Review = require('../models/db/review');
 const ReviewType = require('./graphql/ReviewType');
 const Banner = require('../models/db/banner');
-const paginate = require('../modules/paginate');
+const User = require('../models/db/user');
 
+const paginate = require('../modules/paginate');
 const getIpAddress = require('../modules/get-ip-address');
 const logger = require('../modules/logger');
 
@@ -405,7 +409,7 @@ const RootMutation = new GraphQLObjectType({
           const updatedReview = await Review.findOneAndUpdate(
             { _id: reviewId },
             infoToUpdate,
-            { new: true, useFindAndModify: true }
+            { new: true, useFindAndModify: false }
           );
 
           response = {
@@ -432,65 +436,98 @@ const RootMutation = new GraphQLObjectType({
         password: { type: GraphQLString },
         clientBrowserInfo: { type: GraphQLString }
       },
-      resolve(parent, args, context) {
+      async resolve(parent, args, context) {
         logger('Login payload', 'info', args);
 
         const { req, res } = context;
 
         const clientIp = getIpAddress(req); //eslint-disable-line
 
-        // We verify the user here and try to log them in...
-        const { userName, password } = args; // eslint-disable-line
-        // .... (let's assume it's a success)
-        const isValidCredentials = true;
+        const { userName, password } = args;
 
-        let response;
+        let userInfoFromDb;
 
-        if (isValidCredentials) {
-          // Successfully logged user in, so now we'll give them the
-          // access token (JWT) and the refresh token (HTTPOnly Cookie)
+        try {
+          const userDocument = await User.findOne({ userName });
 
-          // We'll retrieve these info about the user from the DB
-          const jwtPayload = {
-            userId: '5f0866c8a4e8eee53c23bde5',
-            permissions: {
-              placeholderKey: 'placeholderValue'
-            }
-          };
-
-          const accessToken = sign(jwtPayload, JWT_SECRET_KEY, {
-            expiresIn: '15min'
-          });
-
-          const refreshTokenPayload = {
-            userId: '5f0866c8a4e8eee53c23bde5',
-            count: 1,
-            refreshTokenId: '7k0957c8n4e8eee53c23fgt5'
-          };
-          // We'll be storing this `refreshTokenId` in the DB
-          // in the user's document so that we can verify it later on
-
-          const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
-            expiresIn: '30d'
-          });
-
-          res.cookie('refreshToken', refreshToken, {
-            maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
-            httpOnly: true
-          });
-
-          response = {
-            isSuccessful: true,
-            responseMessage: 'Successfully Logged In!',
-            data: accessToken
-          };
-        } else {
-          response = {
+          if (userDocument.password !== password) {
+            throw new Error("Credentials don't match!");
+          } else {
+            userInfoFromDb = userDocument;
+          }
+        } catch (error) {
+          console.log(error);
+          return {
             isSuccessful: false,
-            responseMessage: 'Failed to log in user!',
+            responseMessage: "User doesn't exist!",
             data: 'N/A'
           };
         }
+
+        // Successfully logged user in, so now we'll give them the
+        // access token (JWT) and the refresh token (HTTPOnly Cookie)
+
+        const { _id: userId, linkedCompany } = userInfoFromDb;
+
+        const jwtPayload = {
+          userId,
+          linkedCompany
+        };
+
+        const accessToken = sign(jwtPayload, JWT_SECRET_KEY, {
+          expiresIn: '15min'
+        });
+
+        const refreshTokenId = new ObjectId().toString();
+
+        const refreshTokenPayload = {
+          userId,
+          count: 1,
+          refreshTokenId
+        };
+
+        try {
+          const previousRefreshTokens = await User.findOne({ _id: userId });
+
+          const allRefreshTokens = [
+            ...previousRefreshTokens.associatedRefreshTokens,
+            refreshTokenId
+          ];
+
+          console.log(allRefreshTokens);
+
+          await User.findOneAndUpdate(
+            { _id: userId },
+            {
+              associatedRefreshTokens: allRefreshTokens
+            },
+            { useFindAndModify: false }
+          );
+        } catch (error) {
+          return {
+            isSuccessful: false,
+            responseMessage: 'Something went wrong!',
+            data: 'N/A'
+          };
+        }
+
+        // We'll be storing this `refreshTokenId` in the DB
+        // in the user's document so that we can verify it later on
+
+        const refreshToken = sign(refreshTokenPayload, JWT_SECRET_KEY, {
+          expiresIn: '30d'
+        });
+
+        res.cookie('refreshToken', refreshToken, {
+          maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days in ms
+          httpOnly: true
+        });
+
+        const response = {
+          isSuccessful: true,
+          responseMessage: 'Successfully Logged In!',
+          data: accessToken
+        };
 
         return response;
       }
@@ -499,11 +536,10 @@ const RootMutation = new GraphQLObjectType({
       type: MutationResponseType,
       description: 'This endpoint is used to refresh JWT token',
       args: {
-        jwt: { type: GraphQLString },
         clientBrowserInfo: { type: GraphQLString }
       },
-      resolve(parent, args, context) {
-        logger('refreshToken payload', 'info', args);
+      async resolve(parent, args, context) {
+        logger('RefreshToken payload', 'info', args);
 
         const { req, res } = context;
 
@@ -514,52 +550,58 @@ const RootMutation = new GraphQLObjectType({
 
         let response;
 
+        let accessTokenInfo;
+
         if (refreshTokenPayload) {
-          console.log(refreshTokenPayload);
-
-          let accessTokenInfo;
-
           // If the request has a verified `accessToken` then we'll use
           // it's data. If it doesn't have it, then we'll load the required data
           // from the DB
-          if (args.jwt) {
-            try {
-              accessTokenInfo = verify(args.jwt, JWT_SECRET_KEY);
-            } catch (error) {
-              console.log(error);
-              return {
-                isSuccessful: false,
-                responseMessage: 'Failed to verify access token!',
-                data: 'N/A'
-              };
-            }
-          } else {
-            // Load the data from the DB
+
+          // Load the data from the DB
+          try {
+            const { userId } = refreshTokenPayload;
+
+            const {
+              linkedCompany,
+              associatedRefreshTokens
+            } = await User.findOne({ _id: userId });
+
             accessTokenInfo = {
-              userId: '5f0866c8a4e8eee53c23bde5',
-              permissions: {
-                placeholderKey: 'placeholderValue'
-              }
+              userId,
+              linkedCompany,
+              associatedRefreshTokens
+            };
+          } catch (error) {
+            console.log(error);
+
+            return {
+              isSuccessful: false,
+              responseMessage: 'Something went wrong!',
+              data: 'N/A'
             };
           }
+
+          const { associatedRefreshTokens } = accessTokenInfo;
 
           const { userId, count, refreshTokenId } = refreshTokenPayload;
 
           // We'll check if the user with the provided `userId` had a
           // refresh token associated with their account with the
           // provided `refreshTokenId`
-          const verifyRefreshTokenForUserId = true;
-          // For this example let's say they did
 
-          if (verifyRefreshTokenForUserId) {
-            const { permissions } = accessTokenInfo;
-            const accessToken = sign({ userId, permissions }, JWT_SECRET_KEY, {
-              expiresIn: '15min'
-            });
+          if (associatedRefreshTokens.includes(refreshTokenId)) {
+            const { linkedCompany } = accessTokenInfo;
+            const accessToken = sign(
+              { userId, linkedCompany },
+              JWT_SECRET_KEY,
+              {
+                expiresIn: '15min'
+              }
+            );
 
             const refreshTokenPayload = {
               userId,
-              count,
+              count: count + 1,
               refreshTokenId
             };
 
@@ -621,6 +663,53 @@ const RootMutation = new GraphQLObjectType({
           responseMessage: 'Successfully logged out user!',
           data: 'N/A'
         };
+
+        return response;
+      }
+    },
+    signUp: {
+      type: MutationResponseType,
+      description: 'This endpoint is used to sign up a user',
+      args: {
+        userName: { type: GraphQLString },
+        password: { type: GraphQLString },
+        email: { type: GraphQLString },
+        clientBrowserInfo: { type: GraphQLString }
+      },
+      async resolve(parent, args, context) {
+        logger('SignUp payload', 'info', args);
+
+        const { req } = context;
+
+        const clientIp = getIpAddress(req); //eslint-disable-line
+
+        const { userName, password, email } = args;
+
+        let response;
+
+        try {
+          const userDocument = new User({
+            userName,
+            password,
+            email,
+            associatedRefreshTokens: []
+          });
+
+          await userDocument.save();
+
+          response = {
+            isSuccessful: true,
+            responseMessage: 'Successfully signed up user!',
+            data: 'N/A'
+          };
+        } catch (error) {
+          console.log(error);
+          response = {
+            isSuccessful: false,
+            responseMessage: 'Failed to sign up user!',
+            data: 'N/A'
+          };
+        }
 
         return response;
       }

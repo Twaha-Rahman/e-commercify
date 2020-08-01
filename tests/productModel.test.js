@@ -1,14 +1,11 @@
+/* eslint-disable */
+
 const mongoose = require('mongoose');
 
-const ReviewModel = require('../src/models/db/review');
-const sampleReviewData = require('../sample-data/sampleReviewData.json');
+const ProductModel = require('../src/models/db/product');
+const sampleProductData = require('../sample-data/sampleProductData.json');
 
-const reviewData = {
-  ...sampleReviewData,
-  linkedProductId: '5f0087003fb1953310f22b2e'
-};
-
-describe('Review Model Tests', () => {
+describe('Product Model Tests', () => {
   // Connecting to MongoDB memory server
   beforeAll(async () => {
     await mongoose.connect(
@@ -23,20 +20,37 @@ describe('Review Model Tests', () => {
     );
   });
 
-  it('Create & save valid Review data', async () => {
-    const validReviewData = new ReviewModel(reviewData);
-    const savedReviewData = await validReviewData.save();
+  it('Create & save valid Product data', async () => {
+    const validProductData = new ProductModel(sampleProductData);
+    const savedProductData = await validProductData.save();
 
     // Object Id should be defined when successfully saved to MongoDB.
-    expect(savedReviewData._id).toBeDefined();
-    expect(savedReviewData.comment).toBe(reviewData.comment);
-    expect(savedReviewData.linkedProductId.toString()).toBe(
-      reviewData.linkedProductId
+    expect(savedProductData._id).toBeDefined();
+    expect(savedProductData.name).toBe(sampleProductData.name);
+    expect(savedProductData.productId.toString()).toBe(
+      sampleProductData.productId
     );
-    expect(savedReviewData.rating).toBe(reviewData.rating);
-    expect(savedReviewData.userId.toString()).toBe(reviewData.userId);
-    expect(savedReviewData.createdAt).toBeDefined();
-    expect(savedReviewData.updatedAt).toBeDefined();
+    expect(savedProductData.description).toBe(sampleProductData.description);
+    expect(savedProductData.imageLinks).toEqual(sampleProductData.imageLinks);
+
+    expect(savedProductData.quantityType).toBe(sampleProductData.quantityType);
+    expect(savedProductData.averageRating).toBe(
+      sampleProductData.averageRating
+    );
+    expect(savedProductData.reviewCount).toBe(sampleProductData.reviewCount);
+    expect(savedProductData.category).toBe(sampleProductData.category);
+    expect(savedProductData.price).toBe(sampleProductData.price);
+    expect(savedProductData.brandName).toBe(sampleProductData.brandName);
+    expect(savedProductData.brandLogoLink).toBe(
+      sampleProductData.brandLogoLink
+    );
+    expect(savedProductData.discount).toBe(sampleProductData.discount);
+    expect(savedProductData.discountedPrice).toBe(
+      sampleProductData.discountedPrice
+    );
+
+    expect(savedProductData.createdAt).toBeDefined();
+    expect(savedProductData.updatedAt).toBeDefined();
   });
 
   it('Try to save Review data without a required field', async () => {

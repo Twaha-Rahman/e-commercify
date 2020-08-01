@@ -32,7 +32,9 @@ describe('Banner Model Tests', () => {
     expect(savedBannerData.bannerImageLink).toBe(bannerData.bannerImageLink);
     expect(savedBannerData.bannerGoToLink).toBe(bannerData.bannerGoToLink);
     expect(savedBannerData.text).toBe(bannerData.text);
-    expect(savedBannerData.userIdOfWhoAdded).toBe(bannerData.userIdOfWhoAdded);
+    expect(savedBannerData.userIdOfWhoAdded.toString()).toBe(
+      bannerData.userIdOfWhoAdded
+    );
     expect(savedBannerData.clientBrowserInfo).toBe(
       bannerData.clientBrowserInfo
     );
@@ -44,8 +46,14 @@ describe('Banner Model Tests', () => {
   it('Try to save Banner data without a required field', async () => {
     let err;
 
+    const bannerDataWithoutARequiredField = JSON.parse(
+      JSON.stringify(bannerData)
+    );
+
+    delete bannerDataWithoutARequiredField.bannerImageLink;
+
     try {
-      const validBannerData = new BannerModel(bannerData);
+      const validBannerData = new BannerModel(bannerDataWithoutARequiredField);
       err = await validBannerData.save();
     } catch (error) {
       err = error;
@@ -67,7 +75,9 @@ describe('Banner Model Tests', () => {
     expect(savedBannerData.bannerImageLink).toBe(bannerData.bannerImageLink);
     expect(savedBannerData.bannerGoToLink).toBe(bannerData.bannerGoToLink);
     expect(savedBannerData.text).toBe(bannerData.text);
-    expect(savedBannerData.userIdOfWhoAdded).toBe(bannerData.userIdOfWhoAdded);
+    expect(savedBannerData.userIdOfWhoAdded.toString()).toBe(
+      bannerData.userIdOfWhoAdded
+    );
     expect(savedBannerData.clientBrowserInfo).toBe(
       bannerData.clientBrowserInfo
     );

@@ -2,7 +2,6 @@
  * @file connect-to-mongodb.js - Reusable MongoDB connection logic with logging
  * and default options that avoid warnings.
  */
-'use strict';
 
 const mongoose = require('mongoose');
 

@@ -3,7 +3,6 @@
  *
  * Modified from https://www.graphql-tools.com/docs/scalars/#date-as-a-scalar
  */
-'use strict';
 
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');

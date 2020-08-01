@@ -1,7 +1,6 @@
 /**
  * @file graphql-schema.js - RootQuery and RootMutation GraphQL schemas.
  */
-'use strict';
 
 const {
   GraphQLObjectType,
@@ -47,10 +46,9 @@ const RootQuery = new GraphQLObjectType({
           const product = await Product.findOne({ productId });
           if (product === null) return [];
           return [product];
-        } else {
-          // Returns a page of product data as an array of plain objects.
-          return await paginate(Product.find().lean(), { itemsPerPage, page });
         }
+        // Returns a page of product data as an array of plain objects.
+        return await paginate(Product.find().lean(), { itemsPerPage, page });
       }
     },
     banners: {

@@ -1,7 +1,6 @@
 /**
  * @file MutationResponseType.js - GraphQL schema for MutationResponse objects.
  */
-'use strict';
 
 const graphql = require('graphql');
 

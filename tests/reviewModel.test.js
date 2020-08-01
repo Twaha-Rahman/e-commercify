@@ -1,5 +1,3 @@
-'use strict' /* eslint-disable */;
-
 const sampleReviewData = require('../sample-data/sampleReviewData.json');
 
 const mongoose = require('mongoose');
@@ -55,6 +53,7 @@ describe('Review Model Test', () => {
     expect(err.errors.linkedProductId).toBeDefined();
   });
 
+  // eslint-disable-next-line
   it("Try to insert Review data with additional data and check to see if the additional data was added (it shouldn't be added)", async () => {
     const reviewDataWithExtraInfo = {
       ...reviewData,
@@ -78,6 +77,7 @@ describe('Review Model Test', () => {
     expect(savedReviewData.extraInfo).toBeUndefined();
   });
 
+  // eslint-disable-next-line
   it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
     const reviewDataWithExtraInfo = {
       ...reviewData,

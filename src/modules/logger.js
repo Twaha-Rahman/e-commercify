@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @file logger.js - Logs info to the console (only in development) after
  *  formatting it and saves it in the DB if it is important (both production

@@ -1,14 +1,14 @@
-const sampleReviewData = require('../sample-data/sampleReviewData.json');
-
 const mongoose = require('mongoose');
+
 const ReviewModel = require('../src/models/db/review');
+const sampleReviewData = require('../sample-data/sampleReviewData.json');
 
 const reviewData = {
   ...sampleReviewData,
   linkedProductId: '5f0087003fb1953310f22b2e'
 };
 
-describe('Review Model Test', () => {
+describe('Review Model Tests', () => {
   // Connecting to MongoDB memory server
   beforeAll(async () => {
     await mongoose.connect(
@@ -43,9 +43,8 @@ describe('Review Model Test', () => {
     let err;
 
     try {
-      const validReviewData = new ReviewModel(sampleReviewData);
-      const savedReviewDataWithoutRequiredField = await validReviewData.save();
-      err = savedReviewDataWithoutRequiredField;
+      const invalidReviewData = new ReviewModel(sampleReviewData);
+      err = await invalidReviewData.save();
     } catch (error) {
       err = error;
     }
@@ -60,8 +59,8 @@ describe('Review Model Test', () => {
       extraInfo: 'Extra info placeholder'
     };
 
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
-    const savedReviewData = await validReviewData.save();
+    const invalidReviewData = new ReviewModel(reviewDataWithExtraInfo);
+    const savedReviewData = await invalidReviewData.save();
 
     expect(savedReviewData._id).toBeDefined();
     expect(savedReviewData.comment).toBe(reviewData.comment);
@@ -79,12 +78,7 @@ describe('Review Model Test', () => {
 
   // eslint-disable-next-line
   it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
-    const reviewDataWithExtraInfo = {
-      ...reviewData,
-      extraInfo: 'Extra info placeholder'
-    };
-
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
+    const validReviewData = new ReviewModel(reviewData);
     const savedReviewData = await validReviewData.save();
 
     // Here we'll check if mongoose has set `createdAt` and `updatedAt` fields

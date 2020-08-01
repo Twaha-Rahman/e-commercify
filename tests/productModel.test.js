@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const mongoose = require('mongoose');
 
 const ProductModel = require('../src/models/db/product');
@@ -53,57 +51,76 @@ describe('Product Model Tests', () => {
     expect(savedProductData.updatedAt).toBeDefined();
   });
 
-  it('Try to save Review data without a required field', async () => {
+  it('Try to save Product data without a required field', async () => {
     let err;
 
     try {
-      const validReviewData = new ReviewModel(sampleReviewData);
-      const savedReviewDataWithoutRequiredField = await validReviewData.save();
-      err = savedReviewDataWithoutRequiredField;
+      const validProductData = new ProductModel(sampleProductData);
+      err = await validProductData.save();
     } catch (error) {
       err = error;
     }
+
     expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(err.errors.linkedProductId).toBeDefined();
   });
 
   // eslint-disable-next-line
-  it("Try to insert Review data with additional data and check to see if the additional data was added (it shouldn't be added)", async () => {
-    const reviewDataWithExtraInfo = {
-      ...reviewData,
+  it("Try to insert Product data with extra data and check to see if the extra data was added (it shouldn't be added)", async () => {
+    const productDataWithExtraInfo = {
+      ...sampleProductData,
       extraInfo: 'Extra info placeholder'
     };
 
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
-    const savedReviewData = await validReviewData.save();
+    const validProductData = new ProductModel(productDataWithExtraInfo);
+    const savedProductData = await validProductData.save();
 
-    expect(savedReviewData._id).toBeDefined();
-    expect(savedReviewData.comment).toBe(reviewData.comment);
-    expect(savedReviewData.linkedProductId.toString()).toBe(
-      reviewData.linkedProductId
+    expect(savedProductData._id).toBeDefined();
+    expect(savedProductData.name).toBe(productDataWithExtraInfo.name);
+    expect(savedProductData.productId.toString()).toBe(
+      sampleProductData.productId
     );
-    expect(savedReviewData.rating).toBe(reviewData.rating);
-    expect(savedReviewData.userId.toString()).toBe(reviewData.userId);
-    expect(savedReviewData.createdAt).toBeDefined();
-    expect(savedReviewData.updatedAt).toBeDefined();
+    expect(savedProductData.description).toBe(
+      productDataWithExtraInfo.description
+    );
+    expect(savedProductData.imageLinks).toEqual(
+      productDataWithExtraInfo.imageLinks
+    );
+
+    expect(savedProductData.quantityType).toBe(
+      productDataWithExtraInfo.quantityType
+    );
+    expect(savedProductData.averageRating).toBe(
+      productDataWithExtraInfo.averageRating
+    );
+    expect(savedProductData.reviewCount).toBe(
+      productDataWithExtraInfo.reviewCount
+    );
+    expect(savedProductData.category).toBe(productDataWithExtraInfo.category);
+    expect(savedProductData.price).toBe(productDataWithExtraInfo.price);
+    expect(savedProductData.brandName).toBe(productDataWithExtraInfo.brandName);
+    expect(savedProductData.brandLogoLink).toBe(
+      productDataWithExtraInfo.brandLogoLink
+    );
+    expect(savedProductData.discount).toBe(productDataWithExtraInfo.discount);
+    expect(savedProductData.discountedPrice).toBe(
+      productDataWithExtraInfo.discountedPrice
+    );
+
+    expect(savedProductData.createdAt).toBeDefined();
+    expect(savedProductData.updatedAt).toBeDefined();
 
     // Here we'll check if the extraInfo got added or not
-    expect(savedReviewData.extraInfo).toBeUndefined();
+    expect(savedProductData.extraInfo).toBeUndefined();
   });
 
   // eslint-disable-next-line
   it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
-    const reviewDataWithExtraInfo = {
-      ...reviewData,
-      extraInfo: 'Extra info placeholder'
-    };
-
-    const validReviewData = new ReviewModel(reviewDataWithExtraInfo);
-    const savedReviewData = await validReviewData.save();
+    const validProductData = new ProductModel(sampleProductData);
+    const savedProductData = await validProductData.save();
 
     // Here we'll check if mongoose has set `createdAt` and `updatedAt` fields
-    expect(savedReviewData.createdAt).toBeDefined();
-    expect(savedReviewData.updatedAt).toBeDefined();
+    expect(savedProductData.createdAt).toBeDefined();
+    expect(savedProductData.updatedAt).toBeDefined();
   });
 });
 

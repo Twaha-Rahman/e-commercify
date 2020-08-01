@@ -7,7 +7,10 @@ const productSchema = new Schema(
       type: String,
       required: true
     },
-    description: String,
+    description: {
+      type: String,
+      required: false
+    },
 
     // Write regex that'll check for the right file extensions for `imageLinks`
     imageLinks: [
@@ -18,7 +21,7 @@ const productSchema = new Schema(
     ],
     quantityType: {
       type: String,
-      default: 'pieces'
+      required: true
     },
     averageRating: {
       type: Number,
@@ -26,18 +29,35 @@ const productSchema = new Schema(
       min: 0,
       max: 5
     },
-    reviewCount: Number,
-    category: String,
+    reviewCount: {
+      type: Number,
+      required: true,
+      min: 0
+    },
+    category: {
+      type: String,
+      required: true
+    },
     price: {
       type: Number,
       required: true
     },
-    brandName: String,
-    brandLogoLink: {
-      type: String
+    brandName: {
+      type: String,
+      required: true
     },
-    discount: String,
-    discountedPrice: String
+    brandLogoLink: {
+      type: String,
+      required: true
+    },
+    discount: {
+      type: String,
+      required: false
+    },
+    discountedPrice: {
+      type: String,
+      required: false
+    }
   },
   { timestamps: true }
 );

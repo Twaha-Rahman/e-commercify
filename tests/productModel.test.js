@@ -29,7 +29,10 @@ describe('Product Model Tests', () => {
       sampleProductData.productId
     );
     expect(savedProductData.description).toBe(sampleProductData.description);
-    expect(savedProductData.imageLinks).toEqual(sampleProductData.imageLinks);
+
+    const productImageLinksArray = Array.from(savedProductData.imageLinks);
+
+    expect(productImageLinksArray).toEqual(sampleProductData.imageLinks);
 
     expect(savedProductData.quantityType).toBe(sampleProductData.quantityType);
     expect(savedProductData.averageRating).toBe(
@@ -54,9 +57,17 @@ describe('Product Model Tests', () => {
   it('Try to save Product data without a required field', async () => {
     let err;
 
+    const productDataWithoutARequiredField = JSON.parse(
+      JSON.stringify(sampleProductData)
+    );
+    delete productDataWithoutARequiredField.brandName;
+
     try {
-      const validProductData = new ProductModel(sampleProductData);
-      err = await validProductData.save();
+      const invalidProductData = new ProductModel(
+        productDataWithoutARequiredField
+      );
+      err = await invalidProductData.save();
+      console.log(err);
     } catch (error) {
       err = error;
     }
@@ -82,9 +93,10 @@ describe('Product Model Tests', () => {
     expect(savedProductData.description).toBe(
       productDataWithExtraInfo.description
     );
-    expect(savedProductData.imageLinks).toEqual(
-      productDataWithExtraInfo.imageLinks
-    );
+
+    const productImageLinksArray = Array.from(savedProductData.imageLinks);
+
+    expect(productImageLinksArray).toEqual(productDataWithExtraInfo.imageLinks);
 
     expect(savedProductData.quantityType).toBe(
       productDataWithExtraInfo.quantityType

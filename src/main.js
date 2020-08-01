@@ -4,6 +4,7 @@
 
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const { graphqlHTTP } = require('express-graphql');
 
 const connectToMongoDb = require('./modules/connect-to-mongodb');
@@ -15,6 +16,7 @@ const app = express();
 (async function main() {
   await connectToMongoDb();
 
+  app.use(helmet());
   app.use('/api', graphqlHTTP({ schema: graphqlSchema, graphiql: true }));
 
   app.get('/', (req, res) => {

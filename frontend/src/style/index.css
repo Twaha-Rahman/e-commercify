@@ -1,5 +1,6 @@
 :root {
-  --background-color: #ecebeb;
+  --background-color-light: #ecebeb;
+  --background-color-dark: #272a2d;
   --navbar-color: #fff;
 }
 
@@ -9,7 +10,7 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
-  background: var(--background-color);
+  background: var(--background-color-light);
   font-family: 'Helvetica Neue', arial, sans-serif;
   font-weight: 400;
   color: #444;

@@ -13,10 +13,20 @@
   z-index: 50;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  stroke: var(--background-color-dark);
 }
 
 .header svg {
   display: inline-block;
-
+  stroke: inherit;
   text-decoration: none;
+}
+
+.header svg:hover,
+.header svg:active {
+  stroke: var(--lighter-dark);
+}
+
+.active {
+  stroke: var(--active);
 }

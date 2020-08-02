@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-function CogSvg(props) {
+function CogSvg() {
   /* eslint-disable */
   return (
     <svg
@@ -10,7 +10,6 @@ function CogSvg(props) {
       height="44"
       viewBox="0 0 24 24"
       stroke-width="1.5"
-      stroke={props.color}
       fill="none"
       stroke-linecap="round"
       stroke-linejoin="round"

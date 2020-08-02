@@ -9,26 +9,24 @@ import CartSvg from '../svg/CartSvg';
 import CogSvg from '../svg/CogSvg';
 
 const Header = () => {
-  const color = 'var(--background-color-dark)';
-
   return (
     <nav class={style.header}>
       <Link activeClassName={style.active} href="/">
-        <HomeSvg color={color} />
+        <HomeSvg />
       </Link>
       <Link activeClassName={style.active} href="/profile">
-        <BoxSvg color={color} />
+        <BoxSvg />
       </Link>
       <Link activeClassName={style.active} href="/profile/john">
-        <SearchSvg color={color} />
-      </Link>
-
-      <Link activeClassName={style.active} href="/profile/john">
-        <CartSvg color={color} />
+        <SearchSvg />
       </Link>
 
-      <Link activeClassName={style.active} href="/profile/john">
-        <CogSvg color={color} />
+      <Link activeClassName={style.active} href="/cart">
+        <CartSvg />
+      </Link>
+
+      <Link activeClassName={style.active} href="/settings">
+        <CogSvg />
       </Link>
     </nav>
   );

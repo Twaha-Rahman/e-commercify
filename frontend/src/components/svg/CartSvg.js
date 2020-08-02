@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-function CartSvg(props) {
+function CartSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +9,6 @@ function CartSvg(props) {
       height="44"
       viewBox="0 0 24 24"
       stroke-width="1.5"
-      stroke={props.color}
       fill="none"
       stroke-linecap="round"
       stroke-linejoin="round"

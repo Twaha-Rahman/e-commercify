@@ -11,6 +11,6 @@ jobs:
       - name: Build frontend
         run: cd frontend && npm run build && cd ../
       - name: Run LightHouse CI
-        run: cd frontend && lhci autorun --upload.target=temporary-public-storage && cd ../
+        run: cd frontend && lhci autorun && cd ../
         env:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}

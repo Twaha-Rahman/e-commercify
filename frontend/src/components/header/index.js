@@ -11,11 +11,17 @@ import CogSvg from '../svg/CogSvg';
 const Header = () => {
   return (
     <nav class={style.header}>
-      <Link activeClassName={style.active} alt="Link to Home page" href="/">
+      <Link
+        activeClassName={style.active}
+        aria-label="Home"
+        alt="Link to Home page"
+        href="/"
+      >
         <HomeSvg />
       </Link>
       <Link
         activeClassName={style.active}
+        aria-label="Categories"
         alt="Link to Categories page"
         href="/profile"
       >
@@ -24,18 +30,25 @@ const Header = () => {
       <Link
         activeClassName={style.active}
         alt="Link to Search page"
+        aria-label="Search"
         href="/profile/john"
       >
         <SearchSvg />
       </Link>
 
-      <Link activeClassName={style.active} alt="Link to Cart" href="/cart">
+      <Link
+        activeClassName={style.active}
+        alt="Link to Cart"
+        aria-label="Cart"
+        href="/cart"
+      >
         <CartSvg />
       </Link>
 
       <Link
         activeClassName={style.active}
         alt="Link to Settings page"
+        aria-label="Settings"
         href="/settings"
       >
         <CogSvg />

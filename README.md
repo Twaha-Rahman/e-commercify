@@ -1,8 +1,9 @@
 # E-commercify
 
+[![CI](https://github.com/Twaha-Rahman/e-commercify/workflows/CI/badge.svg)](https://github.com/Twaha-Rahman/e-commercify/actions?query=workflow%3ACI)
 [![Build Status](https://travis-ci.com/Twaha-Rahman/e-commercify.svg?branch=master)](https://travis-ci.com/github/Twaha-Rahman/e-commercify)
-[![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Twaha-Rahman/e-commercify)](https://dependabot.com)
+[![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 `E-commercify` is a full open source E-commerce site from the frontend to the backend. The project uses all the latest
 and industry approved technologies to create a complete e-commerce site that's ready to be deployed.

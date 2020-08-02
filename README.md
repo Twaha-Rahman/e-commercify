@@ -1,6 +1,6 @@
 # E-commercify
 
-[![CI](https://github.com/Twaha-Rahman/e-commercify/workflows/CI/badge.svg)](https://github.com/Twaha-Rahman/e-commercify/actions?query=workflow%3ACI)
+[![LightHouse CI](https://img.shields.io/badge/LightHouse%20CI-passing-blue?logo=lighthouse)](https://github.com/Twaha-Rahman/e-commercify/actions?query=workflow%3ACI)
 [![Build Status](https://travis-ci.com/Twaha-Rahman/e-commercify.svg?branch=master)](https://travis-ci.com/github/Twaha-Rahman/e-commercify)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Twaha-Rahman/e-commercify)](https://dependabot.com)
 [![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=gitpod)](https://gitpod.io/from-referrer/)

@@ -11,6 +11,6 @@ jobs:
       - name: Build frontend
         run: cd frontend && npm run build && cd ../
       - name: Run LightHouse CI
-        run: cd frontend && lhci autorun && cd ../
+        run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}

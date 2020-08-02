@@ -1,11 +1,11 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
+  "name": "E-Commercify: An Open Source E-Commerce site",
+  "short_name": "E-Commercify",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fff",
-  "theme_color": "#673ab8",
+  "background_color": "#121212",
+  "theme_color": "#339933",
   "icons": [
     {
       "src": "/assets/icons/android-chrome-192x192.png",

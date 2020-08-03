@@ -4,8 +4,8 @@ import { Router } from 'preact-router';
 import Navbar from './Navbar';
 
 // Code-splitting is automated for routes
-import Home from '../routes/home';
-import Profile from '../routes/profile';
+import Home from '../routes/Home';
+import Profile from '../routes/Profile';
 
 export default class App extends Component {
   /** Gets fired when the route changes.

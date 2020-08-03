@@ -1,0 +1,6 @@
+# Having a codeowners file automatically assigns the owner as a reviewer for a PR.
+
+# This global line will assign you to review for ALL PRs. Can add other reviewers to this line as well.
+* @Twaha-Rahman
+
+# Can add lines for reviewers for specific files or folders, but will override the global setting (so include yourself here too)

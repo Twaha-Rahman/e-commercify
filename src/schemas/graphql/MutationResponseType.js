@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * @file MutationResponseType.js - GraphQL schema for MutationResponse objects.
+ */
 
 const graphql = require('graphql');
 
@@ -8,7 +10,8 @@ const AddProductType = new GraphQLObjectType({
   name: 'AddProduct',
   fields: {
     isSuccessful: { type: GraphQLBoolean },
-    responseMessage: { type: GraphQLString }
+    responseMessage: { type: GraphQLString },
+    data: { type: GraphQLString }
   }
 });
 

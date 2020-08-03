@@ -3,10 +3,12 @@
 The backend API will have a GraphQL API endpoint for the project's frontend side of things. Each of the APIs will be used to send or receive data. The API will consist of five key parts -
 
 - [Products](#products)
-  - [AddProduct](#AddProduct)
+  - [AddProduct](#addProduct)
   - [updateProduct](#updateProduct)
   - [deleteProduct](#deleteProduct)
 - [Banners](#banners)
+  - [AddBanner](#addBanner)
+  - [DeleteBanner](#deleteBanner)
 - [Reviews](#Reviews)
 - [Authenticate](#Authenticate)
 - [Transaction](#transaction)
@@ -93,7 +95,7 @@ The `UpdateProduct` endpoint will be used to update product info. A _sample requ
 {
     authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
     productId: 'dfsdfu0sf8',
-    infoToUpdate: '{"name":"Green Apple","brandLogoLink":"https://....","discount":"8%","discountedPrice":"$8.69"}',
+    infoToUpdateJSON: '{"name":"Green Apple","brandLogoLink":"https://....","discount":"8%","discountedPrice":"$8.69"}',
     userIdOfWhoUpdated: "asdas87ahc8a7as",
     clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
     clientIpAddress: '192.168.0.2'
@@ -141,17 +143,86 @@ Any call to the `Banners` API should return an array of banner objects, where ea
 }
 ```
 
-### Reviews
+#### AddBanner
 
-Any call to the `Reviews` API should return an array of review objects, where each review object will look like -
+The `AddBanner` endpoint will be used to add a banner info. A _sample request_ to
+`AddBanner` endpoint will look like this -
 
 ```js
 {
-    linkedProductId: "...",
-    userId: "...",
-    date: "...",
-    comment: "...",
+    authToken: "sdfsdjfisd.dgshdfh.t43wgtw", // JSON Web Token
+    bannerData: '{"authToken":"dddd","bannerId":"5f0866c8a4e8eee53c23bdf3","userIdOfWhoDeleted":"fffsafsd","clientBrowserInfo":"fff","clientIpAddress":"sfsdfsd"}',
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+    clientIpAddress: '192.168.0.2'
+}
+```
+
+#### DeleteBanner
+
+The `DeleteBanner` endpoint will be used to delete a banner. A _sample request_ to
+`DeleteBanner` endpoint will look like this -
+
+```js
+{
+        authToken: 'sdfsdjfisd.dgshdfh.t43wgtw', // JSON Web Token
+        productId: 'dfsdfu0sf8',
+        clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+        clientIpAddress: '192.168.0.2'
+}
+```
+
+### Reviews
+
+Any call to the `Reviews` endpoint should return an array of review objects, where each review object will look like -
+
+```js
+{
+    linkedProductId: "5f143bcc2edc7a062862d4c5",
+    userId: "5f143bcc2edc7a062862d4b4",
+    comment: "Placeholder Comment",
     rating: 5
+}
+```
+
+#### AddReview
+
+The `AddReview` endpoint will be used to add a review. A _sample request_ to
+`AddReview` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    linkedProductId: "...",
+    comment: "...",
+    rating: 5,
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}'
+}
+```
+
+#### UpdateReview
+
+The `UpdateProduct` endpoint will be used to update product info. A _sample request_ to
+`UpdateProduct` endpoint will look like this -
+
+```js
+{
+    authToken: 'sdfsdjfisd.dgshdfh.t43wgtw',
+    reviewId: 'dfsdfu0sf8',
+    infoToUpdateJSON: '{"rating":5}',
+    clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}',
+}
+```
+
+#### DeleteReview
+
+The `DeleteReview` endpoint will be used to delete a review. A _sample request_ to
+`DeleteReview` endpoint will look like this -
+
+```js
+{
+        authToken: 'sdfsdjfisd.dgshdfh.t43wgtw', // JSON Web Token
+        productId: 'dfsdfu0sf8',
+        clientBrowserInfo: '{"appName":"Netscape","appCodeName":"Mozilla","appVersion":"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"}'
 }
 ```
 

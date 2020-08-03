@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * @file BannerType.js - GraphQL schema for banner objects.
+ */
 
 const graphql = require('graphql');
 

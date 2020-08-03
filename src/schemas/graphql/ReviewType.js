@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * @file ReviewType.js - GraphQL schema for review objects.
+ */
 
 const {
   GraphQLObjectType,

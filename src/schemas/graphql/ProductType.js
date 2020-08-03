@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * @file ProductType.js - GraphQL schema for product objects.
+ */
 
 const {
   GraphQLObjectType,

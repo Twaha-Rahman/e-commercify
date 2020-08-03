@@ -1,31 +1,33 @@
 /**
- * @file connect-to-mongodb.js
+ * @file connect-to-mongodb.js - Reusable MongoDB connection logic with logging
+ * and default options that avoid warnings.
  */
-'use strict';
 
 const mongoose = require('mongoose');
 
 const { MONGO_URL } = process.env;
+const logger = require('./logger');
 
 const connectToMongoDb = async () => {
   if (mongoose.connection.readyState === 1) {
     throw new Error('A ready MongoDB connection already exists.');
   }
 
+  logger('Connecting to MongoDB...\n', 'info');
+
   try {
-    console.log('Connecting to MongoDB...');
     const client = await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
 
-    console.log('\nMongoDB connection was successful!\n');
+    logger('MongoDB connection was successful!\n', 'success');
 
     client.connection.onClose(() => {
-      console.log('MongoDB connection was closed.');
+      logger('MongoDB connection was closed.', 'info');
     });
   } catch (error) {
-    console.error('\nCould not connect to MongoDB!\n\n', error);
+    logger('Could not connect to MongoDB!\n\n', 'setup', error);
     process.exit(1);
   }
 };

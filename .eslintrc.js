@@ -1,11 +1,9 @@
-'use strict';
-
 module.exports = {
   env: {
     es6: true,
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended', 'preact'],
   parserOptions: {
     ecmaVersion: 11
   },
@@ -36,7 +34,7 @@ module.exports = {
     'no-implicit-coercion': 'error',
     'no-implicit-globals': 'error',
     'no-implied-eval': 'error',
-    'no-invalid-this': 'error',
+    'no-invalid-this': 'off',
     'no-new-wrappers': 'error',
     'no-param-reassign': 'error',
     'no-throw-literal': 'error',

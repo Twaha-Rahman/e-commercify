@@ -16,6 +16,8 @@ function logFormatter(msg, logType) {
   let logTag;
   let logText;
 
+  if (!msg) throw new Error('Parameter `msg` not provided!');
+
   switch (logType) {
     case 'success':
       logTag = chalk.bgGreen.bold('SUCCESS');
@@ -38,7 +40,7 @@ function logFormatter(msg, logType) {
       break;
 
     default:
-      logTag = chalk.purple.bold('LOG');
+      logTag = chalk.bgRgb(138, 43, 226).bold('LOG');
       logText = msg;
       break;
   }

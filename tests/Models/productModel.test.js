@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const ProductModel = require('../src/models/db/product');
+const ProductModel = require('../../src/models/db/product');
 // eslint-disable-next-line
-const sampleProductDataWithOptionalFields = require('../sample-data/sampleProductData.json');
+const sampleProductDataWithOptionalFields = require('../../sample-data/sampleProductData.json');
 
 const sampleProductDataWithoutOptionalFields = JSON.parse(
   JSON.stringify(sampleProductDataWithOptionalFields)

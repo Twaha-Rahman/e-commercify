@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const BannerModel = require('../src/models/db/banner');
-const sampleBannerData = require('../sample-data/sampleBannerData.json');
+const BannerModel = require('../../src/models/db/banner');
+const sampleBannerData = require('../../sample-data/sampleBannerData.json');
 
 const bannerData = {
   ...sampleBannerData,

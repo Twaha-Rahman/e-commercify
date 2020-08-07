@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const ReviewModel = require('../src/models/db/review');
-const sampleReviewData = require('../sample-data/sampleReviewData.json');
+const ReviewModel = require('../../src/models/db/review');
+const sampleReviewData = require('../../sample-data/sampleReviewData.json');
 
 const reviewData = {
   ...sampleReviewData,

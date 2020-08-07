@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ActivityModel = require('../src/models/db/activity');
+const ActivityModel = require('../../src/models/db/activity');
 
 const sampleActivityWithOptionalFields = {
   userId: new mongoose.Types.ObjectId().toString(),

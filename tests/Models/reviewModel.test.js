@@ -53,6 +53,23 @@ describe('Review Model Tests', () => {
   });
 
   // eslint-disable-next-line
+  it('Try to save Review data with a `rating` that is out of range (From 0 to 5)', async () => {
+    const reviewDataCopy = JSON.parse(JSON.stringify(sampleReviewData));
+    reviewDataCopy.rating = 6;
+
+    let err;
+
+    try {
+      const invalidReviewData = new ReviewModel(reviewDataCopy);
+      err = await invalidReviewData.save();
+    } catch (error) {
+      err = error;
+    }
+    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    expect(err.errors.linkedProductId).toBeDefined();
+  });
+
+  // eslint-disable-next-line
   it("Try to insert Review data with additional data and check to see if the additional data was added (it shouldn't be added)", async () => {
     const reviewDataWithExtraInfo = {
       ...reviewData,

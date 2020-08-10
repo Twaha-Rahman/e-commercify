@@ -3,10 +3,9 @@ import { useState, useEffect } from 'preact/hooks'; // eslint-disable-line
 import { Link } from 'preact-router/match'; // eslint-disable-line
 import style from './style.css'; // eslint-disable-line
 
-import Glide from '@glidejs/glide';
-
 import Kiwi from '../../assets/product-placeholder/Kiwi-Slice-PNG-File.png';
 import Mango from '../../assets/product-placeholder/Mango-PNG-Image-Free-Download.png'; // eslint-disable-line
+import Banner from '../../assets/product-placeholder/banner.png'; // eslint-disable-line
 
 const images = [Kiwi, Mango]; // eslint-disable-line
 
@@ -25,34 +24,32 @@ const images = [Kiwi, Mango]; // eslint-disable-line
 // const randomIndex = getRandomInt(0, 1);
 
 const Header = () => {
-  useEffect(() => {
-    const glider = new Glide('.glide', {
-      type: 'carousel',
-      startAt: 0,
-      perView: 3
-    });
-
-    glider.mount();
-  });
-
   return (
     <>
-      <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-          <ul class="glide__slides">
-            <img src={Kiwi} class="glide__slide" />
-            <img src={Kiwi} class="glide__slide" />
-            <img src={Kiwi} class="glide__slide" />
-          </ul>
+      <div class={style.carouselContainer}>
+        <div class={style.carousel}>
+          <div id="skyline" class={style.carouselItem}>
+            <img src={Banner} alt="..." class={style.carouselImage} />
+          </div>
+          <div id="great-wall-of-china" class={style.carouselItem}>
+            <img src={Kiwi} alt="..." class={style.carouselImage} />
+          </div>
+          <div id="sunset-on-the-li-river" class={style.carouselItem}>
+            <img src={Banner} alt="..." class={style.carouselImage} />
+          </div>
         </div>
-
-        <div class="glide__arrows" data-glide-el="controls">
-          <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
-            prev
-          </button>
-          <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
-            next
-          </button>
+        <div id="controls" class={style.controls}>
+          <a href="#skyline" class={style.controlsDot}>
+            <span class={style.visuallyHidden}>
+              Skyline of Wai Tan, Shanghai
+            </span>
+          </a>
+          <a href="#great-wall-of-china" class={style.controlsDot}>
+            <span class={style.visuallyHidden}>Great wall of China</span>
+          </a>
+          <a href="#sunset-on-the-li-river" class={style.controlsDot}>
+            <span class={style.visuallyHidden}>Sunset on the Li River</span>
+          </a>
         </div>
       </div>
     </>

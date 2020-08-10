@@ -1,56 +1,58 @@
-.glide {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
+.carouselContainer {
+  display: flex;
+  flex-direction: column;
 }
-.glide * {
-  box-sizing: inherit;
+
+.carousel {
+  display: flex;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
 }
-.glide__track {
-  overflow: hidden;
+
+.carousel::-webkit-scrollbar {
+  display: none;
 }
-.glide__slides {
-  position: relative;
-  width: 100%;
-  list-style: none;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  touch-action: pan-Y;
+
+.carouselItem {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  background-color: blue;
+}
+
+.carouselImage {
+  display: block;
+  background-color: brown;
+}
+
+.controls {
+  margin-top: 1rem;
+  align-self: center;
+}
+
+.controlsDot {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  border-radius: 50%;
+  outline: none;
+  background-color: rgb(77, 75, 75);
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.controlsDot:not(:first-child) {
+  margin-left: 0.25em;
+}
+
+.visuallyHidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
   overflow: hidden;
   padding: 0;
-  white-space: nowrap;
-  display: flex;
-  flex-wrap: nowrap;
-  will-change: transform;
-}
-.glide__slides--dragging {
-  user-select: none;
-}
-.glide__slide {
-  width: 100%;
-  height: 100%;
-  flex-shrink: 0;
-  white-space: normal;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-  border: 1rem solid;
-  background-color: red;
-}
-.glide__slide a {
-  user-select: none;
-  -webkit-user-drag: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-.glide__arrows {
-  -webkit-touch-callout: none;
-  user-select: none;
-}
-.glide__bullets {
-  -webkit-touch-callout: none;
-  user-select: none;
-}
-.glide--rtl {
-  direction: rtl;
+  position: absolute;
+  width: 1px;
 }

@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
+
 const User = require('../src/models/db/user');
 const sampleUserData = require('../sample-data/sampleUserData.json');
 
-const {
-  Error: { ValidationError }
-} = mongoose;
-
-const validUserData = {
-  ...sampleUserData
-};
+const validUserData = JSON.parse(JSON.stringify(sampleUserData));
 
 describe('User data validation', () => {
   it('should accept valid user data', async () => {
@@ -26,7 +21,9 @@ describe('User data validation', () => {
       };
       const incompleteUser = new User(incompleteUserData);
 
-      await expect(incompleteUser.validate()).rejects.toThrow(ValidationError);
+      await expect(incompleteUser.validate()).rejects.toThrow(
+        mongoose.Error.ValidationError
+      );
     }
   );
 });

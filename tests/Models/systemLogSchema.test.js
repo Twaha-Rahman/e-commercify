@@ -132,23 +132,19 @@ describe('SystemLog Model Tests', () => {
   });
 
   it('Try to save SystemLog data without a required field', async () => {
-    let err;
-
     const systemLogDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
     delete systemLogDataWithoutARequiredField.level;
 
-    try {
-      const invalidSystemLogData = new SystemLogModel(
-        systemLogDataWithoutARequiredField
-      );
-      err = await invalidSystemLogData.save();
-    } catch (error) {
-      err = error;
-    }
+    const invalidSystemLogData = new SystemLogModel(
+      systemLogDataWithoutARequiredField
+    );
+    const savedDocument = invalidSystemLogData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

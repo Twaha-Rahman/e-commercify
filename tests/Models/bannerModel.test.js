@@ -44,23 +44,18 @@ describe('Banner Model Tests', () => {
   });
 
   it('Try to save Banner data without a required field', async () => {
-    let err;
-
     const bannerDataWithoutARequiredField = JSON.parse(
       JSON.stringify(bannerData)
     );
 
     delete bannerDataWithoutARequiredField.bannerImageLink;
 
-    try {
-      const invalidBannerData = new BannerModel(
-        bannerDataWithoutARequiredField
-      );
-      err = await invalidBannerData.save();
-    } catch (error) {
-      err = error;
-    }
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    const invalidBannerData = new BannerModel(bannerDataWithoutARequiredField);
+    const savedDocument = invalidBannerData.save();
+
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

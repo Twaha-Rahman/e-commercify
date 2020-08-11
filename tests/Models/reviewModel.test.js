@@ -57,16 +57,12 @@ describe('Review Model Tests', () => {
     const reviewDataCopy = JSON.parse(JSON.stringify(sampleReviewData));
     reviewDataCopy.rating = 6;
 
-    let err;
+    const invalidReviewData = new ReviewModel(reviewDataCopy);
+    const savedDocument = invalidReviewData.save();
 
-    try {
-      const invalidReviewData = new ReviewModel(reviewDataCopy);
-      err = await invalidReviewData.save();
-    } catch (error) {
-      err = error;
-    }
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(err.errors.linkedProductId).toBeDefined();
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

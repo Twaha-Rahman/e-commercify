@@ -137,24 +137,19 @@ describe('Product Model Tests', () => {
   });
 
   it('Try to save Product data without a required field', async () => {
-    let err;
-
     const productDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleProductDataWithOptionalFields)
     );
     delete productDataWithoutARequiredField.brandName;
 
-    try {
-      const invalidProductData = new ProductModel(
-        productDataWithoutARequiredField
-      );
-      err = await invalidProductData.save();
-      console.log(err);
-    } catch (error) {
-      err = error;
-    }
+    const invalidProductData = new ProductModel(
+      productDataWithoutARequiredField
+    );
+    const savedDocument = invalidProductData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

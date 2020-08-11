@@ -77,24 +77,19 @@ describe('Activity Model Tests', () => {
   });
 
   it('Try to save Activity data without a required field', async () => {
-    let err;
-
     const activityDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleActivityWithoutOptionalFiels)
     );
     delete activityDataWithoutARequiredField.linkedCompanyId;
 
-    try {
-      const invalidActivityData = new ActivityModel(
-        activityDataWithoutARequiredField
-      );
-      err = await invalidActivityData.save();
-      console.log(err);
-    } catch (error) {
-      err = error;
-    }
+    const invalidActivityData = new ActivityModel(
+      activityDataWithoutARequiredField
+    );
+    const savedDocument = invalidActivityData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

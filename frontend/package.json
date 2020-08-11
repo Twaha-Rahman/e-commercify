@@ -23,10 +23,10 @@
     "sirv-cli": "1.0.3"
   },
   "dependencies": {
-    "@glidejs/glide": "^3.4.1",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "siema": "^1.5.1"
   },
   "jest": {
     "preset": "jest-preset-preact",

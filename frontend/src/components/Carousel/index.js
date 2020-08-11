@@ -24,36 +24,7 @@ const images = [Kiwi, Mango]; // eslint-disable-line
 // const randomIndex = getRandomInt(0, 1);
 
 const Header = () => {
-  return (
-    <>
-      <div class={style.carouselContainer}>
-        <div class={style.carousel}>
-          <div id="skyline" class={style.carouselItem}>
-            <img src={Banner} alt="..." class={style.carouselImage} />
-          </div>
-          <div id="great-wall-of-china" class={style.carouselItem}>
-            <img src={Kiwi} alt="..." class={style.carouselImage} />
-          </div>
-          <div id="sunset-on-the-li-river" class={style.carouselItem}>
-            <img src={Banner} alt="..." class={style.carouselImage} />
-          </div>
-        </div>
-        <div id="controls" class={style.controls}>
-          <a href="#skyline" class={style.controlsDot}>
-            <span class={style.visuallyHidden}>
-              Skyline of Wai Tan, Shanghai
-            </span>
-          </a>
-          <a href="#great-wall-of-china" class={style.controlsDot}>
-            <span class={style.visuallyHidden}>Great wall of China</span>
-          </a>
-          <a href="#sunset-on-the-li-river" class={style.controlsDot}>
-            <span class={style.visuallyHidden}>Sunset on the Li River</span>
-          </a>
-        </div>
-      </div>
-    </>
-  );
+  return <>{/* Plonk in Siema here */}</>;
 };
 
 export default Header;

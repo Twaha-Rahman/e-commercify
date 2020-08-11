@@ -40,16 +40,12 @@ describe('Review Model Tests', () => {
   });
 
   it('Try to save Review data without a required field', async () => {
-    let err;
+    const invalidReviewData = new ReviewModel(sampleReviewData);
+    const savedDocument = invalidReviewData.save();
 
-    try {
-      const invalidReviewData = new ReviewModel(sampleReviewData);
-      err = await invalidReviewData.save();
-    } catch (error) {
-      err = error;
-    }
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(err.errors.linkedProductId).toBeDefined();
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line

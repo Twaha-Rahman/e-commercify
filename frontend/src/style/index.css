@@ -25,6 +25,10 @@ body {
   box-sizing: border-box;
 }
 
+img {
+  width: 100%;
+}
+
 #app {
   height: 100%;
 }

@@ -17,7 +17,8 @@ const userSchema = new Schema(
     },
 
     linkedCompanyId: {
-      type: ObjectID
+      type: ObjectID,
+      required: false
     },
 
     permissions: {

@@ -3,6 +3,7 @@
  * for more details ->
  * https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
  */
+'use strict';
 
 module.exports = {
   ci: {

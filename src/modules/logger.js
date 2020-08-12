@@ -3,6 +3,7 @@
  *  formatting it and saves it in the DB if it is important (both production
  *  and development).
  */
+'use strict';
 
 const textFormatter = require('./log-formatter');
 const SystemLog = require('../models/db/system-log');

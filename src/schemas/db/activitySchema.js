@@ -1,6 +1,7 @@
 /**
  * @file activity-log-schema.js - Mongoose schema for activity-logs
  */
+'use strict';
 
 const { Schema } = require('mongoose');
 const { ObjectID } = Schema.Types;

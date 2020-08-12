@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 const ActivityModel = require('../src/models/db/activity');

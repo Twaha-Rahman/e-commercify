@@ -1,6 +1,7 @@
 /**
  * @file log-formatter.js - Formats log messages.
  */
+'use strict';
 
 const chalk = require('chalk');
 

@@ -1,6 +1,7 @@
 /**
  * @file ProductType.js - GraphQL schema for product objects.
  */
+'use strict';
 
 const {
   GraphQLObjectType,

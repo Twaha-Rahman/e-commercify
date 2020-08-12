@@ -12,6 +12,7 @@ describe('User data validation', () => {
     await expect(validUser.validate()).resolves.toBeUndefined();
   });
 
+  // https://jestjs.io/docs/en/api#testeachtablename-fn-timeout
   it.each(['email', 'password', 'userName'])(
     'should reject user data which has no `%s` field',
     async (field) => {
@@ -64,6 +65,37 @@ describe('User data persistence', () => {
 
     expect(savedUser).toBeTruthy();
     expect(savedUser.extraInfo).toBeUndefined();
+  });
+
+  it('should include optional fields', async () => {
+    expect.hasAssertions();
+    const userDataWithOptionalFields = {
+      ...validUserData,
+      linkedCompanyId: new mongoose.Types.ObjectId(),
+      permissions: { read: true, write: true },
+      refreshToken: 'fdb8fdbecf1d03ce5e6125c067733c0d51de222x'
+    };
+    const userWithOptionalFields = new User(userDataWithOptionalFields);
+
+    await userWithOptionalFields.save();
+
+    const savedUser = await User.findOne({ _id: userWithOptionalFields._id });
+
+    expect(String(savedUser.linkedCompanyId)).toBe(
+      String(userWithOptionalFields.linkedCompanyId)
+    );
+    /*
+     * Cannot use `.toEqual()` to compare the two permissions objects directly
+     *   as it throws an error.
+     */
+    expect(savedUser.permissions).toBeDefined();
+    expect(savedUser.permissions.read).toBe(
+      userWithOptionalFields.permissions.read
+    );
+    expect(savedUser.permissions.write).toEqual(
+      userWithOptionalFields.permissions.write
+    );
+    expect(savedUser.refreshToken).toBe(userWithOptionalFields.refreshToken);
   });
 
   it('should include the `createdAt` and `updatedAt` fields', async () => {

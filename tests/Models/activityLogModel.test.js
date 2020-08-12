@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ActivityModel = require('../src/models/db/activity');
+const ActivityModel = require('../../src/models/db/activity');
 
 const sampleActivityWithOptionalFields = {
   userId: new mongoose.Types.ObjectId().toString(),
@@ -30,7 +30,7 @@ describe('Activity Model Tests', () => {
     );
   });
 
-  it('Create & save valid Activity data (with optional fields)', async () => {
+  it('Should save valid Activity data (with optional fields)', async () => {
     const validActivityData = new ActivityModel(
       sampleActivityWithOptionalFields
     );
@@ -57,7 +57,7 @@ describe('Activity Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it('Create & save valid Activity data (without optional fields)', async () => {
+  it('Should save valid Activity data (without optional fields)', async () => {
     const validActivityData = new ActivityModel(
       sampleActivityWithOptionalFields
     );
@@ -76,29 +76,24 @@ describe('Activity Model Tests', () => {
     expect(savedActivityData.updatedAt).toBeDefined();
   });
 
-  it('Try to save Activity data without a required field', async () => {
-    let err;
-
+  it("Shouldn't save Activity data without a required field", async () => {
     const activityDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleActivityWithoutOptionalFiels)
     );
     delete activityDataWithoutARequiredField.linkedCompanyId;
 
-    try {
-      const invalidActivityData = new ActivityModel(
-        activityDataWithoutARequiredField
-      );
-      err = await invalidActivityData.save();
-      console.log(err);
-    } catch (error) {
-      err = error;
-    }
+    const invalidActivityData = new ActivityModel(
+      activityDataWithoutARequiredField
+    );
+    const savedDocument = invalidActivityData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line
-  it("Try to insert Activity data with extra data and check to see if the extra data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const activityDataWithExtraInfo = {
       ...sampleActivityWithOptionalFields,
       extraInfo: 'Extra info placeholder'
@@ -131,8 +126,7 @@ describe('Activity Model Tests', () => {
     expect(savedActivityData.extraInfo).toBeUndefined();
   });
 
-  // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validActivityData = new ActivityModel(
       sampleActivityWithoutOptionalFiels
     );

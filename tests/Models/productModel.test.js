@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const ProductModel = require('../src/models/db/product');
+const ProductModel = require('../../src/models/db/product');
 // eslint-disable-next-line
-const sampleProductDataWithOptionalFields = require('../sample-data/sampleProductData.json');
+const sampleProductDataWithOptionalFields = require('../../sample-data/sampleProductData.json');
 
 const sampleProductDataWithoutOptionalFields = JSON.parse(
   JSON.stringify(sampleProductDataWithOptionalFields)
@@ -29,7 +29,7 @@ describe('Product Model Tests', () => {
     );
   });
 
-  it('Create & save valid Product data (with optional fields)', async () => {
+  it('Should save valid Product data (with optional fields)', async () => {
     const validProductData = new ProductModel(
       sampleProductDataWithOptionalFields
     );
@@ -85,7 +85,7 @@ describe('Product Model Tests', () => {
     expect(savedProductData.updatedAt).toBeDefined();
   });
 
-  it('Create & save valid Product data (without optional fields)', async () => {
+  it('Should save valid Product data (without optional fields)', async () => {
     const validProductData = new ProductModel(
       sampleProductDataWithoutOptionalFields
     );
@@ -136,29 +136,24 @@ describe('Product Model Tests', () => {
     expect(savedProductData.updatedAt).toBeDefined();
   });
 
-  it('Try to save Product data without a required field', async () => {
-    let err;
-
+  it("Shouldn't save Product data without a required field", async () => {
     const productDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleProductDataWithOptionalFields)
     );
     delete productDataWithoutARequiredField.brandName;
 
-    try {
-      const invalidProductData = new ProductModel(
-        productDataWithoutARequiredField
-      );
-      err = await invalidProductData.save();
-      console.log(err);
-    } catch (error) {
-      err = error;
-    }
+    const invalidProductData = new ProductModel(
+      productDataWithoutARequiredField
+    );
+    const savedDocument = invalidProductData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line
-  it("Try to insert Product data with extra data and check to see if the extra data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const productDataWithExtraInfo = {
       ...sampleProductDataWithOptionalFields,
       extraInfo: 'Extra info placeholder'
@@ -207,8 +202,7 @@ describe('Product Model Tests', () => {
     expect(savedProductData.extraInfo).toBeUndefined();
   });
 
-  // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validProductData = new ProductModel(
       sampleProductDataWithOptionalFields
     );

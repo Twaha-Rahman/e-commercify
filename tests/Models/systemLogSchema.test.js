@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SystemLogModel = require('../src/models/db/system-log');
+const SystemLogModel = require('../../src/models/db/system-log');
 
 const sampleSystemLogWithOptionalFields = {
   message: 'Something went horribly wrong! :(',
@@ -28,7 +28,7 @@ describe('SystemLog Model Tests', () => {
     );
   });
 
-  it('Create & save valid SystemLog data (with optional fields)', async () => {
+  it('Should save valid SystemLog data (with optional fields)', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithOptionalFields
     );
@@ -52,7 +52,7 @@ describe('SystemLog Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it('Create & save valid SystemLog data (without optional fields)', async () => {
+  it('Should save valid SystemLog data (without optional fields)', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithoutOptionalFields
     );
@@ -71,28 +71,84 @@ describe('SystemLog Model Tests', () => {
     expect(savedSystemLogData.updatedAt).toBeDefined();
   });
 
-  it('Try to save SystemLog data without a required field', async () => {
-    let err;
+  it("Should save valid SystemLog data with `level:'success'`", async () => {
+    const systemLogWithSuccessTag = JSON.parse(
+      JSON.stringify(sampleSystemLogWithoutOptionalFields)
+    );
+    systemLogWithSuccessTag.level = 'success';
 
+    const validSystemLogData = new SystemLogModel(systemLogWithSuccessTag);
+    const savedSystemLogData = await validSystemLogData.save();
+
+    // Object Id should be defined when successfully saved to MongoDB.
+    expect(savedSystemLogData._id).toBeDefined();
+    expect(savedSystemLogData.message).toBe(
+      sampleSystemLogWithoutOptionalFields.message
+    );
+    expect(savedSystemLogData.level).toBe(systemLogWithSuccessTag.level);
+
+    expect(savedSystemLogData.createdAt).toBeDefined();
+    expect(savedSystemLogData.updatedAt).toBeDefined();
+  });
+
+  it("Should save valid SystemLog data with `level:'error'`", async () => {
+    const systemLogWithSuccessTag = JSON.parse(
+      JSON.stringify(sampleSystemLogWithoutOptionalFields)
+    );
+    systemLogWithSuccessTag.level = 'error';
+
+    const validSystemLogData = new SystemLogModel(systemLogWithSuccessTag);
+    const savedSystemLogData = await validSystemLogData.save();
+
+    // Object Id should be defined when successfully saved to MongoDB.
+    expect(savedSystemLogData._id).toBeDefined();
+    expect(savedSystemLogData.message).toBe(
+      sampleSystemLogWithoutOptionalFields.message
+    );
+    expect(savedSystemLogData.level).toBe(systemLogWithSuccessTag.level);
+
+    expect(savedSystemLogData.createdAt).toBeDefined();
+    expect(savedSystemLogData.updatedAt).toBeDefined();
+  });
+
+  it("Should save valid SystemLog data with `level:'info'`", async () => {
+    const systemLogWithSuccessTag = JSON.parse(
+      JSON.stringify(sampleSystemLogWithoutOptionalFields)
+    );
+    systemLogWithSuccessTag.level = 'info';
+
+    const validSystemLogData = new SystemLogModel(systemLogWithSuccessTag);
+    const savedSystemLogData = await validSystemLogData.save();
+
+    // Object Id should be defined when successfully saved to MongoDB.
+    expect(savedSystemLogData._id).toBeDefined();
+    expect(savedSystemLogData.message).toBe(
+      sampleSystemLogWithoutOptionalFields.message
+    );
+    expect(savedSystemLogData.level).toBe(systemLogWithSuccessTag.level);
+
+    expect(savedSystemLogData.createdAt).toBeDefined();
+    expect(savedSystemLogData.updatedAt).toBeDefined();
+  });
+
+  it("Shouldn't save SystemLog data without a required field", async () => {
     const systemLogDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
     delete systemLogDataWithoutARequiredField.level;
 
-    try {
-      const invalidSystemLogData = new SystemLogModel(
-        systemLogDataWithoutARequiredField
-      );
-      err = await invalidSystemLogData.save();
-    } catch (error) {
-      err = error;
-    }
+    const invalidSystemLogData = new SystemLogModel(
+      systemLogDataWithoutARequiredField
+    );
+    const savedDocument = invalidSystemLogData.save();
 
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line
-  it("Try to insert Activity data with extra data and check to see if the extra data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const systemLogWithExtraInfo = {
       ...sampleSystemLogWithOptionalFields,
       extraInfo: 'Extra info placeholder'
@@ -117,7 +173,7 @@ describe('SystemLog Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithoutOptionalFields
     );

@@ -156,8 +156,6 @@ const RootMutation = new GraphQLObjectType({
               clientIpAddress
             });
 
-            console.log(isActivityLogSaved);
-
             if (!isActivityLogSaved) {
               throw new Error('Failed to save activity log!');
             }

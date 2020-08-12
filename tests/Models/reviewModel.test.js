@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const ReviewModel = require('../src/models/db/review');
-const sampleReviewData = require('../sample-data/sampleReviewData.json');
+const ReviewModel = require('../../src/models/db/review');
+const sampleReviewData = require('../../sample-data/sampleReviewData.json');
 
 const reviewData = {
   ...sampleReviewData,
@@ -23,7 +23,7 @@ describe('Review Model Tests', () => {
     );
   });
 
-  it('Create & save valid Review data', async () => {
+  it('Should save valid Review data', async () => {
     const validReviewData = new ReviewModel(reviewData);
     const savedReviewData = await validReviewData.save();
 
@@ -39,21 +39,43 @@ describe('Review Model Tests', () => {
     expect(savedReviewData.updatedAt).toBeDefined();
   });
 
-  it('Try to save Review data without a required field', async () => {
-    let err;
+  it("Shouldn't save Review data without a required field", async () => {
+    const invalidReviewData = new ReviewModel(sampleReviewData);
+    const savedDocument = invalidReviewData.save();
 
-    try {
-      const invalidReviewData = new ReviewModel(sampleReviewData);
-      err = await invalidReviewData.save();
-    } catch (error) {
-      err = error;
-    }
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(err.errors.linkedProductId).toBeDefined();
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
   });
 
   // eslint-disable-next-line
-  it("Try to insert Review data with additional data and check to see if the additional data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save Review data with a `rating` that is out of range (above maximum threshold)", async () => {
+    const reviewDataCopy = JSON.parse(JSON.stringify(sampleReviewData));
+    reviewDataCopy.rating = 6;
+
+    const invalidReviewData = new ReviewModel(reviewDataCopy);
+    const savedDocument = invalidReviewData.save();
+
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
+  });
+
+  // eslint-disable-next-line
+  it("Shouldn't save Review data with a `rating` that is out of range (lower than minimum threshold)", async () => {
+    const reviewDataCopy = JSON.parse(JSON.stringify(sampleReviewData));
+    reviewDataCopy.rating = -1;
+
+    const invalidReviewData = new ReviewModel(reviewDataCopy);
+    const savedDocument = invalidReviewData.save();
+
+    await expect(savedDocument).rejects.toBeInstanceOf(
+      mongoose.Error.ValidationError
+    );
+  });
+
+  // eslint-disable-next-line
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const reviewDataWithExtraInfo = {
       ...reviewData,
       extraInfo: 'Extra info placeholder'
@@ -76,8 +98,7 @@ describe('Review Model Tests', () => {
     expect(savedReviewData.extraInfo).toBeUndefined();
   });
 
-  // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validReviewData = new ReviewModel(reviewData);
     const savedReviewData = await validReviewData.save();
 

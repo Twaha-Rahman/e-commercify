@@ -33,7 +33,8 @@ const userSchema = new Schema(
     },
 
     refreshToken: {
-      type: String
+      type: String,
+      required: false
     },
 
     userName: {

@@ -23,7 +23,7 @@ describe('Banner Model Tests', () => {
     );
   });
 
-  it('Create & save valid Review data', async () => {
+  it('Should save valid Review data', async () => {
     const validBannerData = new BannerModel(bannerData);
     const savedBannerData = await validBannerData.save();
 
@@ -43,7 +43,7 @@ describe('Banner Model Tests', () => {
     expect(savedBannerData.updatedAt).toBeDefined();
   });
 
-  it('Try to save Banner data without a required field', async () => {
+  it("Shouldn't save Banner data without a required field", async () => {
     const bannerDataWithoutARequiredField = JSON.parse(
       JSON.stringify(bannerData)
     );
@@ -59,7 +59,7 @@ describe('Banner Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it("Try to insert Banner data with additional data and check to see if the additional data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const bannerDataWithExtraInfo = {
       ...bannerData,
       extraInfo: 'Extra info placeholder'
@@ -86,8 +86,7 @@ describe('Banner Model Tests', () => {
     expect(savedBannerData.extraInfo).toBeUndefined();
   });
 
-  // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validBannerData = new BannerModel(bannerData);
     const savedBannerData = await validBannerData.save();
 

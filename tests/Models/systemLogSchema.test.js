@@ -28,7 +28,7 @@ describe('SystemLog Model Tests', () => {
     );
   });
 
-  it('Create & save valid SystemLog data (with optional fields)', async () => {
+  it('Should save valid SystemLog data (with optional fields)', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithOptionalFields
     );
@@ -52,7 +52,7 @@ describe('SystemLog Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it('Create & save valid SystemLog data (without optional fields)', async () => {
+  it('Should save valid SystemLog data (without optional fields)', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithoutOptionalFields
     );
@@ -71,7 +71,7 @@ describe('SystemLog Model Tests', () => {
     expect(savedSystemLogData.updatedAt).toBeDefined();
   });
 
-  it("Create & save valid SystemLog data with `level:'success'`", async () => {
+  it("Should save valid SystemLog data with `level:'success'`", async () => {
     const systemLogWithSuccessTag = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
@@ -91,7 +91,7 @@ describe('SystemLog Model Tests', () => {
     expect(savedSystemLogData.updatedAt).toBeDefined();
   });
 
-  it("Create & save valid SystemLog data with `level:'error'`", async () => {
+  it("Should save valid SystemLog data with `level:'error'`", async () => {
     const systemLogWithSuccessTag = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
@@ -111,7 +111,7 @@ describe('SystemLog Model Tests', () => {
     expect(savedSystemLogData.updatedAt).toBeDefined();
   });
 
-  it("Create & save valid SystemLog data with `level:'info'`", async () => {
+  it("Should save valid SystemLog data with `level:'info'`", async () => {
     const systemLogWithSuccessTag = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
@@ -131,7 +131,7 @@ describe('SystemLog Model Tests', () => {
     expect(savedSystemLogData.updatedAt).toBeDefined();
   });
 
-  it('Try to save SystemLog data without a required field', async () => {
+  it("Shouldn't save SystemLog data without a required field", async () => {
     const systemLogDataWithoutARequiredField = JSON.parse(
       JSON.stringify(sampleSystemLogWithoutOptionalFields)
     );
@@ -148,7 +148,7 @@ describe('SystemLog Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it("Try to insert Activity data with extra data and check to see if the extra data was added (it shouldn't be added)", async () => {
+  it("Shouldn't save data for fields that aren't defined in the schema", async () => {
     const systemLogWithExtraInfo = {
       ...sampleSystemLogWithOptionalFields,
       extraInfo: 'Extra info placeholder'
@@ -173,7 +173,7 @@ describe('SystemLog Model Tests', () => {
   });
 
   // eslint-disable-next-line
-  it('Check if Mongoose added the `createdAt` and `updatedAt` fields', async () => {
+  it('Should add the `createdAt` and `updatedAt` fields', async () => {
     const validSystemLogData = new SystemLogModel(
       sampleSystemLogWithoutOptionalFields
     );

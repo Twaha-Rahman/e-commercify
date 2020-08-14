@@ -1,3 +1,5 @@
+'use strict';
+
 const stripAnsi = require('strip-ansi');
 
 const logFormatter = require('../../src/modules/log-formatter');

@@ -1,6 +1,7 @@
 /**
  * @file Injects sample product data into MongoDB
  */
+'use strict';
 
 require('dotenv').config();
 

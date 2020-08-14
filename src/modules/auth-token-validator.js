@@ -1,3 +1,5 @@
+'use strict';
+
 // eslint-disable-next-line
 function authTokenValidator(authToken) {
   // We'll use this fn to validate the `authToken` and return extracted data

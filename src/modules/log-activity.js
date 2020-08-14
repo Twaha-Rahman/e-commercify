@@ -1,3 +1,5 @@
+'use strict';
+
 const ActivityLog = require('../models/db/activity');
 
 async function logActivity(activityLogObj) {

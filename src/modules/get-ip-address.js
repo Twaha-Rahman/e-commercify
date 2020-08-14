@@ -1,3 +1,5 @@
+'use strict';
+
 function getIpAddress(request) {
   let clientIpAddress;
 

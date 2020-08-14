@@ -1,9 +1,11 @@
+'use strict';
+
 module.exports = {
   env: {
     es6: true,
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended', 'preact'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 11
   },

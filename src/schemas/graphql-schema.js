@@ -1,6 +1,7 @@
 /**
  * @file graphql-schema.js - RootQuery and RootMutation GraphQL schemas.
  */
+'use strict';
 
 const {
   GraphQLObjectType,

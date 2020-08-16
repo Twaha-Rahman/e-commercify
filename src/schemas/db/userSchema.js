@@ -1,6 +1,8 @@
 /**
  * @file userSchema.js - Mongoose schema for users.
  */
+'use strict';
+
 const { Schema } = require('mongoose');
 const { ObjectID } = Schema.Types;
 

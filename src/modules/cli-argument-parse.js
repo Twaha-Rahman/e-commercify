@@ -11,15 +11,16 @@ const { ArgumentParser } = require('argparse');
  */
 function cliArgumentParser() {
   const parser = new ArgumentParser({
-    addHelp: true,
+    // eslint-disable-next-line
+    add_help: true,
     description: 'Inserts random product data into MongoDB.'
   });
 
-  parser.addArgument(['-k', '--keep'], {
-    action: 'storeTrue',
+  parser.add_argument('-k', '--keep', {
+    action: 'store_true',
     help: 'Do not delete already existing product documents.'
   });
-  return parser.parseArgs();
+  return parser.parse_args();
 }
 
 module.exports = cliArgumentParser;
